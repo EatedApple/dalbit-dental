@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>라미네이트 - 달빛치과</title>
+    <link rel="stylesheet" href="common.css">
+    <style>
+        body { margin: 0; background: #fff; }
+        section { padding: 100px 20px; }
+        .inner { max-width: 1100px; margin: 0 auto; }
+        
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.5rem; color: var(--night-navy); font-weight: 900; margin-bottom: 15px; }
+        .section-title h2 span { color: var(--moon-gold); }
+        .section-title p { color: var(--text-gray); font-size: 1.1rem; }
+
+        /* 1. Hero (div 사용, 일관성 유지) */
+        .sub-hero {
+            width: 100%; height: 350px; margin-top: 80px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            color: #fff; text-align: center; background-size: cover; background-position: center;
+            box-sizing: border-box; padding: 0 !important;
+        }
+        .sub-hero h1 { font-size: 3.2rem; font-weight: 900; margin: 0 0 15px 0; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+
+        /* 2. Intro 메시지 */
+        .intro-msg { text-align: center; padding: 100px 20px; background: #fdfdfd; border-bottom: 1px solid #eee; }
+        .intro-msg h3 { font-size: 2.3rem; color: var(--night-navy); margin-bottom: 25px; font-weight: 900; line-height: 1.4; }
+        .intro-msg h3 span { color: var(--moon-gold); }
+        .intro-msg p { font-size: 1.2rem; color: #555; line-height: 1.9; max-width: 850px; margin: 0 auto; word-break: keep-all; }
+
+        /* 3. 최소 삭제 원칙 (이미지+설명 믹스) */
+        .minimal-prep-container { display: flex; gap: 60px; align-items: center; margin-top: 40px; }
+        .minimal-prep-img { flex: 1; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .minimal-prep-img img { width: 100%; display: block; }
+        .minimal-prep-info { flex: 1; }
+        .prep-point { margin-bottom: 30px; }
+        .prep-point h4 { font-size: 1.4rem; color: var(--night-navy); margin-bottom: 10px; font-weight: 800; border-left: 4px solid var(--moon-gold); padding-left: 15px; }
+        .prep-point p { font-size: 1rem; color: #666; line-height: 1.7; margin: 0; }
+
+        /* 4. 적용 유형 (4열 그리드) */
+        .type-section { background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+        .type-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 40px; }
+        .type-card { background: #fff; border-radius: 15px; border: 1px solid #eee; overflow: hidden; text-align: center; }
+        .type-img { width: 100%; height: 160px; background: #eee; }
+        .type-img img { width: 100%; height: 100%; object-fit: cover; }
+        .type-body { padding: 20px 15px; }
+        .type-body h5 { font-size: 1.15rem; color: var(--night-navy); margin-bottom: 10px; font-weight: 800; }
+        .type-body p { font-size: 0.85rem; color: #888; line-height: 1.5; margin: 0; }
+
+        /* 5. 비교표 */
+        .compare-box { overflow-x: auto; margin-top: 30px; }
+        .compare-table { width: 100%; border-collapse: separate; border-spacing: 0; background: #fff; border-radius: 15px; border: 1px solid #eee; overflow: hidden; }
+        .compare-table th { padding: 20px; background: #fafafa; border-bottom: 1px solid #eee; font-size: 1.1rem; color: var(--night-navy); font-weight: 800; }
+        .compare-table td { padding: 20px; text-align: center; border-bottom: 1px solid #eee; border-right: 1px solid #eee; font-size: 0.95rem; }
+        .compare-table td:last-child { border-right: none; }
+        .label-row { background: #fafafa; font-weight: 800; width: 20%; }
+
+        /* 6. 주의사항 */
+        .notice-box { background: #f8f9fa; padding: 50px; border-radius: 20px; border-left: 6px solid var(--night-navy); margin-top: 40px; }
+        .notice-list { padding: 0; margin: 0; list-style: none; }
+        .notice-list li { margin-bottom: 15px; padding-left: 25px; position: relative; font-size: 1rem; color: #555; line-height: 1.7; }
+        .notice-list li::before { content: '•'; position: absolute; left: 0; color: var(--moon-gold); font-weight: 900; font-size: 1.5rem; top: -5px; }
+
+        @media (max-width: 768px) {
+            .sub-hero { height: 260px; margin-top: 65px; }
+            .minimal-prep-container { flex-direction: column; }
+            .type-grid { grid-template-columns: 1fr 1fr; }
+            .intro-msg h3 { font-size: 1.8rem; }
+            .notice-box { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header-container"></div>
+
+    <main>
+        <div class="sub-hero" id="hero-section"></div>
+
+        <section class="intro-msg">
+            <div class="inner" id="intro-container"></div>
+        </section>
+
+        <section>
+            <div class="inner">
+                <div class="section-title" id="minimal-title-container"></div>
+                <div class="minimal-prep-container" id="minimal-prep-content"></div>
+            </div>
+        </section>
+
+        <section class="type-section">
+            <div class="inner">
+                <div class="section-title">
+                    <h2>이런 분들께 <span>라미네이트를 추천</span>합니다</h2>
+                    <p>치아의 콤플렉스, 단기간에 효과적으로 개선할 수 있습니다.</p>
+                </div>
+                <div class="type-grid" id="type-container"></div>
+            </div>
+        </section>
+
+        <section>
+            <div class="inner">
+                <div class="section-title">
+                    <h2>라미네이트 vs 올세라믹 <span>비교</span></h2>
+                    <p>내 치아 상태에 맞는 최적의 치료법을 제안해 드립니다.</p>
+                </div>
+                <div class="compare-box">
+                    <table class="compare-table">
+                        <thead>
+                            <tr>
+                                <th class="label-row">구분</th>
+                                <th>라미네이트</th>
+                                <th>올세라믹 크라운</th>
+                            </tr>
+                        </thead>
+                        <tbody id="compare-container"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section style="background: #fafafa; border-top: 1px solid #eee;">
+            <div class="inner">
+                <div class="section-title">
+                    <h2>시술 후 <span>주의사항</span></h2>
+                    <p>성공적인 결과를 오래 유지하기 위해 반드시 지켜주세요.</p>
+                </div>
+                <div class="notice-box">
+                    <ul id="precaution-container" class="notice-list"></ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="common.js"></script>
+    <script>
+        function renderPage(data) {
+            const lData = data.laminatePage;
+            if(!lData) return;
+
+            // 1. Hero
+            const heroEl = document.getElementById('hero-section');
+            heroEl.style.backgroundImage = `linear-gradient(rgba(21, 34, 56, 0.8), rgba(21, 34, 56, 0.8)), url('${lData.hero.bg}')`;
+            heroEl.innerHTML = `<h1>${lData.hero.title}</h1><p>${lData.hero.subtitle}</p>`;
+
+            // 2. Intro
+            document.getElementById('intro-container').innerHTML = `
+                <h3>${lData.intro.title}</h3>
+                <p>${lData.intro.desc}</p>
+            `;
+
+            // 3. Minimal Prep (최소 삭제)
+            document.getElementById('minimal-title-container').innerHTML = `
+                <h2>${lData.minimalPrep.title}</h2>
+                <p>${lData.minimalPrep.desc}</p>
+            `;
+            document.getElementById('minimal-prep-content').innerHTML = `
+                <div class="minimal-prep-img">
+                    <img src="${lData.minimalPrep.img}" alt="최소삭제원칙">
+                </div>
+                <div class="minimal-prep-info">
+                    ${lData.minimalPrep.points.map(p => `
+                        <div class="prep-point">
+                            <h4>${p.title}</h4>
+                            <p>${p.text}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            // 4. Types (적용 유형)
+            document.getElementById('type-container').innerHTML = lData.types.map(t => `
+                <div class="type-card">
+                    <div class="type-img"><img src="${t.img}" alt="${t.title}"></div>
+                    <div class="type-body">
+                        <h5>${t.title}</h5>
+                        <p>${t.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // 5. Comparison
+            document.getElementById('compare-container').innerHTML = lData.comparison.map(c => `
+                <tr>
+                    <td class="label-row">${c.label}</td>
+                    <td>${c.laminate}</td>
+                    <td>${c.crown}</td>
+                </tr>
+            `).join('');
+
+            // 6. Precautions
+            document.getElementById('precaution-container').innerHTML = lData.precautions.map(p => `
+                <li>${p}</li>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

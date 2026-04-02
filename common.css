@@ -1,0 +1,203 @@
+/* [common.css] - 은은한 샴페인 + 고급 골드 완벽 적용본 (+ 2단 드롭다운 추가) */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+:root {
+    /* 1. 가독성 좋은 고급 골드 (글씨, 선, 버튼용) */
+    --moon-gold: #D4AF37;   
+	--moon-yellow: #D4AF37;   
+    
+    /* 2. 은은한 샴페인 옐로우 (어두운 배경의 포인트 글씨, 후광 효과용) */
+    --moon-subtle-yellow: #D4AF37; 
+    
+    /* 3. 밤하늘 네이비 */
+    --night-navy: #152238;  
+    --night-navy-light: #203350; 
+    
+    --text-dark: #222222;
+    --text-gray: #666666;
+}
+
+body { margin: 0; font-family: 'Pretendard', sans-serif; background-color: #fdfdfd; color: var(--text-dark); overflow-x: hidden; width: 100%; }
+h1, h2, h3, p, span, li { word-break: keep-all; overflow-wrap: break-word; }
+a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; }
+ul { list-style: none; padding: 0; margin: 0; }
+
+.highlight { color: var(--night-navy); font-weight: 900; }
+
+/* 섹션 타이틀 */
+.section-title { text-align: center; margin-bottom: 50px; padding: 0 20px; }
+.section-title h2 { font-size: 2.5rem; color: var(--night-navy); font-weight: 800; letter-spacing: -0.05em; position: relative; display: inline-block; padding-bottom: 15px; }
+.section-title h2::after { 
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); 
+    width: 50px; height: 4px; 
+    background: var(--moon-gold); border-radius: 2px; 
+    box-shadow: 0 0 10px rgba(253, 247, 195, 0.5); 
+}
+.section-title p { font-size: 1.1rem; color: var(--text-gray); margin: 0; margin-top: 15px; }
+
+/* 헤더 디자인 */
+.header { position: fixed; top: 0; left: 0; width: 100%; z-index: 3000; display: flex; justify-content: space-between; align-items: center; padding: 0 50px; height: 80px; box-sizing: border-box; background: #fff; border-bottom: 1px solid #eee; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 26px; color: var(--night-navy); cursor: pointer; letter-spacing: -1px; }
+.logo-img { height: 40px; width: auto; object-fit: contain; }
+.header-right { display: flex; align-items: center; height: 100%; }
+
+/* ==============================================================
+   ★ [신규] 2단 드롭다운 네비게이션 (PC 버전) ★
+   ============================================================== */
+.nav { display: flex; align-items: center; height: 100%; margin: 0; padding: 0; gap: 10px; }
+.nav-item { position: relative; height: 100%; display: flex; align-items: center; padding: 0 20px; cursor: pointer; list-style: none; }
+.nav-link { font-weight: 700; color: var(--text-dark); font-size: 1.05rem; transition: 0.3s; height: 100%; display: flex; align-items: center; }
+
+/* 호버 시 기존 밑줄 효과를 box-shadow로 구현 */
+.nav-item:hover .nav-link { color: var(--night-navy); box-shadow: inset 0 -4px 0 var(--moon-gold); }
+
+/* 드롭다운 하위 메뉴 박스 */
+.dropdown {
+    position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px);
+    background: #fff; min-width: 190px; border-radius: 0 0 12px 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #eee; border-top: 3px solid var(--moon-gold);
+    opacity: 0; visibility: hidden; transition: all 0.3s ease;
+    display: flex; flex-direction: column; overflow: hidden; z-index: 3100;
+}
+.nav-item:hover .dropdown { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+
+/* 하위 메뉴 텍스트 */
+.dropdown a {
+    display: block; padding: 15px 20px; color: #555; font-size: 0.95rem; margin: 0;
+    font-weight: 700; text-align: center; border-bottom: 1px solid #f8f9fa; transition: 0.2s;
+}
+.dropdown a:last-child { border-bottom: none; }
+.dropdown a:hover { background: var(--night-navy); color: var(--moon-subtle-yellow); }
+
+
+/* 예약 버튼 */
+.btn-reserve { 
+    background: var(--moon-gold); color: #fff; 
+    padding: 12px 28px; border-radius: 30px; 
+    font-weight: 900; font-size: 1rem; margin-left: 20px; transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); border: none;
+}
+.btn-reserve:hover { background: var(--night-navy); color: var(--moon-subtle-yellow); }
+
+/* 햄버거 & 오버레이 */
+.hamburger { display: none; cursor: pointer; flex-direction: column; gap: 6px; z-index: 3100; margin-left: 20px; position: relative; }
+.hamburger span { width: 30px; height: 3px; background: var(--night-navy); transition: 0.3s; border-radius: 2px; }
+.hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+.menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(21, 34, 56, 0.8); z-index: 2500; opacity: 0; pointer-events: none; transition: 0.3s ease; }
+.menu-overlay.active { opacity: 1; pointer-events: auto; }
+
+/* 푸터 디자인 */
+.footer { background: var(--night-navy-light); color: #b0c4de; padding: 60px 20px; font-size: 0.95rem; line-height: 1.6; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 40px; }
+.footer-logo { font-size: 2rem; color: var(--moon-subtle-yellow); font-weight: 900; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; letter-spacing: -1px; }
+.footer-tel { font-size: 1.8rem; color: var(--moon-subtle-yellow); font-weight: bold; margin-top: 15px; display: block; letter-spacing: 1px; }
+.footer-time h4 { color: #fff; margin-bottom: 20px; font-size: 1.2rem; }
+.footer-time p { display: flex; justify-content: space-between; max-width: 350px; margin: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 8px; }
+.footer-time p span:last-child { color: #fff; font-weight: bold; }
+
+/* 모바일 전용 플로팅 전화 버튼 */
+.floating-call { 
+    display: none; position: fixed; bottom: 30px; right: 30px; z-index: 9999; 
+    width: 65px; height: 65px; background: var(--moon-gold); color: #fff; 
+    border-radius: 50%; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; box-shadow: 0 4px 20px rgba(0,0,0,0.25); 
+}
+
+/* ==============================================================
+   ★ [완전 해결] 모바일 반응형 (아코디언 2단 메뉴 강제 초기화) ★
+   ============================================================== */
+@media (max-width: 768px) {
+    .header { padding: 0 20px !important; height: 65px !important; }
+    .header-right { gap: 10px !important; }
+    .btn-reserve { display: none !important; }
+    .hamburger { display: flex !important; }
+    
+    /* 1. 모바일 메뉴 창 (우측 슬라이드) */
+    .nav { 
+        display: flex !important; 
+        position: fixed !important; 
+        top: 0 !important; 
+        right: -100% !important; 
+        width: 80% !important; 
+        max-width: 320px !important; 
+        height: 100vh !important; 
+        background: #fff !important; 
+        flex-direction: column !important; 
+        padding: 80px 0 40px 0 !important; 
+        box-sizing: border-box !important; 
+        z-index: 3000 !important; 
+        box-shadow: -10px 0 30px rgba(0,0,0,0.1) !important; 
+        transition: right 0.4s ease !important; 
+        align-items: stretch !important; /* 자식들이 가로로 꽉 차게 함 */
+        overflow-y: auto !important;
+    }
+    .nav.active { right: 0 !important; }
+    
+    /* 2. 대메뉴 아이템 (아이템 하나가 가로 한 줄을 꽉 채우도록) */
+    .nav-item { 
+        display: block !important; /* flex 해제 */
+        width: 100% !important; 
+        height: auto !important; /* PC의 100% 해제 */
+        padding: 0 !important; 
+        margin: 0 !important; 
+        border-bottom: 1px solid #eee !important; 
+        position: static !important; /* PC의 relative 해제 */
+    }
+    
+    /* 3. 대메뉴 글자 (클릭 영역) */
+    .nav-link { 
+        display: block !important; 
+        width: 100% !important; 
+        height: auto !important; 
+        padding: 20px 30px !important; 
+        font-size: 1.2rem !important; 
+        font-weight: 800 !important; 
+        text-align: left !important; 
+        color: var(--night-navy) !important; 
+        box-shadow: none !important; /* PC의 호버 효과 제거 */
+        box-sizing: border-box !important;
+    }
+
+    /* 4. 하위 메뉴 박스 (아코디언) */
+    .dropdown {
+        position: static !important; /* 둥둥 떠다니는 것 해제 */
+        transform: none !important; 
+        opacity: 1 !important; 
+        visibility: visible !important; 
+        display: none !important; /* 평소엔 닫힘 */
+        width: 100% !important; 
+        background: #f9f9f9 !important; 
+        border: none !important; 
+        box-shadow: none !important;
+        flex-direction: column !important; /* 세로 정렬 강제 */
+        padding: 0 !important;
+    }
+
+    /* 대메뉴 클릭 시(active) 하위 메뉴 펼침 */
+    .nav-item.active .dropdown { 
+        display: flex !important; 
+    }
+    
+    /* 하위 메뉴 개별 링크 */
+    .dropdown a { 
+        display: block !important; 
+        width: 100% !important;
+        padding: 15px 30px 15px 50px !important; 
+        color: #666 !important; 
+        font-size: 1rem !important; 
+        font-weight: 700 !important;
+        text-align: left !important; 
+        border-bottom: 1px solid #eee !important; 
+        box-sizing: border-box !important;
+    }
+    .dropdown a:last-child { border-bottom: none !important; }
+    .dropdown a::before { content: '└'; margin-right: 10px; color: #bbb; }
+
+    /* 기타 모바일 요소 */
+    .section-title h2 { font-size: 1.8rem !important; }
+    .footer-top { flex-direction: column !important; gap: 30px !important; }
+    .floating-call { display: flex !important; bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 24px; }
+}

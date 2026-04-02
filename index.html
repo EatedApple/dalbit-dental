@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>달빛치과 - 가족같은 친근함으로 다가갑니다</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+ <style>
+        /* ==============================================================
+           [메인 페이지 전용 스타일 - 달빛 테마 완벽 적용]
+           ============================================================== */
+        
+        /* 1. 메인 슬라이더 */
+        .swiper-main { width: 100%; height: 85vh; position: relative; margin-top: 80px; z-index: 1; }
+        .swiper-slide { position: relative; display: flex; align-items: center; justify-content: center; text-align: center; background-size: cover; background-position: center; }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(21, 34, 56, 0.4); /* 단순 검은색이 아닌 네이비 톤 오버레이 */ z-index: 1; }
+        .slide-content { position: relative; z-index: 2; color: #fff; padding: 0 20px; }
+        .slide-content h2 { font-size: 3.5rem; margin-bottom: 15px; font-weight: 900; line-height: 1.4; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .slide-content p { font-size: 1.25rem; font-weight: 300; opacity: 0.9; margin-top: 10px; }
+
+        .swiper-button-next, .swiper-button-prev { 
+            width: 54px; height: 54px; 
+            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); 
+            border-radius: 50%; color: #fff !important; transition: all 0.3s ease; 
+        }
+        .swiper-button-next:hover, .swiper-button-prev:hover { 
+            background: var(--moon-yellow); border-color: var(--moon-yellow); color: var(--night-navy) !important; 
+        }
+        .swiper-button-next::after, .swiper-button-prev::after { font-size: 20px !important; font-weight: 900; }
+
+        /* 2. SPECIAL CLINIC (특화진료) */
+        .section-special { max-width: 1200px; margin: 100px auto; padding: 0 20px; }
+        .grid-special { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .card-srv { border-radius: 12px; border: 1px solid #f0f0f0; background: #fff; transition: all 0.4s ease; display: block; overflow: hidden; }
+        
+        /* 카드에 마우스 올렸을 때 효과 */
+        .card-srv:hover { border-color: var(--moon-yellow); transform: translateY(-8px); box-shadow: 0 15px 30px rgba(21, 34, 56, 0.08); }
+        .card-srv .img-wrap { width: 100%; height: 220px; overflow: hidden; position: relative; }
+        .card-srv .img { width: 100%; height: 100%; background-size: cover; background-position: center; transition: 0.6s; }
+        .card-srv:hover .img { transform: scale(1.1); }
+        
+        .hover-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(21, 34, 56, 0.7); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
+        .card-srv:hover .hover-overlay { opacity: 1; }
+        
+        /* 상세보기 버튼 (달빛 컬러) */
+        .btn-view { border: 2px solid var(--moon-yellow); color: var(--moon-yellow); padding: 8px 20px; border-radius: 30px; font-weight: bold; }
+        .card-srv .text { padding: 25px; }
+        .card-srv h3 { margin: 0 0 8px 0; color: var(--night-navy); font-size: 1.3rem; font-weight: 800; }
+        .card-srv p { margin: 0; font-size: 0.95rem; color: var(--text-gray); line-height: 1.5; }
+
+        /* 3. 의료진 소개 */
+        .section-doctors { max-width: 1000px; margin: 100px auto; padding: 0 20px; }
+        .doctors-grid { display: flex; gap: 30px; }
+        .doctor-card { flex: 1; background: #fff; padding: 40px; border-top: 4px solid var(--night-navy); position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border-radius: 0 0 12px 12px; }
+        
+        /* 전문의 뱃지 */
+        .doc-badge { background: var(--night-navy); color: #fff; padding: 6px 15px; font-size: 0.85rem; font-weight: bold; margin-bottom: 20px; display: inline-block; border-radius: 20px; }
+        .doc-name { font-size: 2.2rem; color: var(--text-dark); margin-bottom: 5px; font-weight: 900; }
+        .doc-role { color: #D4AF37; /* 이건 기존의 황금빛을 유지하는게 고급스러울 수 있어서 냅뒀습니다. 원하시면 var(--moon-yellow)로 변경 가능 */ font-weight: bold; margin-bottom: 30px; display: block; font-size: 1.1rem; }
+        
+        .doc-history { color: var(--text-gray); line-height: 1.8; font-size: 0.95rem; }
+        .doc-history li { border-bottom: 1px dashed #eee; padding: 8px 0; }
+        /* 불릿 포인트(·)를 달빛 노랑으로 */
+        .doc-history li::before { content: '·'; color: #D4AF37; margin-right: 8px; font-weight: bold; font-size: 1.2rem; }
+
+        /* 4. 시설안내 갤러리 롤링 */
+        .section-gallery { padding: 80px 0; background: #fff; overflow: hidden; border-top: 1px solid #eee; }
+        .rolling-wrapper { display: flex; width: fit-content; animation: rolling 60s linear infinite; will-change: transform; }
+        .gal-item { width: 330px; height: 240px; margin: 0 10px; border-radius: 15px; overflow: hidden; position: relative; flex-shrink: 0; transform: translateZ(0); }
+        .gal-img { width: 100%; height: 100%; background-size: cover; background-position: center; image-rendering: -webkit-optimize-contrast; }
+        .gal-text { position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, rgba(21, 34, 56, 0.9)); color: #fff; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        @keyframes rolling { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
+
+        /* 5. 오시는 길 (지도) */
+        .section-contact { max-width: 1200px; margin: 100px auto; padding: 0 20px; }
+        .contact-map-wrapper { width: 100%; height: 350px; border-radius: 15px; overflow: hidden; position: relative; border: 1px solid #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .map-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0); z-index: 10; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .map-overlay span { background: rgba(21, 34, 56, 0.8); color: #fff; padding: 10px 20px; border-radius: 8px; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .map-overlay:hover span { opacity: 1; }
+        .map-overlay.hidden { display: none; }
+
+        /* 모바일 대응 */
+        @media (max-width: 768px) {
+            .swiper-main { height: 50vh; margin-top: 65px; } /* 헤더 높이에 맞춤 */
+            .slide-content h2 { font-size: 1.8rem !important; }
+            .grid-special { grid-template-columns: 1fr; }
+            .doctors-grid { flex-direction: column; }
+            .gal-item { height: 200px; width: 280px; }
+            .contact-map-wrapper { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header-container"></div>
+
+    <main>
+        <div class="swiper swiper-main">
+            <div class="swiper-wrapper" id="hero-slider"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <section id="special" class="section-special">
+            <div class="section-title">
+                <h2>SPECIAL CLINIC</h2>
+                <p>보건복지부 인증 전문의 2인 협진 시스템으로 수준 높은 의료서비스를 제공합니다.</p>
+            </div>
+            <div class="grid-special" id="special-list"></div>
+        </section>
+
+        <section id="doctors" class="section-doctors">
+            <div class="section-title">
+                <h2>보건복지부 인증 </br><span class="highlight">전문의 2인</span> 협진</h2>
+                <p>풍부한 임상경험을 바탕으로 과잉진료 없는 정직한 치료를 약속합니다.</p>
+            </div>
+            <div class="doctors-grid" id="doctors-list"></div>
+        </section>
+
+        <section id="gallery" class="section-gallery">
+            <div class="section-title">
+                <h2>달빛 <span class="highlight">공간 투어</span></h2>
+                <p>환자분들이 머무시는 모든 순간이 편안하시도록 세심하게 배려했습니다.</p>
+            </div>
+            <div class="rolling-wrapper" id="gallery-list"></div>
+        </section>
+
+        <section id="contact" class="section-contact">
+            <div class="section-title"><h2>오시는 길</h2><p id="map-address"></p></div>
+            <div class="contact-map-wrapper" onmouseleave="resetMap()">
+                <div class="map-overlay" id="map_overlay" onclick="enableMap()"><span>지도를 클릭하면 조작할 수 있습니다.</span></div>
+                <div id="daumRoughmapContainer1774918122426" class="root_daum_roughmap root_daum_roughmap_landing" style="width:100%; height:100%;"></div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+    
+    <script src="common.js"></script>
+    
+    <script>
+        // 메인 페이지 전용 렌더링
+        function renderPage(data) {
+            // 1. 슬라이더 렌더링
+            const sliderHtml = data.mainSlider.map(s => `<div class="swiper-slide" style="background-image: url('${s.bg}');"><div class="overlay"></div><div class="slide-content"><h2>${s.h2}</h2><p>${s.p}</p></div></div>`).join('');
+            document.getElementById('hero-slider').innerHTML = sliderHtml;
+            new Swiper(".swiper-main", { loop: true, autoplay: { delay: 4000 }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" } });
+
+            // 2. 특화진료 렌더링 (임플란트/교정 링크 연결)
+            document.getElementById('special-list').innerHTML = data.specialClinic.map((item, index) => {
+                let link = '#';
+                if (index === 0) link = 'implant.html'; 
+                else if (index === 1) link = 'ortho.html';
+				else if (index === 2) link = 'conservation.html';
+				else if (index === 3) link = 'wisdom.html';
+                return `
+                <a href="${link}" class="card-srv">
+                    <div class="img-wrap">
+                        <div class="img" style="background-image: url('${item.img}');"></div>
+                        <div class="hover-overlay"><span class="btn-view">상세보기 +</span></div>
+                    </div>
+                    <div class="text">
+                        <h3>${item.title}</h3>
+                        <p>${item.text}</p>
+                    </div>
+                </a>`;
+            }).join('');
+
+            // 3. 의료진 렌더링
+            document.getElementById('doctors-list').innerHTML = data.doctors.map(doc => `<div class="doctor-card"><span class="doc-badge">${doc.badge}</span><h3 class="doc-name">${doc.name}</h3><span class="doc-role">${doc.role}</span><ul class="doc-history">${doc.history.map(h => `<li>${h}</li>`).join('')}</ul></div>`).join('');
+
+            // 4. 갤러리 렌더링
+            const galHtml = data.gallery.map(g => `<div class="gal-item"><div class="gal-img" style="background-image: url('${g.img}');"></div><div class="gal-text">${g.text}</div></div>`).join('');
+            document.getElementById('gallery-list').innerHTML = galHtml + galHtml;
+
+            // 5. 지도 렌더링 및 주소 세팅
+            document.getElementById('map-address').innerText = data.footer.address + " (지도를 확대/축소하여 확인하세요)";
+            initMap();
+        }
+
+        // 지도 전용 함수
+        function initMap() { setTimeout(() => { new daum.roughmap.Lander({ "timestamp" : "1774918122426", "key" : "29fpuktuh8qp", "mapWidth" : "100%", "mapHeight" : "350" }).render(); }, 200); }
+        function enableMap() { document.getElementById('map_overlay').classList.add('hidden'); }
+        function resetMap() { document.getElementById('map_overlay').classList.remove('hidden'); }
+    </script>
+</body>
+</html>

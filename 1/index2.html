@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>테스트 치과의원2</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        :root {
+            --primary: #1A2530; 
+            --accent: #C5A880;  
+            --bg-light: #F9F9F9;
+            --white: #FFFFFF;
+            --text-dark: #2D3748;
+            --text-gray: #718096;
+            --font-main: 'Pretendard', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--white); color: var(--text-dark); word-break: keep-all; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+
+        /* --- 💡 공지사항 팝업 모달 --- */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content { background: var(--white); width: 90%; max-width: 400px; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); transform: translateY(20px); transition: 0.3s ease; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-header { padding: 30px 30px 15px; text-align: center; }
+        .modal-header h4 { font-size: 1.3rem; color: var(--primary); font-weight: 800; letter-spacing: -0.5px; }
+        .modal-body { padding: 0 30px 30px; text-align: center; color: var(--text-gray); line-height: 1.6; font-size: 1rem; word-break: keep-all; }
+        .modal-footer { display: flex; border-top: 1px solid #f0f0f0; background: var(--bg-light); }
+        .btn-hide-today { flex: 1; padding: 16px 0; text-align: center; color: var(--text-gray); font-size: 0.95rem; font-weight: 500; cursor: pointer; border-right: 1px solid #e2e8f0; transition: 0.2s; }
+        .btn-close-modal { flex: 1; padding: 16px 0; text-align: center; color: var(--primary); font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.2s; }
+        .btn-hide-today:hover, .btn-close-modal:hover { background: #e2e8f0; }
+
+        /* 네비게이션 */
+        nav { position: fixed; top: 0; width: 100%; height: 90px; z-index: 1000; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(0,0,0,0.04); display: flex; justify-content: space-between; align-items: center; padding: 0 8%; transition: 0.4s ease; }
+        nav.scrolled { height: 75px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+        .logo-box { display: flex; flex-direction: column; justify-content: center; }
+        .logo-main { font-size: 1.4rem; font-weight: 800; color: var(--primary); letter-spacing: 1px; }
+        .logo-sub { font-size: 0.8rem; color: var(--text-gray); font-weight: 500; }
+        .nav-links { display: flex; gap: 40px; margin-left: auto; }
+        .nav-links a { font-weight: 600; font-size: 1.05rem; color: var(--primary); transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* 모바일 햄버거 & 드로어 메뉴 */
+        .hamburger { display: none; cursor: pointer; color: var(--primary); margin-left: 20px; }
+        .hamburger svg { width: 30px; height: 30px; }
+        .menu-dim { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(3px); z-index: 1999; opacity: 0; visibility: hidden; transition: 0.4s ease; }
+        .menu-dim.active { opacity: 1; visibility: visible; }
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 75%; max-width: 320px; height: 100vh; background: var(--white); z-index: 2000; box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; }
+        .mobile-menu.active { right: 0; }
+        .m-menu-header { padding: 30px 25px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
+        .m-menu-header .logo-main { font-size: 1.2rem; }
+        .close-menu { cursor: pointer; color: var(--text-gray); }
+        .close-menu svg { width: 28px; height: 28px; }
+        .m-menu-body { padding: 20px 0; flex: 1; overflow-y: auto; }
+        .m-menu-body a { display: block; padding: 18px 25px; font-size: 1.15rem; font-weight: 600; color: var(--primary); border-bottom: 1px solid #f9f9f9; transition: 0.3s; }
+        .m-menu-body a:hover { background: var(--bg-light); color: var(--accent); padding-left: 30px; }
+        .m-menu-footer { padding: 30px 25px; background: var(--bg-light); }
+        .m-menu-footer p { font-size: 0.9rem; color: var(--text-gray); margin-bottom: 5px; }
+        .m-menu-footer strong { font-size: 1.2rem; color: var(--primary); font-weight: 800; }
+
+        /* 플로팅 퀵 타워 버튼 그룹 */
+        .quick-tower { position: fixed; bottom: 40px; right: 40px; z-index: 999; display: flex; flex-direction: column; gap: 15px; align-items: flex-end; }
+        .quick-circle { width: 50px; height: 50px; border-radius: 50%; background: var(--white); display: none; justify-content: center; align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #eee; transition: 0.3s; }
+        .quick-circle:hover { background: var(--bg-light); transform: translateY(-3px); }
+        .quick-call { height: 60px; padding: 0 25px; border-radius: 30px; background: var(--primary); display: flex; justify-content: center; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(26, 37, 48, 0.3); transition: all 0.3s; border: 1px solid rgba(255,255,255,0.1); }
+        .quick-call:hover { transform: translateY(-5px); background: var(--accent); box-shadow: 0 15px 30px rgba(197, 168, 128, 0.4); }
+        .quick-call svg { width: 22px; height: 22px; fill: var(--white); }
+        .quick-call span { color: var(--white); font-weight: 700; font-size: 1.05rem; letter-spacing: 0.5px; }
+
+        /* 메인 배너 슬라이드 */
+        #hero-slider { position: relative; height: 100vh; width: 100vw; max-width: 100%; overflow: hidden; background: #000; }
+        .slide { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; display: flex; align-items: center; justify-content: center; z-index: 1; }
+        .slide.active { opacity: 1; z-index: 2; }
+        .slide-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.65); transform: scale(1.05); transition: transform 7s ease-out; }
+        .slide.active .slide-bg { transform: scale(1); }
+        .slide-content { position: relative; z-index: 10; text-align: center; color: var(--white); width: 100%; padding: 0 5%; transform: translateY(20px); opacity: 0; transition: all 0.8s ease 0.3s; }
+        .slide.active .slide-content { transform: translateY(0); opacity: 1; }
+        .slide-content h2 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 300; line-height: 1.3; margin-bottom: 24px; white-space: pre-line; letter-spacing: -1px; }
+        .slide-content h2 strong { font-weight: 800; color: var(--accent); }
+        .slide-content p { font-size: clamp(1.1rem, 2vw, 1.3rem); opacity: 0.9; font-weight: 300; margin-bottom: 40px; }
+        .hero-btn { display: inline-block; padding: 14px 36px; border: 1px solid var(--accent); color: var(--accent); font-weight: 600; border-radius: 50px; transition: 0.3s; }
+        .hero-btn:hover { background: var(--accent); color: var(--white); }
+        .slider-dots { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 10; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s; }
+        .dot.active { background: var(--accent); border-color: var(--accent); width: 30px; border-radius: 10px; }
+
+        /* 공통 섹션 */
+        section { padding: 120px 5%; max-width: 1200px; margin: 0 auto; }
+        .sec-title { text-align: center; margin-bottom: 70px; }
+        .sec-title span { color: var(--accent); font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; display: block; margin-bottom: 12px; }
+        .sec-title h3 { font-size: clamp(2rem, 4vw, 2.5rem); color: var(--primary); font-weight: 800; }
+
+        /* 치과의 약속 */
+        .promise-wrap { position: relative; margin-top: -60px; z-index: 20; padding: 0 5%; max-width: 1200px; margin-left: auto; margin-right: auto; }
+        .promise-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--white); border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.08); overflow: hidden; }
+        .promise-item { padding: 50px 40px; text-align: center; border-right: 1px solid #edf2f7; transition: 0.3s; }
+        .promise-item:hover { background: var(--bg-light); transform: translateY(-5px); }
+        .promise-item:last-child { border-right: none; }
+        .promise-icon { font-size: 3rem; margin-bottom: 20px; display: inline-block; }
+        .promise-title { font-size: 1.3rem; font-weight: 800; color: var(--primary); margin-bottom: 15px; }
+        .promise-desc { font-size: 1rem; color: var(--text-gray); line-height: 1.7; word-break: keep-all; }
+
+        /* 2. 소개, 의료진, 진료과목 레이아웃 */
+        #about { display: flex; gap: 60px; align-items: center; }
+        .about-text { flex: 1; }
+        .about-text h4 { font-size: clamp(1.8rem, 3vw, 2.2rem); font-weight: 700; color: var(--primary); margin-bottom: 24px; line-height: 1.4; white-space: pre-line; }
+        .about-text p { font-size: 1.1rem; color: var(--text-gray); line-height: 1.8; margin-bottom: 30px; }
+        .about-img { flex: 1; border-radius: 4px; overflow: hidden; box-shadow: 20px 20px 0px var(--bg-light); }
+        .about-img img { width: 100%; height: auto; display: block; }
+
+        #doctors { background: var(--bg-light); max-width: 100%; padding-top: 100px; padding-bottom: 120px; }
+        .doc-inner { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+        .doc-grid-premium { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        .doc-card-premium { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04); transition: 0.4s ease; border-bottom: 4px solid transparent; cursor: default; }
+        .doc-card-premium:hover { transform: translateY(-12px); box-shadow: 0 25px 50px rgba(0,0,0,0.08); border-bottom: 4px solid var(--accent); }
+        .doc-img-wrap { width: 100%; height: 420px; overflow: hidden; background: #f0f0f0; }
+        .doc-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
+        .doc-card-premium:hover .doc-img-wrap img { transform: scale(1.05); }
+        .doc-info-premium { padding: 40px 30px; }
+        .doc-info-premium span { display: inline-block; color: var(--accent); font-weight: 700; font-size: 0.95rem; margin-bottom: 10px; letter-spacing: 1px; }
+        .doc-info-premium h3 { font-size: 1.8rem; color: var(--primary); font-weight: 800; margin-bottom: 25px; }
+        .doc-info-premium ul li { color: var(--text-gray); font-size: 1.05rem; margin-bottom: 12px; padding-left: 18px; position: relative; line-height: 1.5; }
+        .doc-info-premium ul li::before { content: ''; position: absolute; left: 0; top: 10px; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; }
+
+        .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .svc-card { background: var(--white); overflow: hidden; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.03); transition: 0.3s; border: 1px solid #f0f0f0; }
+        .svc-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); border-color: var(--accent); }
+        .svc-card img { width: 100%; height: 250px; object-fit: cover; border-bottom: 3px solid var(--accent); }
+        .svc-info { padding: 35px 30px; }
+        .svc-info h5 { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+        .svc-info p { font-size: 1rem; color: var(--text-gray); line-height: 1.6; }
+
+        /* 원내 시설 */
+        #facilities { max-width: 100%; background: #111827; color: white; padding-top: 100px; padding-bottom: 120px; }
+        #facilities .sec-title h3 { color: white; }
+        .fac-wrap { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+        .fac-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .fac-item { position: relative; border-radius: 8px; overflow: hidden; height: 280px; }
+        .fac-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; filter: brightness(0.8); }
+        .fac-item:hover img { transform: scale(1.1); filter: brightness(1); }
+        .fac-name { position: absolute; bottom: 20px; left: 20px; font-weight: 700; font-size: 1.1rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+
+/* 오시는 길 (여백 완벽 제거 적용) */
+        #location { margin-bottom: 40px; }
+        .map-box { position: relative; border-radius: 12px; overflow: hidden; margin-top: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; height: 400px; background: #f0f0f0; }
+        .map-box > div { width: 100% !important; height: 100% !important; }
+        .map-box > div > div:first-child { width: 100% !important; height: 100% !important; }
+        .map-box img.map { width: 100% !important; height: 100% !important; object-fit: cover !important; border: none !important; }
+        .map-box > div > div:nth-child(2), .map-box > div > div:nth-child(3) { display: none !important; }
+		
+        /* 푸터 */
+        footer { background: var(--primary); color: #A0AEC0; padding: 80px 5% 40px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 50px; }
+        .f-logo { font-size: 1.8rem; font-weight: 800; color: var(--white); margin-bottom: 10px; display: block; }
+        .f-info { margin-bottom: 25px; line-height: 1.8; }
+        .f-title { color: var(--accent); font-weight: 700; margin-bottom: 15px; font-size: 1.1rem; }
+        .f-hours li { margin-bottom: 8px; font-size: 0.95rem; }
+        .copyright { text-align: center; margin-top: 60px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; }
+
+        /* 모바일 반응형 처리 */
+        @media (max-width: 900px) {
+            .promise-grid { grid-template-columns: 1fr; }
+            .promise-item { border-right: none; border-bottom: 1px solid #edf2f7; padding: 40px 20px; }
+            .promise-item:last-child { border-bottom: none; }
+            #about { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 0 5%; height: 75px; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .logo-main { font-size: 1.2rem; }
+            section { padding: 80px 5%; }
+            .promise-wrap { margin-top: -30px; }
+            .doc-img-wrap { height: 350px; }
+            .fac-item { height: 220px; }
+            .map-box { height: 300px !important; }
+            
+            /* 💡 모바일 환경 퀵 버튼 최적화 */
+            .quick-tower { bottom: 25px; right: 20px; gap: 12px; }
+            .quick-circle { display: flex; } /* 모바일에서 위로가기, 지도 아이콘 활성화 */
+            .quick-call { width: 55px; height: 55px; padding: 0; border-radius: 50%; }
+            .quick-call span { display: none; } /* 전화문의 글자 숨김 */
+            .quick-call svg { width: 24px; height: 24px; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="modal-overlay" id="notice-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="n-title">공지사항</h4>
+            </div>
+            <div class="modal-body">
+                <p id="n-content"></p>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-hide-today" id="btn-hide-today">오늘 하루 보지 않기</div>
+                <div class="btn-close-modal" id="btn-close-modal">닫기</div>
+            </div>
+        </div>
+    </div>
+
+    <nav id="navbar">
+        <div class="logo-box">
+            <a href="#" class="logo-main" id="logo-main">LOGO</a>
+            <span class="logo-sub" id="logo-sub">sub name</span>
+        </div>
+        <div class="nav-links">
+            <a href="#promises">진료철학</a>
+            <a href="#about">치과소개</a>
+            <a href="#doctors">의료진</a>
+            <a href="#services">진료안내</a>
+            <a href="#facilities">내부시설</a>
+            <a href="#location">오시는길</a>
+        </div>
+        <div class="hamburger" id="hamburger-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </div>
+    </nav>
+
+    <div class="menu-dim" id="menu-dim"></div>
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="m-menu-header">
+            <span class="logo-main" id="m-logo-main">LOGO</span>
+            <div class="close-menu" id="close-menu-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </div>
+        </div>
+        <div class="m-menu-body">
+            <a href="#promises" class="m-link">진료철학</a>
+            <a href="#about" class="m-link">치과 소개</a>
+            <a href="#doctors" class="m-link">의료진 소개</a>
+            <a href="#services" class="m-link">전문 진료 안내</a>
+            <a href="#facilities" class="m-link">원내 시설 및 장비</a>
+            <a href="#location" class="m-link">오시는 길</a>
+        </div>
+        <div class="m-menu-footer">
+            <p>예약 및 상담문의</p>
+            <strong id="m-call-text">02-1234-5678</strong>
+        </div>
+    </div>
+
+    <div class="quick-tower">
+        <a href="#" class="quick-circle" title="맨 위로">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+        </a>
+<a href="#location" class="quick-circle" title="오시는길">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                <line x1="8" y1="2" x2="8" y2="18"></line>
+                <line x1="16" y1="6" x2="16" y2="22"></line>
+            </svg>
+        </a>
+        <a href="#" class="quick-call" id="floating-call">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            <span>전화문의</span>
+        </a>
+    </div>
+
+    <div id="hero-slider"><div id="slides-container"></div><div class="slider-dots" id="slider-dots"></div></div>
+    
+    <div class="promise-wrap reveal delay-1" id="promises"><div class="promise-grid" id="promise-grid"></div></div>
+    
+    <section id="about">
+        <div class="about-text reveal"><h4 id="intro-title"></h4><p id="intro-content"></p></div>
+        <div class="about-img reveal delay-1"><img id="intro-img" src=""></div>
+    </section>
+
+    <section id="doctors"><div class="sec-title reveal"><span>Our Specialists</span><h3>믿을 수 있는 의료진</h3></div><div class="doc-inner"><div class="doc-grid-premium" id="doctor-container"></div></div></section>
+    <section id="services"><div class="sec-title reveal"><span>Dental Clinic Services</span><h3>전문 진료 안내</h3></div><div class="svc-grid" id="svc-grid"></div></section>
+    <section id="facilities"><div class="fac-wrap"><div class="sec-title reveal"><span>Facility & Equipment</span><h3>원내 시설 및 첨단 장비</h3></div><div class="fac-grid" id="fac-grid"></div></div></section>
+    <section id="location" class="reveal"><div class="sec-title"><span>Location</span><h3>오시는 길</h3></div><p id="map-addr" style="text-align: center; font-weight: 600;"></p><div class="map-box" id="map-box"></div></section>
+
+    <footer>
+        <div class="footer-inner">
+            <div><span class="f-logo" id="f-logo"></span><p class="f-info" id="f-addr"></p><p class="f-info" style="font-size: 1.5rem; font-weight: 700; color: var(--accent);" id="f-call"></p></div>
+            <div><h4 class="f-title">진료시간 안내</h4><ul class="f-hours" id="f-hours"></ul></div>
+        </div>
+        <div class="copyright" id="f-copy"></div>
+    </footer>
+
+    <script>
+        let heroInterval;
+
+        async function renderData() {
+            try {
+                const response = await fetch('data.json');
+                const d = await response.json();
+
+                // 헤더 렌더링
+                document.getElementById('logo-main').innerText = d.hospitalName;
+                document.getElementById('m-logo-main').innerText = d.hospitalName;
+                document.getElementById('logo-sub').innerText = d.hospitalSubName;
+                document.getElementById('m-call-text').innerText = d.contact;
+                
+                // 플로팅 전화 버튼
+                const phoneLink = "tel:" + d.contact.replace(/-/g, "");
+                document.getElementById('floating-call').href = phoneLink;
+
+                // 💡 공지사항 팝업 로직
+                if (d.notice && d.notice.isActive) {
+                    const today = new Date().toLocaleDateString();
+                    // 로컬스토리지에 오늘 날짜가 저장되어 있지 않으면 띄움
+                    if (localStorage.getItem('hideNotice') !== today) {
+                        document.getElementById('n-title').innerText = d.notice.title;
+                        document.getElementById('n-content').innerHTML = d.notice.content.replace(/\n/g, '<br>');
+                        
+                        const modal = document.getElementById('notice-modal');
+                        modal.style.display = 'flex';
+                        setTimeout(() => modal.classList.add('active'), 50); // 애니메이션 트랜지션
+                    }
+                }
+
+                // 배너 및 이하 섹션 렌더링 (이전 코드 유지)
+                const slidesContainer = document.getElementById('slides-container');
+                const dotsContainer = document.getElementById('slider-dots');
+                d.heroBanners.forEach((banner, idx) => {
+                    const titleHtml = banner.title.replace('자연치아', '<strong>자연치아</strong>').replace('임플란트', '<strong>임플란트</strong>');
+                    slidesContainer.innerHTML += `
+                        <div class="slide ${idx === 0 ? 'active' : ''}">
+                            <img class="slide-bg" src="${banner.bgImage}">
+                            <div class="slide-content"><h2>${titleHtml}</h2><p>${banner.subtitle}</p><a href="#${banner.targetId}" class="hero-btn">${banner.btnText}</a></div>
+                        </div>`;
+                    dotsContainer.innerHTML += `<div class="dot ${idx === 0 ? 'active' : ''}" onclick="goToHeroSlide(${idx})"></div>`;
+                });
+                startHeroTimer();
+
+                const pGrid = document.getElementById('promise-grid');
+                d.promises.forEach(p => pGrid.innerHTML += `<div class="promise-item"><div class="promise-icon">${p.icon}</div><h4 class="promise-title">${p.title}</h4><p class="promise-desc">${p.desc}</p></div>`);
+
+                document.getElementById('intro-title').innerText = d.intro.title;
+                document.getElementById('intro-content').innerText = d.intro.content;
+                document.getElementById('intro-img').src = d.intro.image;
+
+                const docContainer = document.getElementById('doctor-container');
+                d.doctors.forEach((doc, idx) => {
+                    const delayClass = idx % 2 === 0 ? 'delay-1' : 'delay-2';
+                    docContainer.innerHTML += `<div class="doc-card-premium reveal ${delayClass}"><div class="doc-img-wrap"><img src="${doc.img}"></div><div class="doc-info-premium"><span>${doc.position}</span><h3>${doc.name}</h3><ul>${doc.history.map(h => `<li>${h}</li>`).join('')}</ul></div></div>`;
+                });
+
+                const sGrid = document.getElementById('svc-grid');
+                d.services.forEach((s, idx) => {
+                    const delayClass = `delay-${(idx % 3) + 1}`;
+                    sGrid.innerHTML += `<div class="svc-card reveal ${delayClass}"><img src="${s.img}"><div class="svc-info"><h5>${s.title}</h5><p>${s.desc}</p></div></div>`;
+                });
+
+                const facGrid = document.getElementById('fac-grid');
+                d.facilities.forEach((f, idx) => {
+                    const delayClass = `delay-${(idx % 4) + 1}`;
+                    facGrid.innerHTML += `<div class="fac-item reveal ${delayClass}"><img src="${f.img}"><div class="fac-name">${f.name}</div></div>`;
+                });
+
+                document.getElementById('map-addr').innerText = d.address;
+                document.getElementById('map-box').innerHTML = d.mapIframe;
+                document.getElementById('f-logo').innerText = d.hospitalName;
+                document.getElementById('f-addr').innerText = d.address;
+                document.getElementById('f-call').innerText = d.contact;
+                const hList = document.getElementById('f-hours');
+                d.hours.forEach(h => hList.innerHTML += `<li>${h}</li>`);
+                document.getElementById('f-copy').innerText = `© ${new Date().getFullYear()} ${d.hospitalSubName}. All Rights Reserved.`;
+
+                setTimeout(initAnimations, 100);
+            } catch (e) { console.error("Data load error", e); }
+        }
+
+        // 💡 팝업 닫기 버튼 이벤트
+        document.getElementById('btn-close-modal').addEventListener('click', () => {
+            const modal = document.getElementById('notice-modal');
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 300);
+        });
+
+        // 💡 오늘 하루 보지 않기 이벤트 (로컬스토리지 활용)
+        document.getElementById('btn-hide-today').addEventListener('click', () => {
+            const today = new Date().toLocaleDateString();
+            localStorage.setItem('hideNotice', today);
+            const modal = document.getElementById('notice-modal');
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 300);
+        });
+
+        // 모바일 메뉴 제어
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuDim = document.getElementById('menu-dim');
+        const mLinks = document.querySelectorAll('.m-link');
+
+        function openMenu() { mobileMenu.classList.add('active'); menuDim.classList.add('active'); }
+        function closeMenu() { mobileMenu.classList.remove('active'); menuDim.classList.remove('active'); }
+
+        hamburgerBtn.addEventListener('click', openMenu);
+        closeMenuBtn.addEventListener('click', closeMenu);
+        menuDim.addEventListener('click', closeMenu);
+        mLinks.forEach(link => link.addEventListener('click', closeMenu));
+
+        // 슬라이더 및 스크롤 로직
+        function goToHeroSlide(index) { clearInterval(heroInterval); showHeroSlide(index); startHeroTimer(); }
+        function showHeroSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+        }
+        function startHeroTimer() {
+            heroInterval = setInterval(() => {
+                const slides = document.querySelectorAll('.slide');
+                const activeIndex = Array.from(slides).findIndex(s => s.classList.contains('active'));
+                showHeroSlide((activeIndex + 1) % slides.length);
+            }, 6000);
+        }
+
+        function initAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+        });
+
+        renderData();
+    </script>
+</body>
+</html>
