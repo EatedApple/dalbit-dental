@@ -207,9 +207,6 @@
       "title": "오시는 길 · 주차 안내",
       "image": "imgs/directions-info-car.png",
       "storageKey": "dalbit-notice-directions-hide-until"
-    },
-    {
-      "title": "테스트"
     }
   ]
 }
