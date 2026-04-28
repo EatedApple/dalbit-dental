@@ -3,7 +3,7 @@
    Phase 2: schema.yml 기반 자동 폼 + 이미지 업로드
    ───────────────────────────────────────── */
 
-const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxPFKNgkYUbny2tfBBnTRGeXvI2Qtrg580o5-RitaIMYQ0-ceFRn-RMvTt69-OqVzICUQ/exec';
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyBzYtBoP0MmBe3sFWWwcwtqAlgOMKYcMlSQqynn8yheHljKFw7SOTJncpjv2VSVT-BBw/exec';
 
 const FILE_LABELS = {
   'content/site/brand.json':         '병원 기본정보',
