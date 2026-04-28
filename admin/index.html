@@ -4,10 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>달빛치과 CMS</title>
+  <link rel="stylesheet" href="/admin/editor.css">
 </head>
 <body>
+  <div class="cms-loading">
+    <div class="cms-loading__panel">
+      <img src="/logo.png" alt="달빛치과의원">
+      <p>달빛치과 CMS를 불러오는 중입니다...</p>
+    </div>
+  </div>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script src="https://unpkg.com/decap-cms@^3.6.2/dist/decap-cms.js"></script>
+  <script src="/admin/preview.js"></script>
   <script>
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on('init', function(user) {
@@ -18,6 +26,10 @@
         }
       });
     }
+
+    window.addEventListener('load', function() {
+      document.body.classList.add('cms-loaded');
+    });
   </script>
 </body>
 </html>

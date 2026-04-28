@@ -5,10 +5,15 @@ backend:
 
 local_backend: true
 
-media_folder: "imgs/uploads"
-public_folder: "/imgs/uploads"
+media_folder: "imgs"
+public_folder: "imgs"
 
-logo_url: "/logo.png"
+site_url: "https://moonlit-panda-63966f.netlify.app"
+display_url: "https://moonlit-panda-63966f.netlify.app"
+logo:
+  src: "/logo.png"
+  show_in_header: true
+locale: "ko"
 
 collections:
   - label: "달빛치과 콘텐츠"
