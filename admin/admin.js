@@ -349,9 +349,14 @@ function buildEffectiveFiles() {
 function refreshPreview() {
   const iframe = $('#preview-iframe');
   if (!iframe) return;
+  // 리로드 직전 스크롤 위치 캡처 (있으면)
+  try {
+    if (iframe.contentWindow && typeof iframe.contentWindow.scrollY === 'number') {
+      state.previewScrollY = iframe.contentWindow.scrollY;
+    }
+  } catch (e) { /* cross-origin or iframe 비어있음 — 무시 */ }
   const url = '/' + state.previewPage + '?preview=admin&t=' + Date.now();
   iframe.src = url;
-  // 새 탭 링크 동기화 (저장된 데이터 기준 미리보기)
   $('#preview-newtab').href = '/' + state.previewPage;
 }
 
@@ -362,7 +367,7 @@ function schedulePreviewUpdate() {
 }
 
 function setupPreviewListeners() {
-  // iframe이 "준비됐어" 신호 보내면 현재 데이터 응답
+  // iframe이 "준비됐어" 신호 보내면 현재 데이터 + 스크롤 위치 응답
   window.addEventListener('message', (event) => {
     if (!event.data || event.data.type !== 'cms-preview-ready') return;
     const iframe = $('#preview-iframe');
@@ -370,6 +375,7 @@ function setupPreviewListeners() {
     iframe.contentWindow.postMessage({
       type: 'cms-preview',
       files: buildEffectiveFiles(),
+      scrollY: state.previewScrollY || 0,
     }, '*');
   });
 

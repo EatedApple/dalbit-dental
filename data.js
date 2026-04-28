@@ -89,11 +89,27 @@
         const data = buildSiteData(filesByPath);
         window.SITE_DATA = data;
         cachedData = data;
+
+        // 스크롤 위치 복원 (렌더 완료 후)
+        const targetY = event.data.scrollY;
+        if (typeof targetY === 'number' && targetY > 0) {
+          const restore = () => {
+            try { window.scrollTo(0, targetY); } catch (e) {}
+          };
+          // 렌더 완료 이벤트가 오면 즉시, 안 오면 fallback timeout
+          document.addEventListener('site:rendered', () => {
+            // 렌더 직후 + 이미지 로드 등 지연 대비 약간 후 한 번 더
+            restore();
+            setTimeout(restore, 60);
+            setTimeout(restore, 200);
+          }, { once: true });
+          setTimeout(restore, 800); // safety net
+        }
+
         if (!resolved) {
           resolved = true;
           resolve(data);
         } else {
-          // 라이브 업데이트: 다시 렌더 트리거
           if (typeof window.rerenderSite === 'function') {
             try { window.rerenderSite(data); } catch (e) { console.error(e); }
           }
