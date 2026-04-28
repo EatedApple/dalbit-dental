@@ -21,6 +21,9 @@
 
 * { box-sizing: border-box; }
 
+/* hidden 속성이 display 규칙에 의해 덮이는 것 방지 */
+[hidden] { display: none !important; }
+
 html, body {
   margin: 0;
   padding: 0;
