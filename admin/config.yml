@@ -14,428 +14,231 @@ logo:
   src: "/logo.png"
   show_in_header: true
 locale: "ko"
+search: false
 
 collections:
-  - label: "달빛치과 콘텐츠"
+  - label: "달빛치과 편집"
     name: "dalbit-content"
     files:
-      - label: "사이트 공통 설정"
-        name: "site"
-        file: "content/site.json"
+      - label: "공통 · 병원 기본정보"
+        name: "site-brand"
+        file: "content/site/brand.json"
         format: json
         fields:
-          - label: "Brand"
+          - label: "병원 로고"
             name: "brand"
             widget: object
-            collapsed: true
             fields:
-              - label: "Logo"
+              - label: "로고 이미지"
                 name: "logo"
                 widget: image
                 required: false
-              - label: "Name"
+              - label: "병원명"
                 name: "name"
                 widget: string
-                required: false
-              - label: "Header Name"
+              - label: "헤더용 짧은 이름"
                 name: "headerName"
                 widget: string
                 required: false
-              - label: "Name EN"
+                hint: "상단 헤더에서 짧게 보여줄 이름입니다."
+              - label: "영문명"
                 name: "nameEn"
                 widget: string
                 required: false
-              - label: "Phone"
+              - label: "전화번호 (숫자/하이픈)"
                 name: "phone"
                 widget: string
-                required: false
-              - label: "Phone Text"
+              - label: "전화번호 표시 문구"
                 name: "phoneText"
                 widget: string
-                required: false
-              - label: "Addr Tagline"
+                hint: "화면에 보이는 전화번호 형식입니다. 예: 054.705.0101"
+              - label: "상단 주소 한 줄"
                 name: "addrTagline"
                 widget: text
-                required: false
-              - label: "Page Title"
+              - label: "브라우저 탭 제목"
                 name: "pageTitle"
                 widget: text
-                required: false
-          - label: "Intro"
-            name: "intro"
-            widget: object
-            collapsed: true
-            fields:
-              - label: "Line1"
-                name: "line1"
-                widget: list
-                field:
-                  label: "Line1"
-                  name: "item"
-                  widget: string
-                  required: false
-              - label: "Line1 Accent"
-                name: "line1Accent"
-                widget: list
-                field:
-                  label: "Line1 Accent"
-                  name: "item"
-                  widget: boolean
-                  required: false
-              - label: "Line2"
-                name: "line2"
-                widget: list
-                field:
-                  label: "Line2"
-                  name: "item"
-                  widget: string
-                  required: false
-              - label: "Line2 Accent"
-                name: "line2Accent"
-                widget: list
-                field:
-                  label: "Line2 Accent"
-                  name: "item"
-                  widget: boolean
-                  required: false
-              - label: "Tag HTML"
-                name: "tagHTML"
-                widget: text
-                required: false
-              - label: "Duration"
-                name: "duration"
-                widget: number
-                value_type: int
-          - label: "Nav"
-            name: "nav"
-            widget: list
-            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
-            fields:
-              - label: "Label"
-                name: "label"
-                widget: string
-                required: false
-              - label: "Href"
-                name: "href"
-                widget: string
-                required: false
-              - label: "Sub"
-                name: "sub"
-                widget: list
-                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
-                fields:
-                  - label: "Label"
-                    name: "label"
-                    widget: string
-                    required: false
-                  - label: "Href"
-                    name: "href"
-                    widget: string
-                    required: false
-          - label: "Quick"
+          - label: "우측 빠른 버튼"
             name: "quick"
             widget: list
-            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            summary: "{{fields.label}}"
             fields:
-              - label: "Label"
-                name: "label"
-                widget: string
-                required: false
-              - label: "Href"
-                name: "href"
-                widget: string
-                required: false
-              - label: "Primary"
-                name: "primary"
-                widget: boolean
-                required: false
-              - label: "Icon"
-                name: "icon"
-                widget: string
-                required: false
-          - label: "Hours"
-            name: "hours"
-            widget: list
-            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
-            fields:
-              - label: "Day"
-                name: "day"
-                widget: string
-                required: false
-              - label: "Time"
-                name: "time"
-                widget: text
-                required: false
-          - label: "Hours Closed"
-            name: "hoursClosed"
-            widget: string
-            required: false
-          - label: "Directions"
-            name: "directions"
-            widget: object
-            collapsed: true
-            fields:
-              - label: "Address"
-                name: "address"
-                widget: text
-                required: false
-              - label: "Map Image"
-                name: "mapImage"
-                widget: image
-                required: false
-              - label: "Bus"
-                name: "bus"
-                widget: object
-                collapsed: true
-                fields:
-                  - label: "Label"
-                    name: "label"
-                    widget: string
-                    required: false
-                  - label: "Desc"
-                    name: "desc"
-                    widget: text
-                    required: false
-              - label: "Car"
-                name: "car"
-                widget: object
-                collapsed: true
-                fields:
-                  - label: "Label"
-                    name: "label"
-                    widget: string
-                    required: false
-                  - label: "Desc"
-                    name: "desc"
-                    widget: image
-                    required: false
-                  - label: "Is Image"
-                    name: "isImage"
-                    widget: boolean
-                    required: false
-                  - label: "Popup Only"
-                    name: "popupOnly"
-                    widget: boolean
-                    required: false
-          - label: "Footer"
+              - { label: "버튼 이름", name: "label", widget: "string" }
+              - { label: "링크", name: "href", widget: "string" }
+              - { label: "강조 버튼", name: "primary", widget: "boolean", required: false }
+              - { label: "아이콘 이름", name: "icon", widget: "string", required: false, hint: "phone, chat, kakao 중 하나" }
+          - label: "하단 푸터"
             name: "footer"
             widget: object
-            collapsed: true
             fields:
-              - label: "Addr Line1"
-                name: "addrLine1"
-                widget: string
-                required: false
-              - label: "Addr Line2"
-                name: "addrLine2"
-                widget: string
-                required: false
-              - label: "Copyright"
-                name: "copyright"
-                widget: text
-                required: false
-          - label: "Counsel Modal"
-            name: "counselModal"
-            widget: object
-            collapsed: true
-            fields:
-              - label: "Title"
-                name: "title"
-                widget: text
-                required: false
-              - label: "Intro"
-                name: "intro"
-                widget: text
-                required: false
-              - label: "Privacy Link"
-                name: "privacyLink"
-                widget: string
-                required: false
-          - label: "Notice Popups"
-            name: "noticePopups"
-            widget: list
-            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
-            fields:
-              - label: "Title"
-                name: "title"
-                widget: text
-                required: false
-              - label: "Image"
-                name: "image"
-                widget: image
-                required: false
-              - label: "Storage Key"
-                name: "storageKey"
-                widget: string
-                required: false
-      - label: "메인 페이지"
-        name: "home"
-        file: "content/home.json"
+              - { label: "푸터 1줄", name: "addrLine1", widget: "string" }
+              - { label: "푸터 2줄", name: "addrLine2", widget: "string" }
+              - { label: "저작권 문구", name: "copyright", widget: "text" }
+      - label: "공통 · 상단 메뉴"
+        name: "site-navigation"
+        file: "content/site/navigation.json"
         format: json
         fields:
-          - label: "Hero"
+          - label: "상단 메뉴"
+            name: "nav"
+            widget: list
+            summary: "{{fields.label}}"
+            hint: "메뉴 한 칸이 카드 하나입니다. 서브메뉴도 안에서 바로 추가하세요."
+            fields:
+              - { label: "메뉴명", name: "label", widget: "string" }
+              - { label: "메인 링크", name: "href", widget: "string" }
+              - label: "서브메뉴"
+                name: "sub"
+                widget: list
+                summary: "{{fields.label}}"
+                required: false
+                fields:
+                  - { label: "서브메뉴명", name: "label", widget: "string" }
+                  - { label: "서브메뉴 링크", name: "href", widget: "string" }
+      - label: "공통 · 진료시간 / 지도 / 상담"
+        name: "site-contact"
+        file: "content/site/contact.json"
+        format: json
+        fields:
+          - label: "진료시간"
+            name: "hours"
+            widget: list
+            summary: "{{fields.day}}"
+            fields:
+              - { label: "요일명", name: "day", widget: "string" }
+              - { label: "시간 문구", name: "time", widget: "text", hint: "줄바꿈이나 휴식시간 설명도 그대로 입력할 수 있습니다." }
+          - { label: "휴진 안내", name: "hoursClosed", widget: "string", required: false }
+          - label: "오시는 길"
+            name: "directions"
+            widget: object
+            fields:
+              - { label: "대표 주소", name: "address", widget: "text" }
+              - { label: "지도 대표 이미지", name: "mapImage", widget: "image" }
+              - label: "버스 안내"
+                name: "bus"
+                widget: object
+                fields:
+                  - { label: "제목", name: "label", widget: "string" }
+                  - { label: "설명", name: "desc", widget: "text" }
+              - label: "주차 안내 팝업"
+                name: "car"
+                widget: object
+                fields:
+                  - { label: "제목", name: "label", widget: "string" }
+                  - { label: "이미지", name: "desc", widget: "image" }
+                  - { label: "이미지 사용", name: "isImage", widget: "boolean", required: false }
+                  - { label: "팝업 전용", name: "popupOnly", widget: "boolean", required: false }
+          - label: "빠른 상담 모달"
+            name: "counselModal"
+            widget: object
+            fields:
+              - { label: "모달 제목", name: "title", widget: "string" }
+              - { label: "안내 문구", name: "intro", widget: "text" }
+              - { label: "개인정보 링크", name: "privacyLink", widget: "string", required: false }
+      - label: "공통 · 팝업 / 인트로"
+        name: "site-popups"
+        file: "content/site/popups.json"
+        format: json
+        fields:
+          - label: "인트로 애니메이션"
+            name: "intro"
+            widget: object
+            fields:
+              - { label: "1줄 글자 배열", name: "line1", widget: "list", hint: "한 글자씩 추가합니다. 띄어쓰기는 빈 항목으로 추가하세요.", field: { label: "글자", name: "item", widget: "string", required: false } }
+              - { label: "1줄 강조 여부", name: "line1Accent", widget: "list", field: { label: "강조", name: "item", widget: "boolean", required: false } }
+              - { label: "2줄 글자 배열", name: "line2", widget: "list", field: { label: "글자", name: "item", widget: "string", required: false } }
+              - { label: "2줄 강조 여부", name: "line2Accent", widget: "list", field: { label: "강조", name: "item", widget: "boolean", required: false } }
+              - { label: "하단 문구 (HTML 가능)", name: "tagHTML", widget: "text" }
+              - { label: "표시 시간(ms)", name: "duration", widget: "number", value_type: "int" }
+          - label: "홈 팝업"
+            name: "noticePopups"
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "팝업 제목", name: "title", widget: "string" }
+              - { label: "팝업 이미지", name: "image", widget: "image" }
+              - { label: "숨김 저장 키", name: "storageKey", widget: "string", required: false }
+      - label: "메인 · 상단 비주얼"
+        name: "home-hero"
+        file: "content/home/hero.json"
+        format: json
+        fields:
+          - label: "메인 슬라이드"
             name: "hero"
             widget: list
-            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            summary: "{{fields.h3}}"
+            hint: "슬라이드 한 장이 카드 하나입니다. 1번은 메인 인트로, 2번은 사진형 소개로 쓰고 있습니다."
             fields:
-              - label: "Type"
-                name: "type"
-                widget: string
-                required: false
-              - label: "H3"
-                name: "h3"
-                widget: string
-                required: false
-              - label: "H2"
-                name: "h2"
-                widget: text
-                required: false
-              - label: "List"
-                name: "list"
-                widget: list
-                field:
-                  label: "List"
-                  name: "item"
-                  widget: string
-                  required: false
-              - label: "Desc"
-                name: "desc"
-                widget: text
-                required: false
-              - label: "BG Image"
-                name: "bgImage"
-                widget: image
-                required: false
-              - label: "Paragraphs"
-                name: "paragraphs"
-                widget: list
-                field:
-                  label: "Paragraph"
-                  name: "item"
-                  widget: text
-                  required: false
-              - label: "Sign"
-                name: "sign"
-                widget: string
-                required: false
-          - label: "Focus Title"
+              - { label: "슬라이드 타입", name: "type", widget: "select", options: ["moon", "photo"] }
+              - { label: "상단 문구", name: "h3", widget: "text", required: false }
+              - { label: "큰 제목 (HTML 가능)", name: "h2", widget: "text", required: false }
+              - { label: "배경 이미지", name: "bgImage", widget: "image", required: false, hint: "photo 타입 슬라이드에서 사용합니다." }
+              - { label: "포인트 문장 목록", name: "list", widget: "list", required: false, field: { label: "문장", name: "item", widget: "string", required: false } }
+              - { label: "본문 설명", name: "desc", widget: "text", required: false }
+              - { label: "본문 줄 목록", name: "paragraphs", widget: "list", required: false, hint: "photo 타입에서 보이는 본문입니다. 한 줄씩 추가하세요.", field: { label: "본문 줄", name: "item", widget: "text", required: false } }
+              - { label: "서명", name: "sign", widget: "string", required: false }
+      - label: "메인 · 진료과목 카드"
+        name: "home-focus"
+        file: "content/home/focus.json"
+        format: json
+        fields:
+          - label: "섹션 제목"
             name: "focusTitle"
             widget: object
-            collapsed: true
             fields:
-              - label: "Small"
-                name: "small"
-                widget: string
-                required: false
-              - label: "H2 HTML"
-                name: "h2Html"
-                widget: text
-                required: false
-          - label: "Focus"
+              - { label: "작은 제목", name: "small", widget: "string", required: false }
+              - { label: "큰 제목 (HTML 가능)", name: "h2Html", widget: "text" }
+          - label: "진료과목 카드"
             name: "focus"
             widget: list
-            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            summary: "{{fields.title}}"
             fields:
-              - label: "Href"
-                name: "href"
-                widget: string
-                required: false
-              - label: "Img"
-                name: "img"
-                widget: image
-                required: false
-              - label: "Small"
-                name: "small"
-                widget: string
-                required: false
-              - label: "Title"
-                name: "title"
-                widget: text
-                required: false
-              - label: "Desc"
-                name: "desc"
-                widget: text
-                required: false
-          - label: "Checklist"
+              - { label: "이동 링크", name: "href", widget: "string" }
+              - { label: "대표 이미지", name: "img", widget: "image" }
+              - { label: "작은 제목", name: "small", widget: "string" }
+              - { label: "큰 제목", name: "title", widget: "string" }
+              - { label: "설명", name: "desc", widget: "text" }
+      - label: "메인 · 강조 배너"
+        name: "home-banners"
+        file: "content/home/banners.json"
+        format: json
+        fields:
+          - label: "선택 체크 배너"
             name: "checklist"
             widget: object
-            collapsed: true
             fields:
-              - label: "BG Image"
-                name: "bgImage"
-                widget: image
-                required: false
-              - label: "Title HTML"
-                name: "titleHTML"
-                widget: text
-                required: false
-              - label: "Items"
-                name: "items"
-                widget: list
-                field:
-                  label: "Item"
-                  name: "item"
-                  widget: string
-                  required: false
-              - label: "Closing HTML"
-                name: "closingHTML"
-                widget: text
-                required: false
-          - label: "Point"
+              - { label: "배경 이미지", name: "bgImage", widget: "image", required: false }
+              - { label: "큰 제목 (HTML 가능)", name: "titleHTML", widget: "text" }
+              - { label: "항목 목록", name: "items", widget: "list", field: { label: "항목", name: "item", widget: "string" } }
+              - { label: "마무리 문구 (HTML 가능)", name: "closingHTML", widget: "text" }
+          - label: "약속 배너"
             name: "point"
             widget: object
-            collapsed: true
             fields:
-              - label: "BG Image"
-                name: "bgImage"
-                widget: image
-                required: false
-              - label: "Title HTML"
-                name: "titleHTML"
-                widget: text
-                required: false
-              - label: "Desc HTML"
-                name: "descHTML"
-                widget: text
-                required: false
-              - label: "Closing HTML"
-                name: "closingHTML"
-                widget: text
-                required: false
-          - label: "Blog Title"
+              - { label: "배경 이미지", name: "bgImage", widget: "image", required: false }
+              - { label: "큰 제목 (HTML 가능)", name: "titleHTML", widget: "text" }
+              - { label: "설명 (HTML 가능)", name: "descHTML", widget: "text" }
+              - { label: "마무리 문구 (HTML 가능)", name: "closingHTML", widget: "text" }
+      - label: "메인 · 건강정보 카드"
+        name: "home-blog"
+        file: "content/home/blog.json"
+        format: json
+        fields:
+          - label: "섹션 제목"
             name: "blogTitle"
             widget: object
-            collapsed: true
             fields:
-              - label: "Small"
-                name: "small"
-                widget: string
-                required: false
-              - label: "H2 HTML"
-                name: "h2Html"
-                widget: text
-                required: false
-          - label: "Blog"
+              - { label: "작은 제목", name: "small", widget: "string", required: false }
+              - { label: "큰 제목 (HTML 가능)", name: "h2Html", widget: "text" }
+          - label: "건강정보 카드"
             name: "blog"
             widget: list
-            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            summary: "{{fields.title}}"
             fields:
-              - label: "Tag"
-                name: "tag"
-                widget: text
-                required: false
-              - label: "Title"
-                name: "title"
-                widget: text
-                required: false
-              - label: "Img"
-                name: "img"
-                widget: image
-                required: false
-              - label: "Href"
-                name: "href"
-                widget: string
-                required: false
+              - { label: "카테고리", name: "tag", widget: "string", required: false }
+              - { label: "제목", name: "title", widget: "string" }
+              - { label: "대표 이미지", name: "img", widget: "image" }
+              - { label: "이동 링크", name: "href", widget: "string" }
       - label: "서브페이지 · About"
         name: "about"
         file: "content/pages/about.json"
@@ -559,7 +362,7 @@ collections:
                     name: "name"
                     widget: string
                     required: false
-                  - label: "Name EN"
+                  - label: "Name En"
                     name: "nameEn"
                     widget: string
                     required: false
@@ -749,11 +552,11 @@ collections:
                     name: "cols"
                     widget: list
                     field:
-                      label: "Col"
+                      label: "Cols"
                       name: "item"
                       widget: string
                       required: false
-          - label: "ENdo"
+          - label: "Endo"
             name: "endo"
             widget: object
             collapsed: true
@@ -893,7 +696,7 @@ collections:
                 name: "images"
                 widget: list
                 field:
-                  label: "Image"
+                  label: "Images"
                   name: "item"
                   widget: image
                   required: false
@@ -901,7 +704,7 @@ collections:
                 name: "points"
                 widget: list
                 field:
-                  label: "Point"
+                  label: "Points"
                   name: "item"
                   widget: string
                   required: false
@@ -1075,7 +878,7 @@ collections:
                     name: "details"
                     widget: list
                     field:
-                      label: "Detail"
+                      label: "Details"
                       name: "item"
                       widget: string
                       required: false
@@ -1253,7 +1056,7 @@ collections:
                 name: "strengths"
                 widget: list
                 field:
-                  label: "Strength"
+                  label: "Strengths"
                   name: "item"
                   widget: string
                   required: false
@@ -1269,7 +1072,7 @@ collections:
                 name: "cautions"
                 widget: list
                 field:
-                  label: "Caution"
+                  label: "Cautions"
                   name: "item"
                   widget: string
                   required: false
@@ -1366,7 +1169,7 @@ collections:
                 name: "items"
                 widget: list
                 field:
-                  label: "Item"
+                  label: "Items"
                   name: "item"
                   widget: string
                   required: false
@@ -1523,7 +1326,7 @@ collections:
                     name: "details"
                     widget: list
                     field:
-                      label: "Detail"
+                      label: "Details"
                       name: "item"
                       widget: string
                       required: false
@@ -1802,7 +1605,7 @@ collections:
                 name: "items"
                 widget: list
                 field:
-                  label: "Item"
+                  label: "Items"
                   name: "item"
                   widget: string
                   required: false

@@ -1,0 +1,36 @@
+{
+  "focusTitle": {
+    "small": "OUR TREATMENTS",
+    "h2Html": "달빛치과의 <b>진료과목</b>"
+  },
+  "focus": [
+    {
+      "href": "implant.html",
+      "img": "imgs/implant_step4.jpg",
+      "small": "안전하고 정확하게",
+      "title": "임플란트",
+      "desc": "원가이드 임플란트, 뼈이식·상악동 임플란트, 임플란트 틀니까지 — 잇몸뼈 상태에 맞춘 맞춤 식립"
+    },
+    {
+      "href": "ortho.html",
+      "img": "imgs/ortho_step4.jpg",
+      "small": "티 안 나는 교정",
+      "title": "투명교정",
+      "desc": "철사 없이 투명한 장치로 진행하는 교정 — 일상 생활과 미소를 그대로 유지하면서 치아 배열을 바로잡습니다"
+    },
+    {
+      "href": "laminate.html",
+      "img": "imgs/self-whitening-beautis-home.jpg",
+      "small": "자연스러운 아름다움",
+      "title": "심미치료",
+      "desc": "라미네이트와 자가미백으로 본래의 치아를 살리면서 자연스럽고 환한 미소를 디자인합니다"
+    },
+    {
+      "href": "conservation.html",
+      "img": "imgs/root-canal-info.png",
+      "small": "기본부터 꼼꼼하게",
+      "title": "일반치료",
+      "desc": "보존치료, 치주치료, 턱관절 치료, 사랑니 발치까지 — 평생 건강한 치아를 위한 기본 진료"
+    }
+  ]
+}

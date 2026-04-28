@@ -1,0 +1,32 @@
+{
+  "hours": [
+    {
+      "day": "평 일",
+      "time": "오전 10:00 ~ 오후 7:00<span class=\"hours-break\">휴식 오후 1:30 ~ 2:30</span>"
+    },
+    {
+      "day": "토요일",
+      "time": "오전 10:00 ~ 오후 4:00<span class=\"hours-break\">휴식 오후 1:30 ~ 2:00</span>"
+    }
+  ],
+  "hoursClosed": "※ 일요일, 공휴일은 휴진입니다",
+  "directions": {
+    "address": "포항시청 앞 · 포항시 남구 대이로 39 2층",
+    "mapImage": "imgs/directions-info.png",
+    "bus": {
+      "label": "정류소 · 버스 안내",
+      "desc": "정류소명: 시청 / 버스 111, 216, 306, 700"
+    },
+    "car": {
+      "label": "오시는 길 · 주차 안내",
+      "desc": "imgs/directions-info-car.png",
+      "isImage": true,
+      "popupOnly": true
+    }
+  },
+  "counselModal": {
+    "title": "빠른 상담",
+    "intro": "아래 연락처와 문의내용을 남겨주시면 상담원이 전화로 친절하게 상담을 도와드립니다.",
+    "privacyLink": "#privacy"
+  }
+}

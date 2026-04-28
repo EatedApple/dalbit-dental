@@ -1,0 +1,54 @@
+{
+  "intro": {
+    "line1": [
+      "밤",
+      "에",
+      "도",
+      "",
+      "반",
+      "짝",
+      "이",
+      "는"
+    ],
+    "line1Accent": [
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "line2": [
+      "당",
+      "신",
+      "의",
+      "",
+      "미",
+      "소"
+    ],
+    "line2Accent": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true
+    ],
+    "tagHTML": "달빛처럼 은은한 진료, <b>달빛치과의원</b>",
+    "duration": 3200
+  },
+  "noticePopups": [
+    {
+      "title": "진료 안내",
+      "image": "imgs/hours-info.png",
+      "storageKey": "dalbit-notice-hours-hide-until"
+    },
+    {
+      "title": "오시는 길 · 주차 안내",
+      "image": "imgs/directions-info-car.png",
+      "storageKey": "dalbit-notice-directions-hide-until"
+    }
+  ]
+}

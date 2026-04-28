@@ -1,0 +1,32 @@
+{
+  "blogTitle": {
+    "small": "HEALTHY TIPS",
+    "h2Html": "치아 <b>건강정보</b>"
+  },
+  "blog": [
+    {
+      "tag": "IMPLANT",
+      "title": "임플란트 수술 전 꼭 알아두어야 할 5가지",
+      "img": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=700&q=80",
+      "href": "implant.html"
+    },
+    {
+      "tag": "ORTHO",
+      "title": "투명교정, 어떤 사람에게 잘 맞을까요?",
+      "img": "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&w=700&q=80",
+      "href": "ortho.html"
+    },
+    {
+      "tag": "BEAUTY",
+      "title": "라미네이트 최소 삭제 0.3mm의 미학",
+      "img": "https://images.unsplash.com/photo-1571772996211-2f02c9727629?auto=format&fit=crop&w=700&q=80",
+      "href": "laminate.html"
+    },
+    {
+      "tag": "CARE",
+      "title": "충치는 스스로 회복되지 않습니다",
+      "img": "imgs/caries-stages-4.png",
+      "href": "conservation.html"
+    }
+  ]
+}

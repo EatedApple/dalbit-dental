@@ -17,8 +17,18 @@
   ];
 
   const CONTENT_PATHS = {
-    site: 'content/site.json',
-    home: 'content/home.json',
+    site: [
+      'content/site/brand.json',
+      'content/site/navigation.json',
+      'content/site/contact.json',
+      'content/site/popups.json',
+    ],
+    home: [
+      'content/home/hero.json',
+      'content/home/focus.json',
+      'content/home/banners.json',
+      'content/home/blog.json',
+    ],
     pages: PAGE_KEYS.reduce((acc, key) => {
       acc[key] = `content/pages/${key}.json`;
       return acc;
@@ -45,13 +55,16 @@
     if(inflight) return inflight;
 
     inflight = (async () => {
-      const [site, home, pageEntries] = await Promise.all([
-        fetchJson(CONTENT_PATHS.site),
-        fetchJson(CONTENT_PATHS.home),
+      const [siteSections, homeSections, pageEntries] = await Promise.all([
+        Promise.all(CONTENT_PATHS.site.map(fetchJson)),
+        Promise.all(CONTENT_PATHS.home.map(fetchJson)),
         Promise.all(
           PAGE_KEYS.map(async (key) => [key, await fetchJson(CONTENT_PATHS.pages[key])])
         ),
       ]);
+
+      const site = Object.assign({}, ...siteSections);
+      const home = Object.assign({}, ...homeSections);
 
       cachedData = {
         ...site,

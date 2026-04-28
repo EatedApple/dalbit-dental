@@ -1,0 +1,30 @@
+{
+  "brand": {
+    "logo": "logo.png",
+    "name": "달빛치과의원",
+    "headerName": "달빛치과",
+    "nameEn": "DALBIT DENTAL CLINIC",
+    "phone": "054-705-0101",
+    "phoneText": "054.705.0101",
+    "addrTagline": "포항시청 앞 · 포항시 남구 대이로 39 2층",
+    "pageTitle": "달빛치과의원 | 임플란트 · 투명교정 · 심미치료 · 일반치료"
+  },
+  "quick": [
+    {
+      "label": "전화상담",
+      "href": "tel:054-705-0101",
+      "primary": true,
+      "icon": "phone"
+    },
+    {
+      "label": "네이버톡톡",
+      "href": "#",
+      "icon": "chat"
+    }
+  ],
+  "footer": {
+    "addrLine1": "달빛치과의원 · 대표자 김은주 · 사업자등록번호 5752602201",
+    "addrLine2": "포항시청 앞 · 포항시 남구 대이로 39 2층 · TEL 054.705.0101",
+    "copyright": "COPYRIGHT © 2026 달빛치과의원 ALL RIGHTS RESERVED."
+  }
+}
