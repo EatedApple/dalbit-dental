@@ -7,7 +7,7 @@
    ============================================================ */
 (async function(){
   try {
-  const D = window.SITE_DATA || (window.loadSiteData ? await window.loadSiteData() : null);
+  const D = window.loadSiteData ? await window.loadSiteData() : window.SITE_DATA;
   if(!D){ console.warn('SITE_DATA 가 로드되지 않았습니다.'); return; }
 
   const $  = (s, p=document) => p.querySelector(s);
