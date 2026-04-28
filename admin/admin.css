@@ -138,6 +138,13 @@ button { cursor: pointer; font: inherit; }
   flex: 1;
   min-height: 0;
 }
+/* 파일 미선택 시: 폼 패널 숨겨서 프리뷰가 남은 공간 다 차지 */
+.layout.no-file {
+  grid-template-columns: 240px 1fr;
+}
+.layout.no-file .form-pane {
+  display: none;
+}
 
 .topbar-filename {
   font-size: 13px;

@@ -221,6 +221,7 @@ async function loadSchema() {
 
 async function enterEditor() {
   showScreen('editor-screen');
+  document.querySelector('.layout').classList.add('no-file'); // 파일 선택 전 폼 패널 숨김
   setStatus('스키마 + 콘텐츠 불러오는 중...', 'saving');
   try {
     await loadSchema();
@@ -283,6 +284,7 @@ async function loadFile(filename) {
     const activeLi = document.querySelector('#file-list li[data-filename="' + filename + '"]');
     if (activeLi) activeLi.classList.add('active');
 
+    document.querySelector('.layout').classList.remove('no-file');
     $('#form-empty').hidden = true;
     $('#form-container').hidden = false;
     $('#editor-filename').textContent = (state.fileSchemas[filename] && state.fileSchemas[filename].label) || filename;
