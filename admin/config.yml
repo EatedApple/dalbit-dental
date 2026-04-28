@@ -1,6 +1,7 @@
 backend:
   name: git-gateway
   branch: main
+  site_domain: moonlit-panda-63966f.netlify.app
 
 local_backend: true
 
