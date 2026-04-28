@@ -57,6 +57,9 @@
       case 'list':
         inputEl = listInput(field, Array.isArray(value) ? value : [], onChange);
         break;
+      case 'select':
+        inputEl = selectInput(field, value, onChange);
+        break;
       default:
         inputEl = document.createElement('div');
         inputEl.className = 'unsupported-widget';
@@ -99,6 +102,32 @@
       onChange(v === '' ? null : Number(v));
     });
     return input;
+  }
+
+  function selectInput(field, value, onChange) {
+    const sel = document.createElement('select');
+    sel.className = 'input-string';
+    const opts = field.options || [];
+    // 빈 옵션 (필수 아닐 때)
+    if (field.required === false) {
+      const empty = document.createElement('option');
+      empty.value = '';
+      empty.textContent = '— 선택 안 함 —';
+      sel.appendChild(empty);
+    }
+    opts.forEach(opt => {
+      const o = document.createElement('option');
+      if (typeof opt === 'string') {
+        o.value = opt; o.textContent = opt;
+      } else if (opt && typeof opt === 'object') {
+        o.value = String(opt.value);
+        o.textContent = opt.label || opt.value;
+      }
+      if (value != null && String(value) === o.value) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.addEventListener('change', () => onChange(sel.value));
+    return sel;
   }
 
   function booleanInput(value, onChange) {
