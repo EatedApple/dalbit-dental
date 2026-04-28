@@ -231,6 +231,9 @@ function initFromGitHub() {
     'content/pages/wisdom.json'
   ];
 
+  const pat = getPAT();
+  if (!pat) throw new Error('GITHUB_PAT 미설정 (private repo는 인증 필요)');
+
   const sheet = getSheet();
   const lastRow = sheet.getLastRow();
   if (lastRow > 1) sheet.getRange(2, 1, lastRow - 1, 3).clearContent();
@@ -239,7 +242,11 @@ function initFromGitHub() {
   let imported = 0;
   files.forEach(filename => {
     const url = 'https://raw.githubusercontent.com/' + GITHUB_REPO + '/' + BRANCH + '/' + filename;
-    const res = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+    const res = UrlFetchApp.fetch(url, {
+      method: 'get',
+      headers: { Authorization: 'Bearer ' + pat },
+      muteHttpExceptions: true
+    });
     if (res.getResponseCode() === 200) {
       sheet.appendRow([filename, res.getContentText(), now]);
       imported++;
