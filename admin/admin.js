@@ -232,6 +232,7 @@ async function enterEditor() {
     state.allContent = allData.files || {};
     renderFileList();
     setupPreviewListeners();
+    refreshPreview(); // 파일 선택 전이라도 홈 미리보기 즉시 표시
     setStatus('대기 중', 'idle');
   } catch (err) {
     setStatus('초기화 실패: ' + err.message, 'error');
@@ -282,9 +283,11 @@ async function loadFile(filename) {
     const activeLi = document.querySelector('#file-list li[data-filename="' + filename + '"]');
     if (activeLi) activeLi.classList.add('active');
 
-    $('#editor-empty').hidden = true;
-    $('#editor-content').hidden = false;
+    $('#form-empty').hidden = true;
+    $('#form-container').hidden = false;
     $('#editor-filename').textContent = (state.fileSchemas[filename] && state.fileSchemas[filename].label) || filename;
+    $('#save-btn').disabled = false;
+    $('#reset-btn').disabled = false;
 
     renderForm();
     // 파일에 맞는 페이지로 프리뷰 변경

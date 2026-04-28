@@ -30,7 +30,10 @@
         <span class="topbar-title">달빛치과 CMS</span>
       </div>
       <div class="topbar-right">
+        <span id="editor-filename" class="topbar-filename"></span>
         <span id="status-indicator" class="status-idle">대기 중</span>
+        <button id="save-btn" class="btn-primary btn-small" disabled>저장</button>
+        <button id="reset-btn" class="btn-secondary btn-small" disabled>변경 취소</button>
         <button id="logout-btn" class="btn-text">로그아웃</button>
       </div>
     </header>
@@ -44,45 +47,31 @@
         </ul>
       </aside>
 
-      <!-- 에디터 -->
-      <section class="editor">
-        <div id="editor-empty" class="editor-empty">
-          <p>왼쪽에서 편집할 항목을 선택하세요.</p>
+      <!-- 폼 (왼쪽 가운데) -->
+      <section class="form-pane">
+        <div id="form-empty" class="form-empty">
+          <p>좌측에서 편집할 항목을 선택하세요.</p>
         </div>
+        <div id="form-container" class="form-container" hidden></div>
+      </section>
 
-        <div id="editor-content" class="editor-content" hidden>
-          <header class="editor-header">
-            <h2 id="editor-filename"></h2>
-            <div class="editor-actions">
-              <button id="save-btn" class="btn-primary">저장</button>
-              <button id="reset-btn" class="btn-secondary">변경 취소</button>
-            </div>
-          </header>
-
-          <div class="editor-split">
-            <!-- 왼쪽: 폼 -->
-            <div id="form-container" class="form-container"></div>
-
-            <!-- 오른쪽: 라이브 프리뷰 -->
-            <div class="preview-pane">
-              <div class="preview-toolbar">
-                <select id="preview-page" class="preview-select" title="프리뷰 페이지">
-                  <option value="index.html">홈</option>
-                  <option value="about.html">병원 소개</option>
-                  <option value="conservation.html">보존</option>
-                  <option value="equipment.html">장비</option>
-                  <option value="implant.html">임플란트</option>
-                  <option value="laminate.html">라미네이트</option>
-                  <option value="ortho.html">교정</option>
-                  <option value="wisdom.html">사랑니</option>
-                </select>
-                <button id="preview-refresh" class="btn-secondary btn-small" type="button">↻ 새로고침</button>
-                <a id="preview-newtab" class="btn-text" href="#" target="_blank" rel="noopener">새 탭에서 열기 ↗</a>
-              </div>
-              <iframe id="preview-iframe" class="preview-iframe" title="라이브 프리뷰"></iframe>
-            </div>
-          </div>
+      <!-- 프리뷰 (오른쪽) — 항상 표시 -->
+      <section class="preview-pane">
+        <div class="preview-toolbar">
+          <select id="preview-page" class="preview-select" title="프리뷰 페이지">
+            <option value="index.html">홈</option>
+            <option value="about.html">병원 소개</option>
+            <option value="conservation.html">보존</option>
+            <option value="equipment.html">장비</option>
+            <option value="implant.html">임플란트</option>
+            <option value="laminate.html">라미네이트</option>
+            <option value="ortho.html">교정</option>
+            <option value="wisdom.html">사랑니</option>
+          </select>
+          <button id="preview-refresh" class="btn-secondary btn-small" type="button">↻ 새로고침</button>
+          <a id="preview-newtab" class="btn-text" href="/" target="_blank" rel="noopener">새 탭 ↗</a>
         </div>
+        <iframe id="preview-iframe" class="preview-iframe" title="라이브 프리뷰"></iframe>
       </section>
     </main>
   </div>
