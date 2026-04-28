@@ -1,7 +1,7 @@
 {
   "hero": [
     {
-      "type": "photo",
+      "type": "moon",
       "h3": "달빛처럼 은은하게,",
       "h2": "당신의 미소를<br>밝히다 <em>·</em>",
       "list": [
@@ -9,7 +9,7 @@
         "편안한 야간진료 · 충분한 상담"
       ],
       "desc": "밤에도 환하게 빛나는 달빛처럼,<br>당신의 미소가 오래도록 반짝이도록 정성껏 진료합니다.",
-      "bgImage": "imgs/main_slider1.png"
+      "bgImage": ""
     },
     {
       "type": "photo",
