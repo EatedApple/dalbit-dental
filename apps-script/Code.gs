@@ -21,6 +21,7 @@ const SHEET_ID = '1M0bUtv30ZLHLfyB3JXHTUSeM2n-fZjkbU1Zu43IFwmo';
 const SHEET_TAB = 'content';
 const GITHUB_REPO = 'EatedApple/dalbit-dental';
 const BRANCH = 'main';
+const CODE_VERSION = 'v4-payload-fix';
 
 // ─────────────────────────────────────────
 // HTTP 엔트리포인트
@@ -28,7 +29,7 @@ const BRANCH = 'main';
 
 function doGet(e) {
   // 헬스체크 (브라우저로 URL 직접 열어 확인용)
-  return jsonResponse({ ok: true, ping: 'pong', ts: new Date().toISOString() });
+  return jsonResponse({ ok: true, ping: 'pong', version: CODE_VERSION, ts: new Date().toISOString() });
 }
 
 function doPost(e) {
