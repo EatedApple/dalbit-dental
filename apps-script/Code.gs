@@ -201,3 +201,52 @@ function triggerSync() {
     muteHttpExceptions: true
   });
 }
+
+// ─────────────────────────────────────────
+// 1회용 헬퍼 — Apps Script 편집기에서 직접 실행
+// ─────────────────────────────────────────
+
+/**
+ * 최초 시트 초기화: GitHub repo의 현재 content/*.json들을 시트에 가져와 채움.
+ *
+ * 사용법: Apps Script 편집기에서 함수 드롭다운 -> initFromGitHub -> 실행
+ * (Web App 호출 아님. 본인 권한으로 직접 실행. 비번 불필요)
+ */
+function initFromGitHub() {
+  const files = [
+    'content/site/brand.json',
+    'content/site/contact.json',
+    'content/site/navigation.json',
+    'content/site/popups.json',
+    'content/home/banners.json',
+    'content/home/blog.json',
+    'content/home/focus.json',
+    'content/home/hero.json',
+    'content/pages/about.json',
+    'content/pages/conservation.json',
+    'content/pages/equipment.json',
+    'content/pages/implant.json',
+    'content/pages/laminate.json',
+    'content/pages/ortho.json',
+    'content/pages/wisdom.json'
+  ];
+
+  const sheet = getSheet();
+  const lastRow = sheet.getLastRow();
+  if (lastRow > 1) sheet.getRange(2, 1, lastRow - 1, 3).clearContent();
+
+  const now = new Date().toISOString();
+  let imported = 0;
+  files.forEach(filename => {
+    const url = 'https://raw.githubusercontent.com/' + GITHUB_REPO + '/' + BRANCH + '/' + filename;
+    const res = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+    if (res.getResponseCode() === 200) {
+      sheet.appendRow([filename, res.getContentText(), now]);
+      imported++;
+      Logger.log('imported: ' + filename);
+    } else {
+      Logger.log('SKIP ' + filename + ' (HTTP ' + res.getResponseCode() + ')');
+    }
+  });
+  Logger.log('--- DONE. ' + imported + '/' + files.length + ' files imported ---');
+}
