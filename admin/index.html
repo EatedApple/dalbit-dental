@@ -4,32 +4,69 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>달빛치과 CMS</title>
-  <link rel="stylesheet" href="/admin/editor.css">
+  <link rel="stylesheet" href="/admin/admin.css">
 </head>
 <body>
-  <div class="cms-loading">
-    <div class="cms-loading__panel">
-      <img src="/imgs/logo.png" alt="달빛치과의원">
-      <p>달빛치과 CMS를 불러오는 중입니다...</p>
+
+  <!-- 로그인 화면 -->
+  <div id="login-screen" class="screen active">
+    <div class="login-card">
+      <img src="/imgs/logo.png" alt="달빛치과의원" class="login-logo">
+      <h1>달빛치과 CMS</h1>
+      <p class="login-hint">관리자 비밀번호를 입력하세요.</p>
+      <form id="login-form">
+        <input type="password" id="login-password" placeholder="비밀번호" autocomplete="current-password" required>
+        <button type="submit" id="login-submit">로그인</button>
+      </form>
+      <p id="login-error" class="error-message"></p>
     </div>
   </div>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="https://unpkg.com/decap-cms@^3.6.2/dist/decap-cms.js"></script>
-  <script src="/admin/preview.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', function(user) {
-        if (!user) {
-          window.netlifyIdentity.on('login', function() {
-            document.location.href = '/admin/';
-          });
-        }
-      });
-    }
 
-    window.addEventListener('load', function() {
-      document.body.classList.add('cms-loaded');
-    });
-  </script>
+  <!-- 메인 에디터 화면 -->
+  <div id="editor-screen" class="screen">
+    <header class="topbar">
+      <div class="topbar-left">
+        <img src="/imgs/logo.png" alt="" class="topbar-logo">
+        <span class="topbar-title">달빛치과 CMS</span>
+      </div>
+      <div class="topbar-right">
+        <span id="status-indicator" class="status-idle">대기 중</span>
+        <button id="logout-btn" class="btn-text">로그아웃</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- 파일 목록 -->
+      <aside class="sidebar">
+        <h2>편집 항목</h2>
+        <ul id="file-list" class="file-list">
+          <li class="loading">불러오는 중...</li>
+        </ul>
+      </aside>
+
+      <!-- 에디터 -->
+      <section class="editor">
+        <div id="editor-empty" class="editor-empty">
+          <p>왼쪽에서 편집할 항목을 선택하세요.</p>
+        </div>
+
+        <div id="editor-content" class="editor-content" hidden>
+          <header class="editor-header">
+            <h2 id="editor-filename"></h2>
+            <div class="editor-actions">
+              <button id="save-btn" class="btn-primary">저장</button>
+              <button id="reset-btn" class="btn-secondary">변경 취소</button>
+            </div>
+          </header>
+
+          <!-- Phase 1: raw JSON textarea -->
+          <textarea id="json-editor" class="json-editor" spellcheck="false"></textarea>
+          <p class="editor-note">⚠️ Phase 1 — 현재는 JSON 직접 편집입니다. 곧 항목별 폼으로 교체됩니다.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/admin/admin.js"></script>
 </body>
 </html>

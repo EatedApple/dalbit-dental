@@ -1,0 +1,279 @@
+/* ─────────────────────────────────────────
+   달빛치과 CMS — 관리자 UI 스타일
+   Phase 1: 로그인 + 파일 목록 + JSON 에디터
+   ───────────────────────────────────────── */
+
+:root {
+  --color-bg: #f5f6f8;
+  --color-card: #ffffff;
+  --color-border: #e5e7eb;
+  --color-text: #1f2937;
+  --color-text-muted: #6b7280;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-danger: #dc2626;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+               "Pretendard", "Noto Sans KR", sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+button { cursor: pointer; font: inherit; }
+
+/* ─── 화면 전환 ─── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ─── 로그인 화면 ─── */
+#login-screen.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.login-card {
+  background: var(--color-card);
+  padding: 40px 32px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+
+.login-logo { width: 60px; height: 60px; object-fit: contain; }
+.login-card h1 { font-size: 20px; margin: 12px 0 8px; }
+.login-hint { color: var(--color-text-muted); margin: 0 0 24px; }
+
+#login-form input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+#login-form input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+  border-color: transparent;
+}
+
+#login-form button {
+  width: 100%;
+  padding: 12px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 600;
+}
+#login-form button:hover { background: var(--color-primary-hover); }
+#login-form button:disabled { opacity: 0.5; cursor: wait; }
+
+.error-message {
+  color: var(--color-danger);
+  font-size: 13px;
+  margin: 12px 0 0;
+  min-height: 1.2em;
+}
+
+/* ─── 메인 화면 ─── */
+#editor-screen.active {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.topbar {
+  background: var(--color-card);
+  border-bottom: 1px solid var(--color-border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.topbar-left { display: flex; align-items: center; gap: 10px; }
+.topbar-logo { width: 28px; height: 28px; object-fit: contain; }
+.topbar-title { font-weight: 700; font-size: 15px; }
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+
+.status-idle { color: var(--color-text-muted); font-size: 13px; }
+.status-saving { color: var(--color-warning); font-size: 13px; }
+.status-saved { color: var(--color-success); font-size: 13px; }
+.status-error { color: var(--color-danger); font-size: 13px; }
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+.btn-text:hover { background: var(--color-bg); color: var(--color-text); }
+
+/* ─── 레이아웃 ─── */
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ─── 사이드바 ─── */
+.sidebar {
+  background: var(--color-card);
+  border-right: 1px solid var(--color-border);
+  overflow-y: auto;
+  padding: 16px 0;
+}
+.sidebar h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin: 0 16px 12px;
+  font-weight: 700;
+}
+
+.file-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.file-list li {
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  border-left: 3px solid transparent;
+  color: var(--color-text);
+}
+.file-list li:hover { background: var(--color-bg); }
+.file-list li.active {
+  background: #eff6ff;
+  border-left-color: var(--color-primary);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+.file-list li.loading {
+  color: var(--color-text-muted);
+  cursor: default;
+  font-style: italic;
+}
+.file-list .group-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  padding: 16px 16px 6px;
+  cursor: default;
+  font-weight: 700;
+  border-left: none;
+}
+.file-list .group-label:hover { background: transparent; }
+
+/* ─── 에디터 ─── */
+.editor {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.editor-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-text-muted);
+}
+.editor-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px 24px;
+  overflow: hidden;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 16px;
+}
+.editor-header h2 {
+  font-size: 16px;
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  color: var(--color-text-muted);
+}
+.editor-actions { display: flex; gap: 8px; }
+
+.btn-primary, .btn-secondary {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--color-primary-hover); }
+.btn-primary:disabled { opacity: 0.5; cursor: wait; }
+.btn-secondary {
+  background: var(--color-card);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+.btn-secondary:hover { background: var(--color-bg); }
+
+.json-editor {
+  flex: 1;
+  min-height: 400px;
+  width: 100%;
+  padding: 14px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: #fafbfc;
+  resize: none;
+  tab-size: 2;
+}
+.json-editor:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+  border-color: transparent;
+}
+.json-editor.invalid {
+  border-color: var(--color-danger);
+  background: #fef2f2;
+}
+
+.editor-note {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: var(--color-warning);
+}
