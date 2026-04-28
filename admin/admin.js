@@ -29,6 +29,42 @@ const FILE_GROUPS = {
   '서브 페이지': ['content/pages/about.json', 'content/pages/conservation.json', 'content/pages/equipment.json', 'content/pages/implant.json', 'content/pages/laminate.json', 'content/pages/ortho.json', 'content/pages/wisdom.json'],
 };
 
+// 파일 + 최상위 필드 -> DOM 셀렉터 매핑 (수정한 섹션으로 점프용)
+// 서브페이지는 [data-block="<필드명>"]으로 자동 처리되므로 여기 안 적어도 됨
+const SECTION_MAP = {
+  'content/home/hero.json': {
+    hero: '#hero',
+  },
+  'content/home/focus.json': {
+    focusTitle: '#treatments',
+    focus: '#treatments',
+  },
+  'content/home/blog.json': {
+    blogTitle: '#community',
+    blog: '#community',
+  },
+  'content/home/banners.json': {
+    checklist: '.banner-checklist',
+    point: '.banner-point',
+  },
+  'content/site/contact.json': {
+    contact: '#info',
+    hours: '#info',
+    directions: '#info',
+    address: '#info',
+  },
+  'content/site/brand.json': {
+    brand: 'header.gnb',
+  },
+  'content/site/navigation.json': {
+    nav: 'header.gnb',
+  },
+  'content/site/popups.json': {
+    intro: '#intro',
+    noticePopups: '#intro', // 모달이라 화면 상단으로
+  },
+};
+
 // 파일별 기본 프리뷰 페이지
 const FILE_TO_PAGE = {
   'content/site/brand.json':         'index.html',
@@ -61,6 +97,8 @@ const state = {
   originalContent: null,  // 변경 취소용
   formContent: null,      // 폼이 편집 중인 내용
   previewPage: 'index.html',
+  previewScrollY: 0,
+  lastEditedTopField: null, // 수정한 최상위 필드명 (점프 타겟 결정용)
   refreshTimer: null,
 };
 
@@ -292,6 +330,9 @@ async function loadFile(filename) {
     $('#reset-btn').disabled = false;
 
     renderForm();
+    // 새 파일 로드 시 점프 타겟 초기화 (이전 파일의 수정 흔적 제거)
+    state.lastEditedTopField = null;
+    state.previewScrollY = 0;
     // 파일에 맞는 페이지로 프리뷰 변경
     const targetPage = FILE_TO_PAGE[filename] || 'index.html';
     state.previewPage = targetPage;
@@ -320,11 +361,26 @@ function renderForm() {
       state.formContent[field.name],
       (newVal) => {
         state.formContent[field.name] = newVal;
+        state.lastEditedTopField = field.name;
         markUnsaved();
       }
     );
     if (fieldEl) container.appendChild(fieldEl);
   });
+}
+
+function buildScrollTarget() {
+  const file = state.currentFile;
+  const field = state.lastEditedTopField;
+  if (!file || !field) return null;
+  if (SECTION_MAP[file] && SECTION_MAP[file][field]) {
+    return SECTION_MAP[file][field];
+  }
+  // 서브페이지는 [data-block="<필드명>"] 자동 매칭
+  if (file.indexOf('content/pages/') === 0) {
+    return '[data-block="' + field + '"]';
+  }
+  return null;
 }
 
 function markUnsaved() {
@@ -376,6 +432,7 @@ function setupPreviewListeners() {
       type: 'cms-preview',
       files: buildEffectiveFiles(),
       scrollY: state.previewScrollY || 0,
+      scrollTarget: buildScrollTarget(),
     }, '*');
   });
 

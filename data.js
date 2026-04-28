@@ -90,20 +90,37 @@
         window.SITE_DATA = data;
         cachedData = data;
 
-        // 스크롤 위치 복원 (렌더 완료 후)
+        // 점프/스크롤 복원 (렌더 완료 후)
+        // scrollTarget 우선: 수정한 섹션으로 자동 이동
+        // 없으면 scrollY 복원: 그냥 같은 위치 유지
+        const scrollTarget = event.data.scrollTarget;
         const targetY = event.data.scrollY;
-        if (typeof targetY === 'number' && targetY > 0) {
-          const restore = () => {
-            try { window.scrollTo(0, targetY); } catch (e) {}
-          };
-          // 렌더 완료 이벤트가 오면 즉시, 안 오면 fallback timeout
+
+        const jumpToTarget = () => {
+          try {
+            const el = document.querySelector(scrollTarget);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            else if (typeof targetY === 'number' && targetY > 0) window.scrollTo(0, targetY);
+          } catch (e) {}
+        };
+        const restoreY = () => {
+          try { window.scrollTo(0, targetY); } catch (e) {}
+        };
+
+        if (scrollTarget) {
           document.addEventListener('site:rendered', () => {
-            // 렌더 직후 + 이미지 로드 등 지연 대비 약간 후 한 번 더
-            restore();
-            setTimeout(restore, 60);
-            setTimeout(restore, 200);
+            jumpToTarget();
+            setTimeout(jumpToTarget, 80);
+            setTimeout(jumpToTarget, 250);
           }, { once: true });
-          setTimeout(restore, 800); // safety net
+          setTimeout(jumpToTarget, 800);
+        } else if (typeof targetY === 'number' && targetY > 0) {
+          document.addEventListener('site:rendered', () => {
+            restoreY();
+            setTimeout(restoreY, 60);
+            setTimeout(restoreY, 200);
+          }, { once: true });
+          setTimeout(restoreY, 800);
         }
 
         if (!resolved) {
