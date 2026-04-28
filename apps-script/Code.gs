@@ -210,18 +210,30 @@ function uploadImage(path, base64) {
 
 function triggerSync(filename, content) {
   const pat = getPAT();
-  if (!pat) return; // PAT 없으면 무시
+  if (!pat) { Logger.log('triggerSync: PAT 없음'); return; }
 
-  UrlFetchApp.fetch('https://api.github.com/repos/' + GITHUB_REPO + '/dispatches', {
+  // 디버그: 어떤 값이 들어오는지 기록
+  Logger.log('triggerSync called: filename=' + filename + ', contentType=' + typeof content);
+
+  const payloadObj = {
+    event_type: 'content-updated',
+    client_payload: { filename: filename, content: content }
+  };
+  Logger.log('Sending payload: ' + JSON.stringify(payloadObj).substring(0, 200));
+
+  const res = UrlFetchApp.fetch('https://api.github.com/repos/' + GITHUB_REPO + '/dispatches', {
     method: 'post',
     contentType: 'application/json',
     headers: { Authorization: 'Bearer ' + pat },
-    payload: JSON.stringify({
-      event_type: 'content-updated',
-      client_payload: { filename: filename, content: content }
-    }),
+    payload: JSON.stringify(payloadObj),
     muteHttpExceptions: true
   });
+  Logger.log('GitHub dispatch response: ' + res.getResponseCode() + ' ' + res.getContentText().substring(0, 200));
+}
+
+// 편집기에서 직접 실행할 디버그 함수 — 새 버전이 실제로 활성화됐는지 확인용
+function debugTriggerSync() {
+  triggerSync('content/site/brand.json', { test: 'manual', ts: new Date().toISOString() });
 }
 
 // ─────────────────────────────────────────
