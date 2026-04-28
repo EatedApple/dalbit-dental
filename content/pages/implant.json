@@ -1,0 +1,149 @@
+{
+  "pageTitle": "원가이드 임플란트 | 달빛치과의원",
+  "hero": {
+    "crumb": "IMPLANT · 임플란트",
+    "title": "원가이드 <em>네비게이션</em><br>임플란트",
+    "subtitle": "오스템 OneGuide 시스템으로 더 빠르고 정확하게, 안전하게",
+    "bg": "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=2000&q=80"
+  },
+  "intro": {
+    "note": "Safer · Faster · More Accurate",
+    "titleHTML": "3D 컴퓨터 모의 수술로 결정하는<br><span>오차 없는 한 번의 식립</span>",
+    "descHTML": "잇몸 뼈의 상태, 신경의 위치, 식립 각도를 미리 파악하여 <strong>0.1mm 단위로</strong> 설계합니다. 수술 당일의 부담과 회복 기간을 크게 줄이는 디지털 임플란트 시스템입니다."
+  },
+  "points": {
+    "small": "THREE KEY POINTS",
+    "h2Html": "달빛치과가 권하는 <b>네비게이션 임플란트</b>",
+    "cols": 3,
+    "items": [
+      {
+        "num": "01",
+        "title": "오차 없는 정확도",
+        "desc": "3D 컴퓨터 모의 수술로 신경 위치와 골조직을 미리 파악하여 식립 각도와 깊이를 0.1mm 단위로 결정합니다."
+      },
+      {
+        "num": "02",
+        "title": "부작용 · 통증 최소화",
+        "desc": "잇몸을 크게 절개하지 않는 '최소 절개' 방식으로 출혈과 붓기가 거의 없으며, 감염 위험을 획기적으로 낮췄습니다."
+      },
+      {
+        "num": "03",
+        "title": "빠른 회복 · 짧은 수술",
+        "desc": "미리 제작된 수술용 가이드를 사용해 시술 시간이 매우 짧으며, 수술 당일 즉시 일상생활 복귀가 가능합니다."
+      }
+    ]
+  },
+  "compare": {
+    "small": "COMPARISON",
+    "h2Html": "기존 임플란트 vs <b>네비게이션 임플란트</b>",
+    "head": [
+      "구분",
+      "기존 임플란트",
+      "네비게이션 임플란트"
+    ],
+    "rows": [
+      {
+        "label": "수술 방식",
+        "a": "잇몸 절개 (통증/붓기 동반)",
+        "b": "최소 절개 · 작은 홈으로 식립"
+      },
+      {
+        "label": "정확도",
+        "a": "육안 및 경험 의존",
+        "b": "3D 시뮬레이션 · 0.1mm 오차 조절"
+      },
+      {
+        "label": "회복 속도",
+        "a": "느림 (일상 복귀 지연)",
+        "b": "매우 빠름 · 시술 당일 일상 복귀"
+      },
+      {
+        "label": "수술 시간",
+        "a": "1개당 30~60분 소요",
+        "b": "약 15분 내외 · 체력 소모 최소화"
+      }
+    ]
+  },
+  "timeline": {
+    "small": "PROCESS",
+    "h2Html": "원가이드 <b>임플란트 진행 과정</b>",
+    "items": [
+      {
+        "step": "STEP 01",
+        "title": "3D 정밀 분석 · 진단",
+        "img": "imgs/implant_step1.png",
+        "descHTML": "3D CT와 구강 스캐너를 이용해 환자분의 구강 상태를 <strong>입체적으로 재현</strong>합니다.",
+        "details": [
+          "신경관 위치 및 잇몸 뼈 상태 파악",
+          "디지털 구강 스캔 데이터 수집"
+        ]
+      },
+      {
+        "step": "STEP 02",
+        "title": "컴퓨터 모의 수술",
+        "img": "imgs/implant_step2.jpg",
+        "descHTML": "수집된 데이터를 전용 소프트웨어에 입력하여 <strong>가장 안전한 식립 위치</strong>를 시뮬레이션합니다.",
+        "details": [
+          "최적의 식립 각도 및 깊이 결정",
+          "가장 튼튼한 골조직 위치 선별"
+        ]
+      },
+      {
+        "step": "STEP 03",
+        "title": "맞춤형 가이드 장치 제작",
+        "img": "imgs/implant_step3.jpg",
+        "descHTML": "시뮬레이션 결과 그대로 식립할 수 있도록 <strong>오스템 OneGuide</strong> 수술 보조 장치를 제작합니다.",
+        "details": [
+          "환자별 1:1 맞춤형 가이드",
+          "오차 없는 시술을 위한 핵심 장치"
+        ]
+      },
+      {
+        "step": "STEP 04",
+        "title": "최소 절개 정밀 식립",
+        "img": "imgs/implant_step4.jpg",
+        "descHTML": "가이드를 입안에 고정하고 <strong>계획된 위치에 빠르게</strong> 식립합니다.",
+        "details": [
+          "수술 당일 임시 치아 장착 가능",
+          "최소 절개로 빠른 일상 복귀"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "small": "RECOMMENDED FOR",
+    "h2Html": "이런 분께 <b>꼭 필요합니다</b>",
+    "cols": 4,
+    "items": [
+      {
+        "emoji": "👴",
+        "title": "고령의 어르신",
+        "desc": "긴 수술 시간이 부담스럽고 빠른 회복이 필요한 부모님"
+      },
+      {
+        "emoji": "🩸",
+        "title": "전신질환 환자",
+        "desc": "당뇨, 고혈압 등으로 출혈과 감염이 걱정되시는 분"
+      },
+      {
+        "emoji": "😰",
+        "title": "치과 공포증",
+        "desc": "수술의 통증과 붓기가 두려워 치료를 미뤄오신 분"
+      },
+      {
+        "emoji": "💼",
+        "title": "바쁜 현대인",
+        "desc": "잦은 내원이 힘들고 빠른 시술 결과가 필요한 직장인"
+      }
+    ]
+  },
+  "video": {
+    "small": "VIDEO",
+    "h2Html": "원가이드 <b>임플란트 영상</b>",
+    "youtube": "https://www.youtube.com/embed/MmkYHUc4ifQ"
+  },
+  "cta": {
+    "titleHTML": "임플란트, <span>상담부터</span> 시작하세요.",
+    "desc": "환자분의 잇몸뼈 상태와 건강 상태를 먼저 정확히 진단합니다. 정직하고 꼼꼼한 상담으로 최적의 치료 계획을 제안해 드립니다."
+  }
+}

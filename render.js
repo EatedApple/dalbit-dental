@@ -5,9 +5,9 @@
    - 서브페이지 콘텐츠는 body[data-page] 가 있을 때만 페이지별 렌더 실행
    - 어떤 에러가 나도 마지막에 'site:rendered' 이벤트는 반드시 발행
    ============================================================ */
-(function(){
+(async function(){
   try {
-  const D = window.SITE_DATA;
+  const D = window.SITE_DATA || (window.loadSiteData ? await window.loadSiteData() : null);
   if(!D){ console.warn('SITE_DATA 가 로드되지 않았습니다.'); return; }
 
   const $  = (s, p=document) => p.querySelector(s);

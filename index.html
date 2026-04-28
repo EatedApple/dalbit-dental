@@ -1137,8 +1137,18 @@ p{ margin:0; }
   intro.addEventListener('click', hide);
 
   // 자동 fade out
-  const dur = (window.SITE_DATA && window.SITE_DATA.intro && window.SITE_DATA.intro.duration) || 3200;
-  setTimeout(hide, dur);
+  const startedAt = Date.now();
+  let hideTimer = setTimeout(hide, 3200);
+
+  if(window.loadSiteData){
+    window.loadSiteData().then(data => {
+      const dur = (data && data.intro && data.intro.duration) || 3200;
+      const elapsed = Date.now() - startedAt;
+      const remaining = Math.max(0, dur - elapsed);
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(hide, remaining);
+    }).catch(() => {});
+  }
 })();
 
 /* ============================================

@@ -1,0 +1,1815 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "imgs/uploads"
+public_folder: "/imgs/uploads"
+
+logo_url: "/logo.png"
+
+collections:
+  - label: "달빛치과 콘텐츠"
+    name: "dalbit-content"
+    files:
+      - label: "사이트 공통 설정"
+        name: "site"
+        file: "content/site.json"
+        format: json
+        fields:
+          - label: "Brand"
+            name: "brand"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Logo"
+                name: "logo"
+                widget: image
+                required: false
+              - label: "Name"
+                name: "name"
+                widget: string
+                required: false
+              - label: "Header Name"
+                name: "headerName"
+                widget: string
+                required: false
+              - label: "Name EN"
+                name: "nameEn"
+                widget: string
+                required: false
+              - label: "Phone"
+                name: "phone"
+                widget: string
+                required: false
+              - label: "Phone Text"
+                name: "phoneText"
+                widget: string
+                required: false
+              - label: "Addr Tagline"
+                name: "addrTagline"
+                widget: text
+                required: false
+              - label: "Page Title"
+                name: "pageTitle"
+                widget: text
+                required: false
+          - label: "Intro"
+            name: "intro"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Line1"
+                name: "line1"
+                widget: list
+                field:
+                  label: "Line1"
+                  name: "item"
+                  widget: string
+                  required: false
+              - label: "Line1 Accent"
+                name: "line1Accent"
+                widget: list
+                field:
+                  label: "Line1 Accent"
+                  name: "item"
+                  widget: boolean
+                  required: false
+              - label: "Line2"
+                name: "line2"
+                widget: list
+                field:
+                  label: "Line2"
+                  name: "item"
+                  widget: string
+                  required: false
+              - label: "Line2 Accent"
+                name: "line2Accent"
+                widget: list
+                field:
+                  label: "Line2 Accent"
+                  name: "item"
+                  widget: boolean
+                  required: false
+              - label: "Tag HTML"
+                name: "tagHTML"
+                widget: text
+                required: false
+              - label: "Duration"
+                name: "duration"
+                widget: number
+                value_type: int
+          - label: "Nav"
+            name: "nav"
+            widget: list
+            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            fields:
+              - label: "Label"
+                name: "label"
+                widget: string
+                required: false
+              - label: "Href"
+                name: "href"
+                widget: string
+                required: false
+              - label: "Sub"
+                name: "sub"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Label"
+                    name: "label"
+                    widget: string
+                    required: false
+                  - label: "Href"
+                    name: "href"
+                    widget: string
+                    required: false
+          - label: "Quick"
+            name: "quick"
+            widget: list
+            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            fields:
+              - label: "Label"
+                name: "label"
+                widget: string
+                required: false
+              - label: "Href"
+                name: "href"
+                widget: string
+                required: false
+              - label: "Primary"
+                name: "primary"
+                widget: boolean
+                required: false
+              - label: "Icon"
+                name: "icon"
+                widget: string
+                required: false
+          - label: "Hours"
+            name: "hours"
+            widget: list
+            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            fields:
+              - label: "Day"
+                name: "day"
+                widget: string
+                required: false
+              - label: "Time"
+                name: "time"
+                widget: text
+                required: false
+          - label: "Hours Closed"
+            name: "hoursClosed"
+            widget: string
+            required: false
+          - label: "Directions"
+            name: "directions"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Address"
+                name: "address"
+                widget: text
+                required: false
+              - label: "Map Image"
+                name: "mapImage"
+                widget: image
+                required: false
+              - label: "Bus"
+                name: "bus"
+                widget: object
+                collapsed: true
+                fields:
+                  - label: "Label"
+                    name: "label"
+                    widget: string
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+              - label: "Car"
+                name: "car"
+                widget: object
+                collapsed: true
+                fields:
+                  - label: "Label"
+                    name: "label"
+                    widget: string
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: image
+                    required: false
+                  - label: "Is Image"
+                    name: "isImage"
+                    widget: boolean
+                    required: false
+                  - label: "Popup Only"
+                    name: "popupOnly"
+                    widget: boolean
+                    required: false
+          - label: "Footer"
+            name: "footer"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Addr Line1"
+                name: "addrLine1"
+                widget: string
+                required: false
+              - label: "Addr Line2"
+                name: "addrLine2"
+                widget: string
+                required: false
+              - label: "Copyright"
+                name: "copyright"
+                widget: text
+                required: false
+          - label: "Counsel Modal"
+            name: "counselModal"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: text
+                required: false
+              - label: "Intro"
+                name: "intro"
+                widget: text
+                required: false
+              - label: "Privacy Link"
+                name: "privacyLink"
+                widget: string
+                required: false
+          - label: "Notice Popups"
+            name: "noticePopups"
+            widget: list
+            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: text
+                required: false
+              - label: "Image"
+                name: "image"
+                widget: image
+                required: false
+              - label: "Storage Key"
+                name: "storageKey"
+                widget: string
+                required: false
+      - label: "메인 페이지"
+        name: "home"
+        file: "content/home.json"
+        format: json
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: list
+            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            fields:
+              - label: "Type"
+                name: "type"
+                widget: string
+                required: false
+              - label: "H3"
+                name: "h3"
+                widget: string
+                required: false
+              - label: "H2"
+                name: "h2"
+                widget: text
+                required: false
+              - label: "List"
+                name: "list"
+                widget: list
+                field:
+                  label: "List"
+                  name: "item"
+                  widget: string
+                  required: false
+              - label: "Desc"
+                name: "desc"
+                widget: text
+                required: false
+              - label: "BG Image"
+                name: "bgImage"
+                widget: image
+                required: false
+              - label: "Paragraphs"
+                name: "paragraphs"
+                widget: list
+                field:
+                  label: "Paragraph"
+                  name: "item"
+                  widget: text
+                  required: false
+              - label: "Sign"
+                name: "sign"
+                widget: string
+                required: false
+          - label: "Focus Title"
+            name: "focusTitle"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+          - label: "Focus"
+            name: "focus"
+            widget: list
+            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            fields:
+              - label: "Href"
+                name: "href"
+                widget: string
+                required: false
+              - label: "Img"
+                name: "img"
+                widget: image
+                required: false
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "Title"
+                name: "title"
+                widget: text
+                required: false
+              - label: "Desc"
+                name: "desc"
+                widget: text
+                required: false
+          - label: "Checklist"
+            name: "checklist"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "BG Image"
+                name: "bgImage"
+                widget: image
+                required: false
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Items"
+                name: "items"
+                widget: list
+                field:
+                  label: "Item"
+                  name: "item"
+                  widget: string
+                  required: false
+              - label: "Closing HTML"
+                name: "closingHTML"
+                widget: text
+                required: false
+          - label: "Point"
+            name: "point"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "BG Image"
+                name: "bgImage"
+                widget: image
+                required: false
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc HTML"
+                name: "descHTML"
+                widget: text
+                required: false
+              - label: "Closing HTML"
+                name: "closingHTML"
+                widget: text
+                required: false
+          - label: "Blog Title"
+            name: "blogTitle"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+          - label: "Blog"
+            name: "blog"
+            widget: list
+            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            fields:
+              - label: "Tag"
+                name: "tag"
+                widget: text
+                required: false
+              - label: "Title"
+                name: "title"
+                widget: text
+                required: false
+              - label: "Img"
+                name: "img"
+                widget: image
+                required: false
+              - label: "Href"
+                name: "href"
+                widget: string
+                required: false
+      - label: "서브페이지 · About"
+        name: "about"
+        file: "content/pages/about.json"
+        format: json
+        fields:
+          - label: "Page Title"
+            name: "pageTitle"
+            widget: text
+            required: false
+          - label: "Hero"
+            name: "hero"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Crumb"
+                name: "crumb"
+                widget: string
+                required: false
+              - label: "Title"
+                name: "title"
+                widget: text
+                required: false
+              - label: "Subtitle"
+                name: "subtitle"
+                widget: text
+                required: false
+              - label: "BG"
+                name: "bg"
+                widget: image
+                required: false
+          - label: "Intro"
+            name: "intro"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Note"
+                name: "note"
+                widget: string
+                required: false
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc HTML"
+                name: "descHTML"
+                widget: text
+                required: false
+          - label: "Promises"
+            name: "promises"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Lead"
+                name: "lead"
+                widget: text
+                required: false
+              - label: "Cols"
+                name: "cols"
+                widget: number
+                value_type: int
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Emoji"
+                    name: "emoji"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+          - label: "Doctors"
+            name: "doctors"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Id"
+                name: "id"
+                widget: string
+                required: false
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Lead"
+                name: "lead"
+                widget: text
+                required: false
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Initial"
+                    name: "initial"
+                    widget: string
+                    required: false
+                  - label: "Badge"
+                    name: "badge"
+                    widget: string
+                    required: false
+                  - label: "Name"
+                    name: "name"
+                    widget: string
+                    required: false
+                  - label: "Name EN"
+                    name: "nameEn"
+                    widget: string
+                    required: false
+                  - label: "Role"
+                    name: "role"
+                    widget: string
+                    required: false
+                  - label: "Role Ko"
+                    name: "roleKo"
+                    widget: string
+                    required: false
+                  - label: "History"
+                    name: "history"
+                    widget: list
+                    field:
+                      label: "History"
+                      name: "item"
+                      widget: string
+                      required: false
+          - label: "Gallery"
+            name: "gallery"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Id"
+                name: "id"
+                widget: string
+                required: false
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Lead"
+                name: "lead"
+                widget: text
+                required: false
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Img"
+                    name: "img"
+                    widget: image
+                    required: false
+                  - label: "Text"
+                    name: "text"
+                    widget: string
+                    required: false
+                  - label: "Span"
+                    name: "span"
+                    widget: string
+                    required: false
+          - label: "Cta"
+            name: "cta"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc"
+                name: "desc"
+                widget: text
+                required: false
+      - label: "서브페이지 · Conservation"
+        name: "conservation"
+        file: "content/pages/conservation.json"
+        format: json
+        fields:
+          - label: "Page Title"
+            name: "pageTitle"
+            widget: text
+            required: false
+          - label: "Hero"
+            name: "hero"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Crumb"
+                name: "crumb"
+                widget: string
+                required: false
+              - label: "Title"
+                name: "title"
+                widget: text
+                required: false
+              - label: "Subtitle"
+                name: "subtitle"
+                widget: text
+                required: false
+              - label: "BG"
+                name: "bg"
+                widget: image
+                required: false
+          - label: "Intro"
+            name: "intro"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Note"
+                name: "note"
+                widget: string
+                required: false
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc HTML"
+                name: "descHTML"
+                widget: text
+                required: false
+          - label: "Stages"
+            name: "stages"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Lead"
+                name: "lead"
+                widget: text
+                required: false
+              - label: "Image"
+                name: "image"
+                widget: image
+                required: false
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Head"
+                    name: "head"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+          - label: "Compare"
+            name: "compare"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Head"
+                name: "head"
+                widget: list
+                field:
+                  label: "Head"
+                  name: "item"
+                  widget: string
+                  required: false
+              - label: "Rows"
+                name: "rows"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Label"
+                    name: "label"
+                    widget: string
+                    required: false
+                  - label: "Cols"
+                    name: "cols"
+                    widget: list
+                    field:
+                      label: "Col"
+                      name: "item"
+                      widget: string
+                      required: false
+          - label: "ENdo"
+            name: "endo"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Id"
+                name: "id"
+                widget: string
+                required: false
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc HTML"
+                name: "descHTML"
+                widget: text
+                required: false
+              - label: "Img"
+                name: "img"
+                widget: image
+                required: false
+              - label: "Steps"
+                name: "steps"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Step"
+                    name: "step"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+          - label: "Strengths"
+            name: "strengths"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Cols"
+                name: "cols"
+                widget: number
+                value_type: int
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Emoji"
+                    name: "emoji"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+          - label: "Cta"
+            name: "cta"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc"
+                name: "desc"
+                widget: text
+                required: false
+      - label: "서브페이지 · Equipment"
+        name: "equipment"
+        file: "content/pages/equipment.json"
+        format: json
+        fields:
+          - label: "Page Title"
+            name: "pageTitle"
+            widget: text
+            required: false
+          - label: "Show Title"
+            name: "showTitle"
+            widget: boolean
+            required: false
+          - label: "Hero"
+            name: "hero"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Crumb"
+                name: "crumb"
+                widget: string
+                required: false
+              - label: "Title"
+                name: "title"
+                widget: text
+                required: false
+              - label: "Subtitle"
+                name: "subtitle"
+                widget: text
+                required: false
+              - label: "BG"
+                name: "bg"
+                widget: image
+                required: false
+          - label: "Cards"
+            name: "cards"
+            widget: list
+            summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+            fields:
+              - label: "Tag"
+                name: "tag"
+                widget: text
+                required: false
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc"
+                name: "desc"
+                widget: text
+                required: false
+              - label: "Images"
+                name: "images"
+                widget: list
+                field:
+                  label: "Image"
+                  name: "item"
+                  widget: image
+                  required: false
+              - label: "Points"
+                name: "points"
+                widget: list
+                field:
+                  label: "Point"
+                  name: "item"
+                  widget: string
+                  required: false
+          - label: "Cta"
+            name: "cta"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc"
+                name: "desc"
+                widget: text
+                required: false
+      - label: "서브페이지 · Implant"
+        name: "implant"
+        file: "content/pages/implant.json"
+        format: json
+        fields:
+          - label: "Page Title"
+            name: "pageTitle"
+            widget: text
+            required: false
+          - label: "Hero"
+            name: "hero"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Crumb"
+                name: "crumb"
+                widget: string
+                required: false
+              - label: "Title"
+                name: "title"
+                widget: text
+                required: false
+              - label: "Subtitle"
+                name: "subtitle"
+                widget: text
+                required: false
+              - label: "BG"
+                name: "bg"
+                widget: image
+                required: false
+          - label: "Intro"
+            name: "intro"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Note"
+                name: "note"
+                widget: string
+                required: false
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc HTML"
+                name: "descHTML"
+                widget: text
+                required: false
+          - label: "Points"
+            name: "points"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Cols"
+                name: "cols"
+                widget: number
+                value_type: int
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Num"
+                    name: "num"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+          - label: "Compare"
+            name: "compare"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Head"
+                name: "head"
+                widget: list
+                field:
+                  label: "Head"
+                  name: "item"
+                  widget: string
+                  required: false
+              - label: "Rows"
+                name: "rows"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Label"
+                    name: "label"
+                    widget: string
+                    required: false
+                  - label: "A"
+                    name: "a"
+                    widget: string
+                    required: false
+                  - label: "B"
+                    name: "b"
+                    widget: string
+                    required: false
+          - label: "Timeline"
+            name: "timeline"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Step"
+                    name: "step"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Img"
+                    name: "img"
+                    widget: image
+                    required: false
+                  - label: "Desc HTML"
+                    name: "descHTML"
+                    widget: text
+                    required: false
+                  - label: "Details"
+                    name: "details"
+                    widget: list
+                    field:
+                      label: "Detail"
+                      name: "item"
+                      widget: string
+                      required: false
+          - label: "Target"
+            name: "target"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Cols"
+                name: "cols"
+                widget: number
+                value_type: int
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Emoji"
+                    name: "emoji"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+          - label: "Video"
+            name: "video"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Youtube"
+                name: "youtube"
+                widget: string
+                required: false
+          - label: "Cta"
+            name: "cta"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc"
+                name: "desc"
+                widget: text
+                required: false
+      - label: "서브페이지 · Laminate"
+        name: "laminate"
+        file: "content/pages/laminate.json"
+        format: json
+        fields:
+          - label: "Page Title"
+            name: "pageTitle"
+            widget: text
+            required: false
+          - label: "Hero"
+            name: "hero"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Crumb"
+                name: "crumb"
+                widget: string
+                required: false
+              - label: "Title"
+                name: "title"
+                widget: text
+                required: false
+              - label: "Subtitle"
+                name: "subtitle"
+                widget: text
+                required: false
+              - label: "BG"
+                name: "bg"
+                widget: image
+                required: false
+          - label: "Intro"
+            name: "intro"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Note"
+                name: "note"
+                widget: string
+                required: false
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc HTML"
+                name: "descHTML"
+                widget: text
+                required: false
+          - label: "Minimal"
+            name: "minimal"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Desc HTML"
+                name: "descHTML"
+                widget: text
+                required: false
+              - label: "Img"
+                name: "img"
+                widget: image
+                required: false
+              - label: "Points"
+                name: "points"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Text"
+                    name: "text"
+                    widget: string
+                    required: false
+          - label: "Self Whitening"
+            name: "selfWhitening"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc HTML"
+                name: "descHTML"
+                widget: text
+                required: false
+              - label: "Img"
+                name: "img"
+                widget: image
+                required: false
+              - label: "Strengths"
+                name: "strengths"
+                widget: list
+                field:
+                  label: "Strength"
+                  name: "item"
+                  widget: string
+                  required: false
+              - label: "Recommend"
+                name: "recommend"
+                widget: list
+                field:
+                  label: "Recommend"
+                  name: "item"
+                  widget: string
+                  required: false
+              - label: "Cautions"
+                name: "cautions"
+                widget: list
+                field:
+                  label: "Caution"
+                  name: "item"
+                  widget: string
+                  required: false
+          - label: "Types"
+            name: "types"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Lead"
+                name: "lead"
+                widget: text
+                required: false
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+                  - label: "Img"
+                    name: "img"
+                    widget: image
+                    required: false
+          - label: "Compare"
+            name: "compare"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Head"
+                name: "head"
+                widget: list
+                field:
+                  label: "Head"
+                  name: "item"
+                  widget: string
+                  required: false
+              - label: "Rows"
+                name: "rows"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Label"
+                    name: "label"
+                    widget: string
+                    required: false
+                  - label: "A"
+                    name: "a"
+                    widget: string
+                    required: false
+                  - label: "B"
+                    name: "b"
+                    widget: string
+                    required: false
+          - label: "Precautions"
+            name: "precautions"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Lead"
+                name: "lead"
+                widget: text
+                required: false
+              - label: "Items"
+                name: "items"
+                widget: list
+                field:
+                  label: "Item"
+                  name: "item"
+                  widget: string
+                  required: false
+          - label: "Cta"
+            name: "cta"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc"
+                name: "desc"
+                widget: text
+                required: false
+      - label: "서브페이지 · Ortho"
+        name: "ortho"
+        file: "content/pages/ortho.json"
+        format: json
+        fields:
+          - label: "Page Title"
+            name: "pageTitle"
+            widget: text
+            required: false
+          - label: "Hero"
+            name: "hero"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Crumb"
+                name: "crumb"
+                widget: string
+                required: false
+              - label: "Title"
+                name: "title"
+                widget: text
+                required: false
+              - label: "Subtitle"
+                name: "subtitle"
+                widget: text
+                required: false
+              - label: "BG"
+                name: "bg"
+                widget: image
+                required: false
+          - label: "Intro"
+            name: "intro"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Note"
+                name: "note"
+                widget: string
+                required: false
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc HTML"
+                name: "descHTML"
+                widget: text
+                required: false
+          - label: "Features"
+            name: "features"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Cols"
+                name: "cols"
+                widget: number
+                value_type: int
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Num"
+                    name: "num"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+          - label: "Video"
+            name: "video"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Local"
+                name: "local"
+                widget: string
+                required: false
+              - label: "Caption"
+                name: "caption"
+                widget: string
+                required: false
+          - label: "Timeline"
+            name: "timeline"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Step"
+                    name: "step"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Img"
+                    name: "img"
+                    widget: image
+                    required: false
+                  - label: "Desc HTML"
+                    name: "descHTML"
+                    widget: text
+                    required: false
+                  - label: "Details"
+                    name: "details"
+                    widget: list
+                    field:
+                      label: "Detail"
+                      name: "item"
+                      widget: string
+                      required: false
+          - label: "Compare"
+            name: "compare"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Head"
+                name: "head"
+                widget: list
+                field:
+                  label: "Head"
+                  name: "item"
+                  widget: string
+                  required: false
+              - label: "Rows"
+                name: "rows"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Label"
+                    name: "label"
+                    widget: string
+                    required: false
+                  - label: "A"
+                    name: "a"
+                    widget: string
+                    required: false
+                  - label: "B"
+                    name: "b"
+                    widget: string
+                    required: false
+          - label: "Maintenance"
+            name: "maintenance"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Lead"
+                name: "lead"
+                widget: text
+                required: false
+              - label: "Cols"
+                name: "cols"
+                widget: number
+                value_type: int
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Num"
+                    name: "num"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+          - label: "Cta"
+            name: "cta"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc"
+                name: "desc"
+                widget: text
+                required: false
+      - label: "서브페이지 · Wisdom"
+        name: "wisdom"
+        file: "content/pages/wisdom.json"
+        format: json
+        fields:
+          - label: "Page Title"
+            name: "pageTitle"
+            widget: text
+            required: false
+          - label: "Hero"
+            name: "hero"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Crumb"
+                name: "crumb"
+                widget: string
+                required: false
+              - label: "Title"
+                name: "title"
+                widget: text
+                required: false
+              - label: "Subtitle"
+                name: "subtitle"
+                widget: text
+                required: false
+              - label: "BG"
+                name: "bg"
+                widget: image
+                required: false
+          - label: "Intro"
+            name: "intro"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Note"
+                name: "note"
+                widget: string
+                required: false
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc HTML"
+                name: "descHTML"
+                widget: text
+                required: false
+          - label: "Tmj"
+            name: "tmj"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Lead"
+                name: "lead"
+                widget: text
+                required: false
+              - label: "Cols"
+                name: "cols"
+                widget: number
+                value_type: int
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Num"
+                    name: "num"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+          - label: "Wisdom"
+            name: "wisdom"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Id"
+                name: "id"
+                widget: string
+                required: false
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Lead"
+                name: "lead"
+                widget: text
+                required: false
+              - label: "Cols"
+                name: "cols"
+                widget: number
+                value_type: int
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Num"
+                    name: "num"
+                    widget: string
+                    required: false
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+          - label: "Wisdom Types"
+            name: "wisdomTypes"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Lead"
+                name: "lead"
+                widget: text
+                required: false
+              - label: "Image"
+                name: "image"
+                widget: image
+                required: false
+              - label: "Items"
+                name: "items"
+                widget: list
+                summary: "{{fields.title | default(fields.label | default(fields.name | default(fields.step | default(fields.tag | default(fields.day | default(fields.num))))))}}"
+                fields:
+                  - label: "Title"
+                    name: "title"
+                    widget: text
+                    required: false
+                  - label: "Img"
+                    name: "img"
+                    widget: image
+                    required: false
+                  - label: "Desc"
+                    name: "desc"
+                    widget: text
+                    required: false
+          - label: "Precautions"
+            name: "precautions"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Small"
+                name: "small"
+                widget: string
+                required: false
+              - label: "H2 HTML"
+                name: "h2Html"
+                widget: text
+                required: false
+              - label: "Lead"
+                name: "lead"
+                widget: text
+                required: false
+              - label: "Items"
+                name: "items"
+                widget: list
+                field:
+                  label: "Item"
+                  name: "item"
+                  widget: string
+                  required: false
+          - label: "Cta"
+            name: "cta"
+            widget: object
+            collapsed: true
+            fields:
+              - label: "Title HTML"
+                name: "titleHTML"
+                widget: text
+                required: false
+              - label: "Desc"
+                name: "desc"
+                widget: text
+                required: false
