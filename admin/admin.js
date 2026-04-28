@@ -29,6 +29,25 @@ const FILE_GROUPS = {
   '서브 페이지': ['content/pages/about.json', 'content/pages/conservation.json', 'content/pages/equipment.json', 'content/pages/implant.json', 'content/pages/laminate.json', 'content/pages/ortho.json', 'content/pages/wisdom.json'],
 };
 
+// 파일별 기본 프리뷰 페이지
+const FILE_TO_PAGE = {
+  'content/site/brand.json':         'index.html',
+  'content/site/contact.json':       'index.html',
+  'content/site/navigation.json':    'index.html',
+  'content/site/popups.json':        'index.html',
+  'content/home/hero.json':          'index.html',
+  'content/home/focus.json':         'index.html',
+  'content/home/banners.json':       'index.html',
+  'content/home/blog.json':          'index.html',
+  'content/pages/about.json':        'about.html',
+  'content/pages/conservation.json': 'conservation.html',
+  'content/pages/equipment.json':    'equipment.html',
+  'content/pages/implant.json':      'implant.html',
+  'content/pages/laminate.json':     'laminate.html',
+  'content/pages/ortho.json':        'ortho.html',
+  'content/pages/wisdom.json':       'wisdom.html',
+};
+
 // ─────────────────────────────────────────
 // 상태
 // ─────────────────────────────────────────
@@ -36,10 +55,13 @@ const state = {
   password: null,
   files: [],
   schema: null,           // 파싱된 config.yml
-  fileSchemas: {},        // filename -> { fields: [...], label: '...' }
+  fileSchemas: {},        // filename -> { fields, label }
+  allContent: {},         // filename -> JSON object (시트의 모든 파일 캐시)
   currentFile: null,
   originalContent: null,  // 변경 취소용
   formContent: null,      // 폼이 편집 중인 내용
+  previewPage: 'index.html',
+  refreshTimer: null,
 };
 
 // ─────────────────────────────────────────
@@ -199,12 +221,17 @@ async function loadSchema() {
 
 async function enterEditor() {
   showScreen('editor-screen');
-  setStatus('스키마/파일 목록 불러오는 중...', 'saving');
+  setStatus('스키마 + 콘텐츠 불러오는 중...', 'saving');
   try {
     await loadSchema();
-    const data = await api('list');
-    state.files = data.files || [];
+    const [listData, allData] = await Promise.all([
+      api('list'),
+      api('readAll'),
+    ]);
+    state.files = listData.files || [];
+    state.allContent = allData.files || {};
     renderFileList();
+    setupPreviewListeners();
     setStatus('대기 중', 'idle');
   } catch (err) {
     setStatus('초기화 실패: ' + err.message, 'error');
@@ -240,10 +267,16 @@ async function loadFile(filename) {
 
   setStatus('불러오는 중...', 'saving');
   try {
-    const data = await api('read', { file: filename });
+    // 캐시 우선 (readAll에서 이미 받음). 없으면 API.
+    let content = state.allContent[filename];
+    if (!content) {
+      const data = await api('read', { file: filename });
+      content = data.content;
+      state.allContent[filename] = content;
+    }
     state.currentFile = filename;
-    state.originalContent = JSON.stringify(data.content);
-    state.formContent = JSON.parse(state.originalContent); // 깊은 복사
+    state.originalContent = JSON.stringify(content);
+    state.formContent = JSON.parse(state.originalContent);
 
     document.querySelectorAll('#file-list li').forEach(li => li.classList.remove('active'));
     const activeLi = document.querySelector('#file-list li[data-filename="' + filename + '"]');
@@ -254,6 +287,11 @@ async function loadFile(filename) {
     $('#editor-filename').textContent = (state.fileSchemas[filename] && state.fileSchemas[filename].label) || filename;
 
     renderForm();
+    // 파일에 맞는 페이지로 프리뷰 변경
+    const targetPage = FILE_TO_PAGE[filename] || 'index.html';
+    state.previewPage = targetPage;
+    $('#preview-page').value = targetPage;
+    refreshPreview();
     setStatus('대기 중', 'idle');
   } catch (err) {
     setStatus('로드 실패: ' + err.message, 'error');
@@ -287,6 +325,55 @@ function renderForm() {
 function markUnsaved() {
   if (hasUnsavedChanges()) setStatus('변경됨 (저장 안 됨)', 'saving');
   else setStatus('대기 중', 'idle');
+  schedulePreviewUpdate();
+}
+
+// ─────────────────────────────────────────
+// 프리뷰
+// ─────────────────────────────────────────
+
+function buildEffectiveFiles() {
+  // 모든 파일의 현재 효과적 내용 (편집 중인 파일은 formContent로 덮어씀)
+  const out = Object.assign({}, state.allContent);
+  if (state.currentFile && state.formContent) {
+    out[state.currentFile] = state.formContent;
+  }
+  return out;
+}
+
+function refreshPreview() {
+  const iframe = $('#preview-iframe');
+  if (!iframe) return;
+  const url = '/' + state.previewPage + '?preview=admin&t=' + Date.now();
+  iframe.src = url;
+  // 새 탭 링크 동기화 (저장된 데이터 기준 미리보기)
+  $('#preview-newtab').href = '/' + state.previewPage;
+}
+
+function schedulePreviewUpdate() {
+  // 디바운스 — 마지막 입력 후 800ms 뒤 iframe 리로드
+  clearTimeout(state.refreshTimer);
+  state.refreshTimer = setTimeout(refreshPreview, 800);
+}
+
+function setupPreviewListeners() {
+  // iframe이 "준비됐어" 신호 보내면 현재 데이터 응답
+  window.addEventListener('message', (event) => {
+    if (!event.data || event.data.type !== 'cms-preview-ready') return;
+    const iframe = $('#preview-iframe');
+    if (!iframe || !iframe.contentWindow) return;
+    iframe.contentWindow.postMessage({
+      type: 'cms-preview',
+      files: buildEffectiveFiles(),
+    }, '*');
+  });
+
+  // 페이지 셀렉터 변경 시 프리뷰 갱신
+  $('#preview-page').addEventListener('change', (e) => {
+    state.previewPage = e.target.value;
+    refreshPreview();
+  });
+  $('#preview-refresh').addEventListener('click', refreshPreview);
 }
 
 function hasUnsavedChanges() {
@@ -305,6 +392,7 @@ $('#save-btn').addEventListener('click', async () => {
   try {
     await api('write', { file: state.currentFile, content: state.formContent });
     state.originalContent = JSON.stringify(state.formContent);
+    state.allContent[state.currentFile] = JSON.parse(state.originalContent);
     setStatus('저장 완료', 'saved');
     setTimeout(() => { if ($('#status-indicator').textContent === '저장 완료') setStatus('대기 중', 'idle'); }, 3000);
   } catch (err) {

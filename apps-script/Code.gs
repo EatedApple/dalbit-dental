@@ -47,6 +47,9 @@ function doPost(e) {
       case 'list':
         return jsonResponse({ ok: true, files: listFiles() });
 
+      case 'readAll':
+        return jsonResponse({ ok: true, files: readAll() });
+
       case 'read':
         return jsonResponse({
           ok: true,
@@ -108,6 +111,22 @@ function listFiles() {
   return data.slice(1)
     .filter(row => row[0])
     .map(row => ({ filename: row[0], updated_at: row[2] }));
+}
+
+function readAll() {
+  const sheet = getSheet();
+  const data = sheet.getDataRange().getValues();
+  const out = {};
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0]) {
+      try {
+        out[data[i][0]] = data[i][1] ? JSON.parse(data[i][1]) : {};
+      } catch (e) {
+        out[data[i][0]] = {};
+      }
+    }
+  }
+  return out;
 }
 
 function readFile(filename) {
