@@ -5,6 +5,62 @@
   var createClass = window.createClass;
   var IMAGE_RE = /\.(png|jpe?g|gif|svg|webp|avif|bmp|tiff)(\?.*)?$/i;
 
+  var ICONS = {
+    chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    kakao: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.48 3 2 6.48 2 10.78c0 2.74 1.83 5.15 4.6 6.55-.2.7-.71 2.5-.81 2.89-.13.49.18.48.38.35.16-.1 2.5-1.7 3.51-2.39.76.11 1.54.18 2.32.18 5.52 0 10-3.48 10-7.78S17.52 3 12 3z"/></svg>',
+    phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>',
+    arrow: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+    bus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M8 19v2"/><path d="M16 19v2"/><circle cx="8.5" cy="14.5" r="1"/><circle cx="15.5" cy="14.5" r="1"/></svg>',
+    car: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>',
+  };
+
+  var DEFAULTS = {
+    brand: {
+      logo: 'imgs/logo.png',
+      name: '달빛치과의원',
+      headerName: '달빛치과',
+      nameEn: 'DALBIT DENTAL CLINIC',
+      phone: '054-705-0101',
+      phoneText: '054.705.0101',
+      addrTagline: '포항시청 앞 · 포항시 남구 대이로 39 2층',
+    },
+    nav: [
+      { label: '병원소개', href: 'about.html', sub: [{ label: '달빛치과 소개', href: 'about.html' }, { label: '의료진 소개', href: 'about.html#doctors' }] },
+      { label: '임플란트', href: 'implant.html', sub: [{ label: '네비게이션 임플란트', href: 'implant.html#points' }] },
+      { label: '투명교정', href: 'ortho.html', sub: [{ label: '투명교정 안내', href: 'ortho.html' }] },
+      { label: '심미치료', href: 'laminate.html', sub: [{ label: '라미네이트', href: 'laminate.html' }] },
+      { label: '일반치료', href: 'conservation.html', sub: [{ label: '보존 · 치주치료', href: 'conservation.html' }] },
+    ],
+    quick: [
+      { label: '전화상담', href: 'tel:054-705-0101', primary: true, icon: 'phone' },
+      { label: '네이버톡톡', href: '#', icon: 'chat' },
+    ],
+    hours: [
+      { day: '평 일', time: '오전 10:00 ~ 오후 7:00<span class="hours-break">휴식 오후 1:30 ~ 2:30</span>' },
+      { day: '토요일', time: '오전 10:00 ~ 오후 4:00<span class="hours-break">휴식 오후 1:30 ~ 2:00</span>' },
+    ],
+    hoursClosed: '※ 일요일, 공휴일은 휴진입니다',
+    directions: {
+      address: '포항시청 앞 · 포항시 남구 대이로 39 2층',
+      mapImage: 'imgs/directions-info.png',
+      bus: { label: '정류소 · 버스 안내', desc: '정류소명: 시청 / 버스 111, 216, 306, 700' },
+      car: { label: '오시는 길 · 주차 안내', desc: 'imgs/directions-info-car.png', isImage: true, popupOnly: true },
+    },
+    footer: {
+      addrLine1: '달빛치과의원 · 대표자 김은주 · 사업자등록번호 5752602201',
+      addrLine2: '포항시청 앞 · 포항시 남구 대이로 39 2층 · TEL 054.705.0101',
+      copyright: 'COPYRIGHT © 2026 달빛치과의원 ALL RIGHTS RESERVED.',
+    },
+    focusTitle: {
+      small: 'TREATMENTS',
+      h2Html: '달빛치과 <b>진료과목</b>',
+    },
+    blogTitle: {
+      small: 'DENTAL COLUMN',
+      h2Html: '치아 건강 <b>정보</b>',
+    },
+  };
+
   function getData(entry) {
     return entry && entry.get('data') && entry.get('data').toJS ? entry.get('data').toJS() : {};
   }
@@ -22,10 +78,18 @@
     if (/^https?:\/\//i.test(value) || value.charAt(0) === '/') return value;
     try {
       var asset = getAsset(value);
-      return asset && asset.toString ? asset.toString() : value;
-    } catch (error) {
-      return value;
-    }
+      if (asset && asset.toString) return asset.toString();
+    } catch (error) {}
+    return '/' + String(value).replace(/^\.?\//, '');
+  }
+
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   function htmlBlock(value, className) {
@@ -92,220 +156,361 @@
     );
   }
 
+  function actualPreview(html) {
+    return h('div', {
+      className: 'cms-site-preview',
+      dangerouslySetInnerHTML: { __html: html },
+    });
+  }
+
+  function renderSectionTitleHtml(data) {
+    if (!data) return '';
+    return '' +
+      '<div class="sec-title">' +
+        '<small>' + escapeHtml(data.small || '') + '</small>' +
+        '<h2>' + (data.h2Html || '') + '</h2>' +
+        '<div class="bar"></div>' +
+        (data.lead ? '<p class="lead">' + data.lead + '</p>' : '') +
+      '</div>';
+  }
+
+  function renderQuickHtml(quick) {
+    return '' +
+      '<aside class="quick" aria-label="빠른 메뉴">' +
+        (quick || []).map(function(item) {
+          var cls = item.primary ? ' class="is-primary"' : '';
+          return '<a' + cls + ' href="' + escapeHtml(item.href || '#') + '">' +
+            (ICONS[item.icon] || '') +
+            escapeHtml(item.label || '') +
+          '</a>';
+        }).join('') +
+      '</aside>';
+  }
+
+  function renderHeaderHtml(data, getAsset) {
+    var brand = data.brand || DEFAULTS.brand;
+    var nav = data.nav || DEFAULTS.nav;
+    return '' +
+      '<header class="header">' +
+        '<div class="header__top">' +
+          '<div class="header__addr">' + escapeHtml(brand.addrTagline || '') + '</div>' +
+          '<a href="index.html" class="brand">' +
+            '<img class="brand__img" src="' + escapeHtml(assetUrl(brand.logo || DEFAULTS.brand.logo, getAsset)) + '" alt="' + escapeHtml(brand.name || DEFAULTS.brand.name) + '">' +
+          '</a>' +
+          '<a href="tel:' + escapeHtml((brand.phone || '').replace(/[^\d+]/g, '')) + '" class="header__call">' +
+            ICONS.phone +
+            '<span>' + escapeHtml(brand.phoneText || brand.phone || DEFAULTS.brand.phoneText) + '</span>' +
+          '</a>' +
+        '</div>' +
+        '<div class="header__nav">' +
+          '<nav class="gnb" aria-label="주메뉴">' +
+            '<ul>' +
+              nav.map(function(item) {
+                return '<li>' +
+                  '<a href="' + escapeHtml(item.href || '#') + '">' + escapeHtml(item.label || '') + '</a>' +
+                  ((item.sub || []).length ? '<ul class="gnb__sub">' + item.sub.map(function(sub) {
+                    return '<li><a href="' + escapeHtml(sub.href || '#') + '">' + escapeHtml(sub.label || '') + '</a></li>';
+                  }).join('') + '</ul>' : '') +
+                '</li>';
+              }).join('') +
+            '</ul>' +
+          '</nav>' +
+        '</div>' +
+      '</header>';
+  }
+
+  function renderCopyHtml(data, getAsset) {
+    var brand = data.brand || DEFAULTS.brand;
+    var footer = data.footer || DEFAULTS.footer;
+    return '' +
+      '<footer class="copy">' +
+        '<div class="container">' +
+          '<div class="copy__brand">' +
+            '<span style="display:inline-block;padding:10px 16px;background:#fff;border-radius:10px">' +
+              '<img class="brand__img" src="' + escapeHtml(assetUrl(brand.logo || DEFAULTS.brand.logo, getAsset)) + '" alt="' + escapeHtml(brand.name || DEFAULTS.brand.name) + '" style="height:36px;display:block">' +
+            '</span>' +
+          '</div>' +
+          '<address class="copy__addr">' +
+            '<p>' + escapeHtml(footer.addrLine1 || '') + '</p>' +
+            '<p>' + escapeHtml(footer.addrLine2 || '') + '</p>' +
+            '<p>' + escapeHtml(footer.copyright || '') + '</p>' +
+          '</address>' +
+        '</div>' +
+      '</footer>';
+  }
+
+  function renderContactHtml(data, getAsset) {
+    var hours = data.hours || DEFAULTS.hours;
+    var directions = data.directions || DEFAULTS.directions;
+    return '' +
+      '<section class="foot-board" id="info">' +
+        '<div class="foot-board__grid">' +
+          '<div class="foot-card foot-card--hours">' +
+            '<h4>' + ICONS.phone + '진료시간</h4>' +
+            '<div class="hours">' +
+              hours.map(function(row) {
+                return '<dl><dt>' + escapeHtml(row.day || '') + '</dt><dd>' + (row.time || '') + '</dd></dl>';
+              }).join('') +
+              (data.hoursClosed ? '<p class="closed">' + escapeHtml(data.hoursClosed) + '</p>' : '') +
+            '</div>' +
+          '</div>' +
+          '<div class="foot-card foot-card--map">' +
+            '<div class="map-image">' +
+              '<img src="' + escapeHtml(assetUrl(directions.mapImage || DEFAULTS.directions.mapImage, getAsset)) + '" alt="' + escapeHtml(directions.address || DEFAULTS.directions.address) + '">' +
+              '<p class="map-address">' + escapeHtml(directions.address || DEFAULTS.directions.address) + '</p>' +
+            '</div>' +
+            '<div class="directions">' +
+              (directions.bus ? '<div><h6>' + ICONS.bus + escapeHtml(directions.bus.label || '') + '</h6><p>' + escapeHtml(directions.bus.desc || '') + '</p></div>' : '') +
+              (directions.car ? '<div><h6>' + ICONS.car + escapeHtml(directions.car.label || '') + '</h6>' + (
+                directions.car.isImage && directions.car.desc
+                  ? '<div class="directions-image"><img src="' + escapeHtml(assetUrl(directions.car.desc, getAsset)) + '" alt="' + escapeHtml(directions.car.label || '') + '"></div>'
+                  : '<p>' + escapeHtml(directions.car.desc || '') + '</p>'
+              ) + '</div>' : '') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</section>';
+  }
+
+  function renderHeroHtml(slides, getAsset) {
+    return '' +
+      '<section class="hero" aria-label="메인 비주얼">' +
+        '<div class="hero__track">' +
+          (slides || []).map(function(slide, index) {
+            if (slide.type === 'photo') {
+              return '' +
+                '<article class="hero__slide hero__slide--2" data-slide="' + index + '"' +
+                  (slide.bgImage ? ' style="background:linear-gradient(110deg, rgba(10,20,40,.85) 30%, rgba(28,49,104,.6) 100%), url(\'' + escapeHtml(assetUrl(slide.bgImage, getAsset)) + '\') center/cover no-repeat"' : '') +
+                '>' +
+                  '<div class="hero__text">' +
+                    (slide.h3 ? '<h3>' + slide.h3 + '</h3>' : '') +
+                    (slide.paragraphs || []).map(function(line) { return '<p>' + line + '</p>'; }).join('') +
+                    (slide.sign ? '<div class="sign">' + escapeHtml(slide.sign) + '</div>' : '') +
+                  '</div>' +
+                '</article>';
+            }
+            return '' +
+              '<article class="hero__slide hero__slide--1" data-slide="' + index + '">' +
+                '<div class="hero__text">' +
+                  (slide.h3 ? '<h3>' + slide.h3 + '</h3>' : '') +
+                  (slide.h2 ? '<h2>' + slide.h2 + '</h2>' : '') +
+                  ((slide.list || []).length ? '<ul>' + slide.list.map(function(item) { return '<li>' + escapeHtml(item) + '</li>'; }).join('') + '</ul>' : '') +
+                  (slide.desc ? '<p>' + slide.desc + '</p>' : '') +
+                '</div>' +
+                '<div class="hero__moon" aria-hidden="true"></div>' +
+              '</article>';
+          }).join('') +
+        '</div>' +
+      '</section>';
+  }
+
+  function renderFocusHtml(data, getAsset) {
+    var title = data.focusTitle || DEFAULTS.focusTitle;
+    var items = data.focus || [];
+    return '' +
+      '<section class="focus" id="treatments">' +
+        '<div class="container">' +
+          renderSectionTitleHtml(title) +
+          '<div class="focus__grid">' +
+            items.map(function(item) {
+              return '' +
+                '<a class="focus__card" href="' + escapeHtml(item.href || '#') + '">' +
+                  '<img src="' + escapeHtml(assetUrl(item.img, getAsset)) + '" alt="' + escapeHtml(item.title || '') + '">' +
+                  '<div class="focus__inner">' +
+                    '<h5>' + escapeHtml(item.small || '') + '</h5>' +
+                    '<h4>' + escapeHtml(item.title || '') + '</h4>' +
+                    '<p>' + escapeHtml(item.desc || '') + '</p>' +
+                    '<span class="arrow">' + ICONS.arrow + '</span>' +
+                  '</div>' +
+                '</a>';
+            }).join('') +
+          '</div>' +
+        '</div>' +
+      '</section>';
+  }
+
+  function renderChecklistHtml(checklist, getAsset) {
+    if (!checklist) return '';
+    var style = checklist.bgImage
+      ? ' style="background:linear-gradient(120deg, rgba(10,20,40,.82) 40%, rgba(28,49,104,.6) 100%), url(\'' + escapeHtml(assetUrl(checklist.bgImage, getAsset)) + '\') center/cover no-repeat"'
+      : '';
+    return '' +
+      '<section class="banner-checklist"' + style + '>' +
+        '<div class="container">' +
+          '<h3>' + (checklist.titleHTML || '') + '</h3>' +
+          '<ul class="banner-checklist__list">' +
+            (checklist.items || []).map(function(item) { return '<li>' + escapeHtml(item) + '</li>'; }).join('') +
+          '</ul>' +
+          '<h4>' + (checklist.closingHTML || '') + '</h4>' +
+        '</div>' +
+      '</section>';
+  }
+
+  function renderPointHtml(point, getAsset) {
+    if (!point) return '';
+    var style = point.bgImage
+      ? ' style="background:linear-gradient(180deg, rgba(28,49,104,.85) 0%, rgba(10,20,40,.92) 100%), url(\'' + escapeHtml(assetUrl(point.bgImage, getAsset)) + '\') center/cover no-repeat"'
+      : '';
+    return '' +
+      '<section class="banner-point"' + style + '>' +
+        '<div class="container">' +
+          '<h3>' + (point.titleHTML || '') + '</h3>' +
+          '<div class="divider"></div>' +
+          '<h5>' + (point.descHTML || '') + '</h5>' +
+          '<h4>' + (point.closingHTML || '') + '</h4>' +
+        '</div>' +
+      '</section>';
+  }
+
+  function renderBlogHtml(data, getAsset) {
+    var title = data.blogTitle || DEFAULTS.blogTitle;
+    var posts = data.blog || [];
+    return '' +
+      '<section class="blog" id="community">' +
+        '<div class="container">' +
+          renderSectionTitleHtml(title) +
+          '<div class="blog__grid">' +
+            posts.map(function(post) {
+              return '' +
+                '<a class="blog__card" href="' + escapeHtml(post.href || '#') + '">' +
+                  '<div class="blog__thumb"><img src="' + escapeHtml(assetUrl(post.img, getAsset)) + '" alt="' + escapeHtml(post.title || '') + '"></div>' +
+                  '<div class="blog__body">' +
+                    (post.tag ? '<span class="blog__tag">' + escapeHtml(post.tag) + '</span>' : '') +
+                    '<h5 class="blog__title">' + escapeHtml(post.title || '') + '</h5>' +
+                  '</div>' +
+                '</a>';
+            }).join('') +
+          '</div>' +
+        '</div>' +
+      '</section>';
+  }
+
+  function renderIntroHtml(intro) {
+    return '' +
+      '<section class="cms-intro-preview">' +
+        '<div class="cms-intro-preview__lines">' +
+          '<div class="cms-intro-preview__line">' + escapeHtml((intro.line1 || []).join(' ')) + '</div>' +
+          '<div class="cms-intro-preview__line">' + escapeHtml((intro.line2 || []).join(' ')) + '</div>' +
+        '</div>' +
+        '<div class="cms-intro-preview__tag">' + (intro.tagHTML || '') + '</div>' +
+      '</section>';
+  }
+
+  function renderPopupsHtml(popups, getAsset) {
+    if (!popups.length) return '';
+    return '' +
+      '<div class="notice-popups">' +
+        popups.map(function(item, index) {
+          return '' +
+            '<div class="notice-popup is-open" style="--notice-offset:' + index + ';--notice-z:' + (popups.length - index) + '">' +
+              '<div class="notice-popup__head">' +
+                '<h4>' + escapeHtml(item.title || '안내') + '</h4>' +
+                '<button class="notice-popup__close" type="button" aria-label="닫기">&times;</button>' +
+              '</div>' +
+              '<div class="notice-popup__body">' +
+                (item.image ? '<img src="' + escapeHtml(assetUrl(item.image, getAsset)) + '" alt="' + escapeHtml(item.title || '팝업 이미지') + '">' : '') +
+              '</div>' +
+              '<div class="notice-popup__foot">' +
+                '<button class="notice-popup__dismiss" type="button">닫기</button>' +
+                '<button class="notice-popup__hide-day" type="button">하루동안 보지 않기</button>' +
+              '</div>' +
+            '</div>';
+        }).join('') +
+      '</div>';
+  }
+
+  function renderSiteFrame(bodyHtml, options, getAsset) {
+    options = options || {};
+    var ctx = {
+      brand: options.brand || DEFAULTS.brand,
+      nav: options.nav || DEFAULTS.nav,
+      quick: options.quick || DEFAULTS.quick,
+      footer: options.footer || DEFAULTS.footer,
+    };
+    return '' +
+      '<div class="cms-site-preview__page">' +
+        (options.showQuick === false ? '' : renderQuickHtml(ctx.quick)) +
+        (options.showHeader === false ? '' : renderHeaderHtml(ctx, getAsset)) +
+        '<main class="cms-site-preview__main">' + (bodyHtml || '') + '</main>' +
+        (options.contact ? renderContactHtml(options.contact, getAsset) : '') +
+        (options.showCopy === false ? '' : renderCopyHtml(ctx, getAsset)) +
+      '</div>';
+  }
+
   var SiteBrandPreview = createClass({
     render: function() {
       var data = getData(this.props.entry);
-      var brand = data.brand || {};
-      var quick = data.quick || [];
-      var footer = data.footer || {};
-      return shell(brand.name || '병원 기본정보', brand.addrTagline || '상단 헤더와 푸터에 들어가는 핵심 정보입니다.',
-        h('div', { className: 'cms-preview__section' }, [
-          h('section', { className: 'cms-mini-header', key: 'header' }, [
-            h('div', { className: 'cms-mini-header__addr' }, brand.addrTagline || '주소 문구를 입력하세요'),
-            h('div', { className: 'cms-mini-header__brand' }, [
-              brand.logo ? h('img', { src: assetUrl(brand.logo, this.props.getAsset), alt: brand.name || 'logo' }) : null,
-              h('strong', {}, brand.headerName || brand.name || '달빛치과'),
-            ]),
-            h('div', { className: 'cms-mini-header__phone' }, brand.phoneText || brand.phone || '전화번호'),
-          ]),
-          h('div', { className: 'cms-preview__grid', key: 'body' }, [
-            h('div', { className: 'cms-preview__card cms-preview__card--flat', key: 'quick' }, [
-              h('p', { className: 'cms-preview__label' }, '빠른 버튼'),
-              h('div', { className: 'cms-pill-list' }, quick.map(function(item, index) {
-                return h('span', { className: 'cms-preview__pill', key: index }, item.label || '버튼');
-              })),
-            ]),
-            h('div', { className: 'cms-preview__card cms-preview__card--flat', key: 'footer' }, [
-              h('p', { className: 'cms-preview__label' }, '하단 푸터'),
-              textBlock(footer.addrLine1 || ''),
-              textBlock(footer.addrLine2 || ''),
-              textBlock(footer.copyright || '', 'cms-preview__text cms-preview__muted'),
-            ]),
-          ]),
-        ])
-      );
+      return actualPreview(renderSiteFrame('', {
+        brand: data.brand || DEFAULTS.brand,
+        quick: data.quick || DEFAULTS.quick,
+        footer: data.footer || DEFAULTS.footer,
+      }, this.props.getAsset));
     },
   });
 
   var SiteNavigationPreview = createClass({
     render: function() {
-      var nav = getData(this.props.entry).nav || [];
-      return shell('상단 메뉴 미리보기', '메뉴명과 서브메뉴 흐름이 실제 헤더처럼 보입니다.',
-        h('div', { className: 'cms-nav-list' }, nav.map(function(item, index) {
-          return h('div', { className: 'cms-preview__card cms-preview__card--flat', key: index }, [
-            h('h3', { className: 'cms-preview__title cms-preview__title--sm' }, item.label || '메뉴'),
-            textBlock(item.href || ''),
-            h('div', { className: 'cms-pill-list' }, (item.sub || []).map(function(sub, subIndex) {
-              return h('span', { className: 'cms-preview__pill', key: subIndex }, sub.label || '서브메뉴');
-            })),
-          ]);
-        }))
-      );
+      var data = getData(this.props.entry);
+      return actualPreview(renderSiteFrame('', {
+        nav: data.nav || DEFAULTS.nav,
+      }, this.props.getAsset));
     },
   });
 
   var SiteContactPreview = createClass({
     render: function() {
       var data = getData(this.props.entry);
-      var hours = data.hours || [];
-      var directions = data.directions || {};
-      var bus = directions.bus || {};
-      var car = directions.car || {};
-      return shell('진료시간 / 오시는 길 / 상담', '방문 정보와 상담 팝업 내용을 바로 확인할 수 있습니다.',
-        h('div', { className: 'cms-preview__grid' }, [
-          h('section', { className: 'cms-preview__card cms-preview__card--flat', key: 'hours' }, [
-            h('p', { className: 'cms-preview__label' }, '진료시간'),
-            h('div', { className: 'cms-hours-list' }, hours.map(function(row, index) {
-              return h('div', { className: 'cms-hours-row', key: index }, [
-                h('strong', {}, row.day || '요일'),
-                htmlBlock(row.time || ''),
-              ]);
-            })),
-            textBlock(data.hoursClosed || '', 'cms-preview__text cms-preview__muted'),
-          ]),
-          h('section', { className: 'cms-preview__card', key: 'map' }, [
-            directions.mapImage ? h('img', { className: 'cms-preview__image', src: assetUrl(directions.mapImage, this.props.getAsset), alt: '지도 이미지' }) : null,
-            h('div', { className: 'cms-preview__body' }, [
-              h('p', { className: 'cms-preview__label' }, '오시는 길'),
-              textBlock(directions.address || ''),
-              h('div', { className: 'cms-preview__split' }, [
-                h('div', {}, [h('strong', {}, bus.label || '버스 안내'), textBlock(bus.desc || '')]),
-                h('div', {}, [h('strong', {}, car.label || '주차 안내'), car.desc ? h('img', { className: 'cms-preview__image cms-preview__image--small', src: assetUrl(car.desc, this.props.getAsset), alt: car.label || '주차 안내' }) : textBlock('팝업 이미지 없음')]),
-              ]),
-            ]),
-          ]),
-        ])
-      );
+      return actualPreview(renderSiteFrame('', {
+        contact: data,
+      }, this.props.getAsset));
     },
   });
 
   var SitePopupsPreview = createClass({
     render: function() {
       var data = getData(this.props.entry);
-      var intro = data.intro || {};
-      var popups = data.noticePopups || [];
-      return shell('인트로 / 홈 팝업', '홈 첫 진입 화면과 팝업 카드가 어떻게 보일지 빠르게 확인합니다.',
-        h('div', { className: 'cms-preview__section' }, [
-          h('section', { className: 'cms-intro-card', key: 'intro' }, [
-            h('p', { className: 'cms-preview__label' }, '인트로 애니메이션'),
-            h('div', { className: 'cms-intro-card__lines' }, [
-              h('strong', {}, (intro.line1 || []).join(' ')),
-              h('strong', {}, (intro.line2 || []).join(' ')),
-            ]),
-            htmlBlock(intro.tagHTML || '', 'cms-preview__html cms-preview__html--light'),
-          ]),
-          h('div', { className: 'cms-preview__grid', key: 'popups' }, popups.map(function(item, index) {
-            return h('section', { className: 'cms-preview__card', key: index }, [
-              item.image ? h('img', { className: 'cms-preview__image', src: assetUrl(item.image, this.props.getAsset), alt: item.title || '팝업 이미지' }) : null,
-              h('div', { className: 'cms-preview__body' }, [
-                h('p', { className: 'cms-preview__label' }, '팝업'),
-                h('h3', { className: 'cms-preview__title cms-preview__title--sm' }, item.title || '팝업 제목'),
-                textBlock(item.storageKey || '', 'cms-preview__text cms-preview__muted'),
-              ]),
-            ]);
-          }, this)),
-        ])
-      );
+      var body = '' +
+        '<section class="cms-popups-preview">' +
+          renderIntroHtml(data.intro || {}) +
+          renderPopupsHtml(data.noticePopups || [], this.props.getAsset) +
+        '</section>';
+      return actualPreview(renderSiteFrame(body, {
+        showQuick: false,
+        showCopy: false,
+      }, this.props.getAsset));
     },
   });
 
   var HomeHeroPreview = createClass({
     render: function() {
-      var slides = getData(this.props.entry).hero || [];
-      return shell('메인 상단 비주얼', '슬라이드가 실제 홈페이지 히어로처럼 카드로 보입니다.',
-        h('div', { className: 'cms-hero-slides' }, slides.map(function(slide, index) {
-          return h('article', {
-            className: 'cms-hero-slide',
-            key: index,
-            style: slide.bgImage ? { backgroundImage: 'linear-gradient(120deg, rgba(10,20,40,.82), rgba(28,49,104,.65)), url(' + assetUrl(slide.bgImage, this.props.getAsset) + ')' } : {},
-          }, [
-            h('span', { className: 'cms-preview__pill' }, '슬라이드 ' + (index + 1)),
-            slide.h3 ? htmlBlock(slide.h3, 'cms-preview__hero-copy') : null,
-            slide.h2 ? htmlBlock(slide.h2, 'cms-preview__hero-title') : null,
-            (slide.list || []).length ? h('ul', { className: 'cms-preview__bullet-list' }, (slide.list || []).map(function(item, idx) {
-              return h('li', { key: idx }, item);
-            })) : null,
-            slide.desc ? htmlBlock(slide.desc, 'cms-preview__hero-copy') : null,
-            (slide.paragraphs || []).length ? h('div', { className: 'cms-preview__stack' }, slide.paragraphs.map(function(line, idx) {
-              return htmlBlock(line, 'cms-preview__hero-copy');
-            })) : null,
-            slide.sign ? h('p', { className: 'cms-preview__text cms-preview__muted' }, slide.sign) : null,
-          ]);
-        }, this))
-      );
+      var data = getData(this.props.entry);
+      return actualPreview(renderSiteFrame(renderHeroHtml(data.hero || [], this.props.getAsset), {}, this.props.getAsset));
     },
   });
 
   var HomeFocusPreview = createClass({
     render: function() {
       var data = getData(this.props.entry);
-      var focusTitle = data.focusTitle || {};
-      var items = data.focus || [];
-      return shell(focusTitle.h2Html || '진료과목 카드', '카드형 메뉴가 실제 메인 섹션처럼 보입니다.',
-        h('div', { className: 'cms-focus-grid' }, items.map(function(item, index) {
-          return h('article', { className: 'cms-preview__card', key: index }, [
-            item.img ? h('img', { className: 'cms-preview__image', src: assetUrl(item.img, this.props.getAsset), alt: item.title || '진료 이미지' }) : null,
-            h('div', { className: 'cms-preview__body' }, [
-              item.small ? h('p', { className: 'cms-preview__label' }, item.small) : null,
-              h('h3', { className: 'cms-preview__title cms-preview__title--sm' }, item.title || '카드 제목'),
-              textBlock(item.desc || ''),
-              h('span', { className: 'cms-preview__pill' }, item.href || '#'),
-            ]),
-          ]);
-        }, this))
-      );
+      return actualPreview(renderSiteFrame(renderFocusHtml(data, this.props.getAsset), {}, this.props.getAsset));
     },
   });
 
   var HomeBannersPreview = createClass({
     render: function() {
       var data = getData(this.props.entry);
-      var checklist = data.checklist || {};
-      var point = data.point || {};
-      return shell('메인 강조 배너', '배경 이미지와 문구 흐름을 실제 배너처럼 보여줍니다.',
-        h('div', { className: 'cms-banner-stack' }, [
-          h('section', {
-            className: 'cms-banner-card',
-            key: 'checklist',
-            style: checklist.bgImage ? { backgroundImage: 'linear-gradient(120deg, rgba(10,20,40,.82), rgba(28,49,104,.62)), url(' + assetUrl(checklist.bgImage, this.props.getAsset) + ')' } : {},
-          }, [
-            htmlBlock(checklist.titleHTML || '', 'cms-banner-card__title'),
-            h('ul', { className: 'cms-preview__bullet-list' }, (checklist.items || []).map(function(item, index) {
-              return h('li', { key: index }, item);
-            })),
-            htmlBlock(checklist.closingHTML || '', 'cms-banner-card__closing'),
-          ]),
-          h('section', {
-            className: 'cms-banner-card cms-banner-card--secondary',
-            key: 'point',
-            style: point.bgImage ? { backgroundImage: 'linear-gradient(120deg, rgba(15,24,48,.9), rgba(28,49,104,.75)), url(' + assetUrl(point.bgImage, this.props.getAsset) + ')' } : {},
-          }, [
-            htmlBlock(point.titleHTML || '', 'cms-banner-card__title'),
-            htmlBlock(point.descHTML || '', 'cms-preview__hero-copy'),
-            htmlBlock(point.closingHTML || '', 'cms-banner-card__closing'),
-          ]),
-        ])
-      );
+      return actualPreview(renderSiteFrame(
+        renderChecklistHtml(data.checklist || {}, this.props.getAsset) +
+        renderPointHtml(data.point || {}, this.props.getAsset),
+        { showQuick: false },
+        this.props.getAsset
+      ));
     },
   });
 
   var HomeBlogPreview = createClass({
     render: function() {
       var data = getData(this.props.entry);
-      var title = data.blogTitle || {};
-      var posts = data.blog || [];
-      return shell(title.h2Html || '건강정보 카드', '실제 메인 하단 카드처럼 미리 볼 수 있습니다.',
-        h('div', { className: 'cms-blog-grid' }, posts.map(function(item, index) {
-          return h('article', { className: 'cms-preview__card', key: index }, [
-            item.img ? h('img', { className: 'cms-preview__image', src: assetUrl(item.img, this.props.getAsset), alt: item.title || '건강정보 이미지' }) : null,
-            h('div', { className: 'cms-preview__body' }, [
-              item.tag ? h('span', { className: 'cms-preview__pill' }, item.tag) : null,
-              h('h3', { className: 'cms-preview__title cms-preview__title--sm' }, item.title || '카드 제목'),
-              textBlock(item.href || '', 'cms-preview__text cms-preview__muted'),
-            ]),
-          ]);
-        }, this))
-      );
+      return actualPreview(renderSiteFrame(renderBlogHtml(data, this.props.getAsset), {}, this.props.getAsset));
     },
   });
 
@@ -332,6 +537,7 @@
 
   CMS.registerPreviewStyle('/common.css');
   CMS.registerPreviewStyle('/page.css');
+  CMS.registerPreviewStyle('/admin/home-preview.css');
   CMS.registerPreviewStyle('/admin/editor.css');
 
   CMS.registerPreviewTemplate('site-brand', SiteBrandPreview);
