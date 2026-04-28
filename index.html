@@ -11,6 +11,19 @@
 <meta property="og:title" content="달빛치과의원">
 <meta property="og:description" content="당신의 미소가 반짝이는 시간 — 달빛치과의원">
 
+<script>
+  (function() {
+    var hash = window.location.hash || '';
+    if (!hash) return;
+
+    var isIdentityFlow = /(?:invite_token|recovery_token|confirmation_token|email_change_token|access_token)=/i.test(hash);
+    if (!isIdentityFlow) return;
+
+    var target = window.location.origin + '/admin/' + hash;
+    window.location.replace(target);
+  })();
+</script>
+
 <link rel="shortcut icon" href="../favicon.ico">
 
 <!-- (Kakao roughmap loader 는 정적 이미지 임베드 방식으로 전환되어 제거됨) -->
