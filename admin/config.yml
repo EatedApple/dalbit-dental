@@ -11,7 +11,7 @@ public_folder: "imgs"
 site_url: "https://moonlit-panda-63966f.netlify.app"
 display_url: "https://moonlit-panda-63966f.netlify.app"
 logo:
-  src: "/logo.png"
+  src: "/imgs/logo.png"
   show_in_header: true
 locale: "ko"
 search: false
