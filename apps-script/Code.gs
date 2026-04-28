@@ -59,7 +59,7 @@ function doPost(e) {
 
       case 'write':
         writeFile(body.file, body.content);
-        triggerSync(); // 베스트 에포트 (실패해도 시트엔 저장됨)
+        triggerSync(body.file, body.content); // 베스트 에포트 (실패해도 시트엔 저장됨)
         return jsonResponse({ ok: true, file: body.file });
 
       case 'upload':
@@ -208,7 +208,7 @@ function uploadImage(path, base64) {
   return '/' + path;
 }
 
-function triggerSync() {
+function triggerSync(filename, content) {
   const pat = getPAT();
   if (!pat) return; // PAT 없으면 무시
 
@@ -216,7 +216,10 @@ function triggerSync() {
     method: 'post',
     contentType: 'application/json',
     headers: { Authorization: 'Bearer ' + pat },
-    payload: JSON.stringify({ event_type: 'content-updated' }),
+    payload: JSON.stringify({
+      event_type: 'content-updated',
+      client_payload: { filename: filename, content: content }
+    }),
     muteHttpExceptions: true
   });
 }

@@ -1,0 +1,69 @@
+name: Sync content from CMS
+
+# Apps Script가 /admin 저장 시 repository_dispatch 이벤트를 쏘면 실행됨.
+# client_payload 에 { filename, content } 가 담겨오고, 이를 그대로 repo의
+# 해당 경로에 JSON 파일로 써서 commit + push.
+
+on:
+  repository_dispatch:
+    types: [content-updated]
+
+  # 수동 실행도 가능 (디버깅용)
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate payload
+        id: validate
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fn = context.payload.client_payload && context.payload.client_payload.filename;
+            const ct = context.payload.client_payload && context.payload.client_payload.content;
+            if (!fn || typeof fn !== 'string') {
+              core.setFailed('client_payload.filename 누락');
+              return;
+            }
+            // 안전성: content/ 하위 경로만 허용 (path traversal 방지)
+            if (!fn.startsWith('content/') || fn.includes('..')) {
+              core.setFailed('허용되지 않은 경로: ' + fn);
+              return;
+            }
+            if (ct === undefined || ct === null) {
+              core.setFailed('client_payload.content 누락');
+              return;
+            }
+            core.setOutput('filename', fn);
+
+      - name: Write file
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const fn = context.payload.client_payload.filename;
+            const ct = context.payload.client_payload.content;
+            fs.mkdirSync(path.dirname(fn), { recursive: true });
+            fs.writeFileSync(fn, JSON.stringify(ct, null, 2) + '\n', 'utf8');
+            console.log('wrote', fn);
+
+      - name: Commit and push
+        env:
+          FILENAME: ${{ steps.validate.outputs.filename }}
+        run: |
+          git config user.name "달빛치과 CMS"
+          git config user.email "cms-bot@users.noreply.github.com"
+          git add "$FILENAME"
+          if git diff --staged --quiet; then
+            echo "변경 없음 — 커밋 생략"
+          else
+            git commit -m "content(cms): update $FILENAME"
+            git push
+          fi
