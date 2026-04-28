@@ -20,18 +20,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Show event context (debug)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log('event_name:', context.eventName);
+            console.log('action:', context.payload.action);
+            console.log('full payload (sanitized):',
+              JSON.stringify(context.payload, (k, v) =>
+                (typeof v === 'string' && v.length > 500) ? v.substring(0, 500) + '... [truncated]' : v,
+              2));
+
       - name: Validate payload
         id: validate
         uses: actions/github-script@v7
         with:
           script: |
-            const fn = context.payload.client_payload && context.payload.client_payload.filename;
-            const ct = context.payload.client_payload && context.payload.client_payload.content;
+            const cp = context.payload.client_payload;
+            console.log('client_payload type:', typeof cp);
+            console.log('client_payload keys:', cp ? Object.keys(cp) : 'null');
+
+            const fn = cp && cp.filename;
+            const ct = cp && cp.content;
             if (!fn || typeof fn !== 'string') {
               core.setFailed('client_payload.filename 누락');
               return;
             }
-            // 안전성: content/ 하위 경로만 허용 (path traversal 방지)
             if (!fn.startsWith('content/') || fn.includes('..')) {
               core.setFailed('허용되지 않은 경로: ' + fn);
               return;
