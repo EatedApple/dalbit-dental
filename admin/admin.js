@@ -1,11 +1,10 @@
 /* ─────────────────────────────────────────
    달빛치과 CMS — 관리자 UI 로직
-   Phase 1: 로그인 + 파일 목록 + JSON 직접 편집
+   Phase 2: schema.yml 기반 자동 폼 + 이미지 업로드
    ───────────────────────────────────────── */
 
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxPFKNgkYUbny2tfBBnTRGeXvI2Qtrg580o5-RitaIMYQ0-ceFRn-RMvTt69-OqVzICUQ/exec';
 
-// 파일을 그룹화해서 사이드바에 표시할 때 쓰는 라벨
 const FILE_LABELS = {
   'content/site/brand.json':         '병원 기본정보',
   'content/site/contact.json':       '연락처 · 위치',
@@ -36,19 +35,22 @@ const FILE_GROUPS = {
 const state = {
   password: null,
   files: [],
+  schema: null,           // 파싱된 config.yml
+  fileSchemas: {},        // filename -> { fields: [...], label: '...' }
   currentFile: null,
-  originalContent: null, // 변경 취소용
+  originalContent: null,  // 변경 취소용
+  formContent: null,      // 폼이 편집 중인 내용
 };
 
 // ─────────────────────────────────────────
-// API 클라이언트
+// API
 // ─────────────────────────────────────────
 
 async function api(action, extra = {}) {
-  if (!state.password) throw new Error('not authenticated');
+  if (!state.password && action !== 'auth') throw new Error('not authenticated');
   const res = await fetch(ENDPOINT, {
     method: 'POST',
-    headers: { 'Content-Type': 'text/plain' }, // CORS preflight 회피
+    headers: { 'Content-Type': 'text/plain' },
     body: JSON.stringify({ action, password: state.password, ...extra }),
   });
   if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -65,6 +67,34 @@ async function authenticate(password) {
   });
   const data = await res.json();
   return !!data.ok;
+}
+
+// 이미지 업로드: File -> base64 -> Apps Script -> GitHub
+window.uploadImage = async function (file) {
+  const base64 = await fileToBase64(file);
+  // 파일명 정리: 한글/공백/특수문자 제거
+  const safeName = file.name
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+  const ts = Date.now();
+  const path = 'imgs/' + ts + '-' + safeName;
+  const data = await api('upload', { path, base64 });
+  return data.url; // 예: "/imgs/1234-foo.png"
+};
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result; // "data:image/png;base64,XXXX"
+      const idx = result.indexOf(',');
+      resolve(idx >= 0 ? result.slice(idx + 1) : result);
+    };
+    reader.onerror = () => reject(new Error('파일 읽기 실패'));
+    reader.readAsDataURL(file);
+  });
 }
 
 // ─────────────────────────────────────────
@@ -114,15 +144,13 @@ $('#login-form').addEventListener('submit', async (e) => {
 
 $('#logout-btn').addEventListener('click', () => {
   sessionStorage.removeItem('cms-password');
-  state.password = null;
-  state.currentFile = null;
-  state.originalContent = null;
+  Object.assign(state, { password: null, currentFile: null, originalContent: null, formContent: null });
   $('#login-password').value = '';
   $('#login-error').textContent = '';
   showScreen('login-screen');
 });
 
-// 자동 로그인 (세션 유지)
+// 자동 로그인
 (async function tryAutoLogin() {
   const saved = sessionStorage.getItem('cms-password');
   if (!saved) return;
@@ -134,32 +162,58 @@ $('#logout-btn').addEventListener('click', () => {
     } else {
       sessionStorage.removeItem('cms-password');
     }
-  } catch (e) {
-    // 무시 (로그인 화면 그대로)
-  }
+  } catch (e) { /* 무시 */ }
 })();
 
 // ─────────────────────────────────────────
-// 에디터
+// 스키마 로드
+// ─────────────────────────────────────────
+
+async function loadSchema() {
+  if (state.schema) return state.schema;
+  const res = await fetch('/admin/schema.yml');
+  if (!res.ok) throw new Error('schema.yml 로드 실패');
+  const text = await res.text();
+  const parsed = jsyaml.load(text);
+  state.schema = parsed;
+
+  // filename -> fileSchema 매핑
+  if (parsed.collections) {
+    parsed.collections.forEach(col => {
+      (col.files || []).forEach(f => {
+        if (f.file) {
+          state.fileSchemas[f.file] = {
+            label: f.label,
+            fields: f.fields || [],
+          };
+        }
+      });
+    });
+  }
+  return parsed;
+}
+
+// ─────────────────────────────────────────
+// 에디터 진입
 // ─────────────────────────────────────────
 
 async function enterEditor() {
   showScreen('editor-screen');
-  setStatus('파일 목록 불러오는 중...', 'saving');
+  setStatus('스키마/파일 목록 불러오는 중...', 'saving');
   try {
+    await loadSchema();
     const data = await api('list');
     state.files = data.files || [];
     renderFileList();
     setStatus('대기 중', 'idle');
   } catch (err) {
-    setStatus('파일 목록 로드 실패: ' + err.message, 'error');
+    setStatus('초기화 실패: ' + err.message, 'error');
   }
 }
 
 function renderFileList() {
   const ul = $('#file-list');
   ul.innerHTML = '';
-
   const filenames = new Set(state.files.map(f => f.filename));
 
   Object.entries(FILE_GROUPS).forEach(([group, files]) => {
@@ -169,7 +223,7 @@ function renderFileList() {
     ul.appendChild(headerLi);
 
     files.forEach(filename => {
-      if (!filenames.has(filename)) return; // 시트에 없는 파일은 표시 안 함
+      if (!filenames.has(filename)) return;
       const li = document.createElement('li');
       li.textContent = FILE_LABELS[filename] || filename;
       li.dataset.filename = filename;
@@ -184,59 +238,75 @@ async function loadFile(filename) {
     if (!confirm('저장하지 않은 변경 사항이 있습니다. 버리시겠어요?')) return;
   }
 
-  setStatus(filename + ' 불러오는 중...', 'saving');
+  setStatus('불러오는 중...', 'saving');
   try {
     const data = await api('read', { file: filename });
     state.currentFile = filename;
-    state.originalContent = JSON.stringify(data.content, null, 2);
+    state.originalContent = JSON.stringify(data.content);
+    state.formContent = JSON.parse(state.originalContent); // 깊은 복사
 
     document.querySelectorAll('#file-list li').forEach(li => li.classList.remove('active'));
-    document.querySelector('#file-list li[data-filename="' + filename + '"]').classList.add('active');
+    const activeLi = document.querySelector('#file-list li[data-filename="' + filename + '"]');
+    if (activeLi) activeLi.classList.add('active');
 
     $('#editor-empty').hidden = true;
     $('#editor-content').hidden = false;
-    $('#editor-filename').textContent = filename;
-    $('#json-editor').value = state.originalContent;
-    $('#json-editor').classList.remove('invalid');
+    $('#editor-filename').textContent = (state.fileSchemas[filename] && state.fileSchemas[filename].label) || filename;
+
+    renderForm();
     setStatus('대기 중', 'idle');
   } catch (err) {
     setStatus('로드 실패: ' + err.message, 'error');
+    console.error(err);
   }
 }
 
-function hasUnsavedChanges() {
-  return $('#json-editor').value !== state.originalContent;
-}
+function renderForm() {
+  const container = $('#form-container');
+  container.innerHTML = '';
 
-// 입력 시 JSON 유효성 라이브 체크
-$('#json-editor').addEventListener('input', () => {
-  const ta = $('#json-editor');
-  try {
-    JSON.parse(ta.value);
-    ta.classList.remove('invalid');
-  } catch (e) {
-    ta.classList.add('invalid');
-  }
-});
-
-$('#save-btn').addEventListener('click', async () => {
-  const ta = $('#json-editor');
-  let parsed;
-  try {
-    parsed = JSON.parse(ta.value);
-  } catch (e) {
-    alert('JSON 형식이 올바르지 않습니다:\n' + e.message);
+  const sch = state.fileSchemas[state.currentFile];
+  if (!sch) {
+    container.innerHTML = '<p class="error-message">이 파일의 스키마를 찾을 수 없습니다 (config.yml 확인).</p>';
     return;
   }
 
+  sch.fields.forEach(field => {
+    const fieldEl = window.WidgetRenderer.renderField(
+      field,
+      state.formContent[field.name],
+      (newVal) => {
+        state.formContent[field.name] = newVal;
+        markUnsaved();
+      }
+    );
+    if (fieldEl) container.appendChild(fieldEl);
+  });
+}
+
+function markUnsaved() {
+  if (hasUnsavedChanges()) setStatus('변경됨 (저장 안 됨)', 'saving');
+  else setStatus('대기 중', 'idle');
+}
+
+function hasUnsavedChanges() {
+  if (!state.formContent) return false;
+  return JSON.stringify(state.formContent) !== state.originalContent;
+}
+
+// ─────────────────────────────────────────
+// 저장 / 취소
+// ─────────────────────────────────────────
+
+$('#save-btn').addEventListener('click', async () => {
+  if (!state.currentFile) return;
   $('#save-btn').disabled = true;
   setStatus('저장 중...', 'saving');
   try {
-    await api('write', { file: state.currentFile, content: parsed });
-    state.originalContent = JSON.stringify(parsed, null, 2);
-    ta.value = state.originalContent;
+    await api('write', { file: state.currentFile, content: state.formContent });
+    state.originalContent = JSON.stringify(state.formContent);
     setStatus('저장 완료', 'saved');
-    setTimeout(() => setStatus('대기 중', 'idle'), 3000);
+    setTimeout(() => { if ($('#status-indicator').textContent === '저장 완료') setStatus('대기 중', 'idle'); }, 3000);
   } catch (err) {
     setStatus('저장 실패: ' + err.message, 'error');
     alert('저장 실패: ' + err.message);
@@ -248,12 +318,12 @@ $('#save-btn').addEventListener('click', async () => {
 $('#reset-btn').addEventListener('click', () => {
   if (!hasUnsavedChanges()) return;
   if (confirm('변경 사항을 모두 취소합니다.')) {
-    $('#json-editor').value = state.originalContent;
-    $('#json-editor').classList.remove('invalid');
+    state.formContent = JSON.parse(state.originalContent);
+    renderForm();
+    setStatus('대기 중', 'idle');
   }
 });
 
-// 페이지 떠날 때 미저장 경고
 window.addEventListener('beforeunload', (e) => {
   if (hasUnsavedChanges()) {
     e.preventDefault();

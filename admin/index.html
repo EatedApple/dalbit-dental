@@ -59,14 +59,15 @@
             </div>
           </header>
 
-          <!-- Phase 1: raw JSON textarea -->
-          <textarea id="json-editor" class="json-editor" spellcheck="false"></textarea>
-          <p class="editor-note">⚠️ Phase 1 — 현재는 JSON 직접 편집입니다. 곧 항목별 폼으로 교체됩니다.</p>
+          <!-- Phase 2: 자동 생성 폼 -->
+          <div id="form-container" class="form-container"></div>
         </div>
       </section>
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script src="/admin/widgets.js"></script>
   <script src="/admin/admin.js"></script>
 </body>
 </html>

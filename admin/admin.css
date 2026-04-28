@@ -277,3 +277,163 @@ button { cursor: pointer; font: inherit; }
   font-size: 12px;
   color: var(--color-warning);
 }
+
+/* ─── 폼 컨테이너 ─── */
+.form-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* ─── 필드 공통 ─── */
+.field {
+  margin-bottom: 18px;
+}
+.field-label {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--color-text);
+  margin-bottom: 6px;
+}
+.field-optional {
+  font-weight: 400;
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+.field-hint {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 0 0 6px;
+}
+
+/* ─── 단순 입력 ─── */
+.input-string,
+.input-number {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+  font-family: inherit;
+}
+.input-text {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+  font-family: inherit;
+  resize: vertical;
+  line-height: 1.5;
+}
+.input-string:focus,
+.input-number:focus,
+.input-text:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+  border-color: transparent;
+}
+
+.input-boolean {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ─── 이미지 위젯 ─── */
+.input-image {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.image-preview {
+  max-width: 240px;
+  max-height: 160px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: #f9fafb;
+  object-fit: contain;
+  padding: 4px;
+}
+.image-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+.image-row .input-string { flex: 1; }
+.btn-upload {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 9px 14px;
+}
+
+/* ─── 객체 위젯 ─── */
+.input-object {
+  border-left: 3px solid var(--color-border);
+  padding-left: 14px;
+  margin-top: 4px;
+}
+
+/* ─── 리스트 위젯 ─── */
+.input-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.list-item {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: #fafbfc;
+}
+.list-item-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--color-border);
+}
+.list-item-idx {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  margin-right: auto;
+}
+.btn-icon {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+.btn-icon:hover { background: var(--color-bg); }
+.btn-icon.btn-danger:hover { background: #fee2e2; color: var(--color-danger); border-color: var(--color-danger); }
+
+.btn-add {
+  align-self: flex-start;
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.unsupported-widget {
+  padding: 8px;
+  background: #fef2f2;
+  color: var(--color-danger);
+  border-radius: 4px;
+  font-size: 12px;
+}
+
