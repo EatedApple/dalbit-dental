@@ -1,15 +1,15 @@
 backend:
   name: git-gateway
   branch: main
-  site_domain: moonlit-panda-63966f.netlify.app
+  site_domain: 3.39.31.137
 
 local_backend: true
 
 media_folder: "imgs"
 public_folder: "imgs"
 
-site_url: "https://moonlit-panda-63966f.netlify.app"
-display_url: "https://moonlit-panda-63966f.netlify.app"
+site_url: "http://3.39.31.137"
+display_url: "http://3.39.31.137"
 logo:
   src: "/imgs/logo.png"
   show_in_header: true
