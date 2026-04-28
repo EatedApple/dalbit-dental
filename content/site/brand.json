@@ -3,7 +3,7 @@
     "addrTagline": "포항시청 앞 · 포항시 남구 대이로 39 2층",
     "headerName": "달빛치과",
     "logo": "imgs/logo.png",
-    "name": "달빛치과의원t",
+    "name": "달빛치과의원",
     "nameEn": "DALBIT DENTAL CLINIC",
     "pageTitle": "달빛치과의원 | 임플란트 · 투명교정 · 심미치료 · 일반치료",
     "phone": "054-705-0101",
@@ -18,7 +18,7 @@
     {
       "href": "tel:054-705-0101",
       "icon": "phone",
-      "label": "전화상담",
+      "label": "전화 상담",
       "primary": true
     },
     {
