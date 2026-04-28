@@ -62,29 +62,7 @@
     "small": "WISDOM TYPES",
     "h2Html": "사랑니 <b>유형별 난이도</b>",
     "lead": "방향과 매복 정도에 따라 발치 난이도가 달라집니다. 정밀 진단 후 방법을 결정합니다.",
-    "image": "imgs/wisdom-types-info.png",
-    "items": [
-      {
-        "title": "단순 발치",
-        "img": "imgs/wisdom1.jpg",
-        "desc": "똑바로 자라나 잇몸 절개 없이 발치 가능"
-      },
-      {
-        "title": "경사 매복",
-        "img": "imgs/wisdom2.jpg",
-        "desc": "비스듬히 누워 어금니를 압박하는 상태"
-      },
-      {
-        "title": "수평 매복",
-        "img": "imgs/wisdom3.jpg",
-        "desc": "잇몸 속에 완전히 누워 신경관과 인접한 상태"
-      },
-      {
-        "title": "완전 매복",
-        "img": "imgs/wisdom4.jpg",
-        "desc": "뼈 속에 깊이 묻혀 고난도 수술이 필요한 상태"
-      }
-    ]
+    "image": "imgs/wisdom-types-info.png"
   },
   "precautions": {
     "small": "AFTER CARE",
