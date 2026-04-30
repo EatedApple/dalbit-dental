@@ -1,7 +1,7 @@
 {
   "hero": [
     {
-      "bgImage": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1600&q=80",
+      "bgImage": "imgs/clinic-corridor.png",
       "h3": "치료의 시작은<br><em>편안한 마음</em>입니다",
       "paragraphs": [
         "처음 오시는 분들도 부담 없이 찾아주실 수 있도록<br>충분한 상담과 자세한 설명을 약속드립니다.",

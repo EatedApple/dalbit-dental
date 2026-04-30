@@ -172,6 +172,9 @@ p{ margin:0; }
   border-radius:14px; padding:12px; box-shadow:var(--shadow-md);
   opacity:0; visibility:hidden; transition:all .25s ease;
 }
+.gnb__sub::before{
+  content:''; position:absolute; left:0; right:0; top:-12px; height:12px;
+}
 .gnb > ul > li:hover .gnb__sub{
   opacity:1; visibility:visible; transform:translateX(-50%) translateY(0);
 }
@@ -211,6 +214,39 @@ p{ margin:0; }
 .quick .is-primary{ background:var(--c-primary); color:#fff; border-color:var(--c-primary); }
 .quick .is-primary:hover{ background:var(--c-primary-deep); color:#fff; }
 .quick .is-hidden{ display:none !important; }
+/* PC에서는 전화 퀵버튼 숨김 (클릭 불가) */
+.quick .quick__phone{ display:none; }
+/* 네이버톡톡 — 네이버 시그니처 그린 */
+.quick .quick__naver{
+  background:#03C75A; color:#fff; border-color:#03C75A;
+}
+.quick .quick__naver:hover{
+  background:#02b150; color:#fff; border-color:#02b150;
+}
+
+/* ============================================
+   SCROLL TOP — 우측 하단 고정 버튼
+   ============================================ */
+.scroll-top{
+  position:fixed; right:18px; bottom:24px;
+  z-index:55;
+  width:52px; height:52px; border-radius:50%;
+  background:var(--c-primary); color:#fff; border:none;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 6px 18px rgba(28,49,104,.25);
+  cursor:pointer;
+  opacity:0; pointer-events:none;
+  transform:translateY(12px);
+  transition:opacity .25s, transform .25s, background .2s;
+}
+.scroll-top.is-visible{ opacity:1; pointer-events:auto; transform:translateY(0); }
+.scroll-top:hover{ background:var(--c-primary-deep); }
+.scroll-top svg{ width:22px; height:22px; }
+/* 모바일 — 맨 아래 우측 모서리 */
+@media (max-width: 720px){
+  .scroll-top{ right:12px; bottom:12px; width:46px; height:46px; }
+  .scroll-top svg{ width:20px; height:20px; }
+}
 
 /* ============================================
    FOOT-BOARD (hours + directions)
@@ -232,7 +268,8 @@ p{ margin:0; }
 }
 .foot-card + .foot-card{ border-left:1px solid #dde2ed; }
 .foot-card .directions{ margin-top:auto; }
-.foot-card--map{ justify-content:center; order:-1; }
+.foot-card--map{ justify-content:flex-start; order:0; }
+.foot-card--hours{ order:1; }
 .foot-card--map .directions:empty{ display:none; }
 .foot-card h4{
   display:flex; align-items:center; gap:10px;
@@ -241,30 +278,34 @@ p{ margin:0; }
   font-family:var(--ff-display); line-height:1.2;
 }
 .foot-card h4 svg{ width:30px; height:30px; color:var(--c-primary); flex:0 0 30px; }
-.foot-card--hours h4{
+.foot-card--hours h4,
+.foot-card--map h4{
   font-size:58px;
   margin-bottom:38px;
 }
-.foot-card--hours h4 svg{
+.foot-card--hours h4 svg,
+.foot-card--map h4 svg{
   width:42px;
   height:42px;
   flex-basis:42px;
 }
 .hours dl{
-  display:grid; grid-template-columns:170px 1fr; padding:16px 0;
+  display:grid; grid-template-columns:170px 1fr; padding:7px 0;
   border-bottom:1px dashed var(--c-line);
 }
+.hours dl.is-note{ padding:0 0 5px; border-bottom:0; }
 .hours dl:last-of-type{ border-bottom:0; }
-.hours dt{ color:var(--c-primary); font-weight:700; font-size:24px; font-family:var(--ff-display); }
-.hours dd{ color:var(--c-text); margin:0; font-size:22px; font-weight:700; line-height:1.6; }
+.hours dt{ color:var(--c-primary); font-weight:700; font-size:31px; font-family:var(--ff-display); }
+.hours dd{ color:var(--c-text); margin:0; font-size:29px; font-weight:700; line-height:1.32; }
 .hours dd .hours-break{
   display:block;
-  margin-top:4px;
-  font-size:.9em;
+  margin-top:6px;
+  font-size:.85em;
   color:var(--c-muted);
   font-weight:600;
 }
-.hours .closed{ margin-top:18px; color:var(--c-muted); font-size:18px; }
+.hours dd .hours-break--note{ margin-top:0; }
+.hours .closed{ margin-top:10px; color:var(--c-muted); font-size:20px; }
 .hours-image{
   margin-bottom:24px; border-radius:16px; overflow:hidden;
   border:1px solid #dde2ed; background:#fff; box-shadow:var(--shadow-sm);
@@ -472,17 +513,21 @@ p{ margin:0; }
   .header.is-menu-open .gnb > ul > li{ width:100%; border-bottom:1px solid var(--c-line); }
   .header.is-menu-open .gnb > ul > li:last-child{ border-bottom:0; }
   .header.is-menu-open .gnb > ul > li + li::before{ display:none; }
-  .header.is-menu-open .gnb > ul > li > a{
-    height:auto; line-height:1.4; padding:16px 8px; display:block; font-weight:700;
-  }
   .header.is-menu-open .gnb > ul > li.is-current > a::after{ display:none; }
-  .header.is-menu-open .gnb__sub{
+  .header.is-menu-open .gnb__sub,
+  .header.is-menu-open .gnb > ul > li:hover .gnb__sub{
     position:static; transform:none; opacity:1; visibility:visible;
     box-shadow:none; padding:0 0 12px 16px; min-width:0;
     border:0; background:transparent;
   }
-  .header.is-menu-open .gnb__sub a{
-    padding:8px 14px; font-size:13px; color:var(--c-muted); text-align:left; font-weight:500;
+  .header.is-menu-open .gnb__sub::before{ display:none; }
+  .header.is-menu-open .gnb > ul > li > a{
+    height:auto; line-height:1.4; padding:16px 8px; display:block; font-weight:700; color:#fff;
+  }
+  .header.is-menu-open .gnb__sub a,
+  .header.is-menu-open .gnb__sub a:hover{
+    padding:10px 14px; font-size:14px; color:rgba(255,255,255,.85); text-align:left; font-weight:500;
+    background:transparent;
   }
   .header.is-menu-open .menu-btn span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
   .header.is-menu-open .menu-btn span:nth-child(2){ opacity:0; }
@@ -491,13 +536,15 @@ p{ margin:0; }
   .foot-board__grid{ grid-template-columns:1fr; }
   .foot-card{ padding:50px 36px; }
   .foot-card + .foot-card{ border-left:0; border-top:1px solid var(--c-line); }
-  .foot-card--hours h4{ font-size:46px; }
-  .foot-card--hours h4 svg{ width:34px; height:34px; flex-basis:34px; }
-  .hours dl{ grid-template-columns:140px 1fr; }
-  .hours dt, .hours dd{ font-size:20px; }
-  .hours .closed{ font-size:16px; }
+  .foot-card--hours h4, .foot-card--map h4{ font-size:46px; }
+  .foot-card--hours h4 svg, .foot-card--map h4 svg{ width:34px; height:34px; flex-basis:34px; }
+  .hours dl{ grid-template-columns:140px 1fr; padding:6px 0; }
+  .hours dt{ font-size:24px; }
+  .hours dd{ font-size:23px; }
+  .hours .closed{ font-size:17px; }
   .quick{ right:10px; }
   .quick a, .quick button{ width:60px; height:60px; font-size:11px; }
+  .quick .quick__phone{ display:flex; }
 }
 @media (max-width: 720px){
   :root{ --header-h:84px; --header-top:84px; }
@@ -517,14 +564,16 @@ p{ margin:0; }
   .header__call{ width:42px; height:42px; padding:0; justify-content:center; border-radius:50%; }
 
   .foot-card{ padding:36px 22px; }
-  .foot-card--hours h4{ font-size:34px; }
-  .foot-card--hours h4 svg{ width:26px; height:26px; flex-basis:26px; }
-  .hours dl{ grid-template-columns:110px 1fr; padding:12px 0; }
-  .hours dt, .hours dd{ font-size:16px; }
+  .foot-card--hours h4, .foot-card--map h4{ font-size:34px; }
+  .foot-card--hours h4 svg, .foot-card--map h4 svg{ width:26px; height:26px; flex-basis:26px; }
+  .hours dl{ grid-template-columns:110px 1fr; padding:8px 0; }
+  .hours dt{ font-size:18px; }
+  .hours dd{ font-size:18px; }
   .hours .closed{ font-size:14px; }
   .map-address{ font-size:18px; padding:14px 14px 16px; }
   .copy .container{ flex-direction:column; align-items:flex-start; }
   .bottom-bar{ display:none; }
-  .quick{ right:8px; top:auto; bottom:80px; transform:none; flex-direction:row; }
+  /* 모바일: quick 세로 정렬 (우측 중앙) */
+  .quick{ right:10px; top:50%; bottom:auto; transform:translateY(-50%); flex-direction:column; }
   .quick a, .quick button{ width:54px; height:54px; }
 }

@@ -1013,6 +1013,71 @@
 }
 .pg-gallery__item.is-ghost:hover{ transform:none; box-shadow:none; }
 
+.pg-gallery-split{
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:28px;
+  max-width:1200px;
+  margin:0 auto;
+  align-items:start;
+}
+.pg-gallery-split__group{
+  background:#fff;
+  border:1px solid var(--c-line);
+  border-radius:var(--radius-md);
+  box-shadow:var(--shadow-sm);
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.pg-gallery-split__group-title{
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:.02em;
+  text-align:center;
+  color:var(--c-ink);
+  padding-bottom:12px;
+  border-bottom:1px solid var(--c-line);
+}
+.pg-gallery-split__row{
+  display:grid;
+  gap:14px;
+  grid-template-columns:repeat(var(--cols, 1), minmax(0, 1fr));
+}
+.pg-gallery-split__row[data-cols="2"]{ --cols:2; }
+.pg-gallery-split__row[data-cols="3"]{ --cols:3; }
+.pg-gallery-split__panel{
+  margin:0;
+  display:flex;
+  flex-direction:column;
+}
+.pg-gallery-split__media{
+  background:var(--c-bg-soft);
+  border-radius:var(--radius-sm);
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  padding:8px;
+  height:clamp(380px, 42vw, 560px);
+}
+.pg-gallery-split__media img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.pg-gallery-split__details{
+  max-width:1080px;
+  margin:28px auto 0;
+}
+.pg-gallery-split__details .desc{
+  font-size:15.5px;
+  color:var(--c-text);
+  line-height:1.85;
+  margin:0 0 24px;
+}
+
 /* ============================================
    RESPONSIVE
    ============================================ */
@@ -1038,6 +1103,7 @@
     grid-template-columns:repeat(4, 1fr);
     grid-auto-rows:200px;
   }
+  .pg-gallery-split{ gap:18px; }
   .pg-gallery__item.is-big{ grid-column:span 2; grid-row:span 2; }
   .pg-gallery__item.is-wide{ grid-column:span 2; }
 }
@@ -1055,6 +1121,10 @@
   .pg-cards__grid[data-cols="4"],
   .pg-list-num__grid{ grid-template-columns:1fr; }
   .pg-timeline__list{ gap:52px; }
+  .pg-gallery-split{ grid-template-columns:1fr; gap:20px; }
+  .pg-gallery-split__row[data-cols="2"],
+  .pg-gallery-split__row[data-cols="3"]{ --cols:1; }
+  .pg-gallery-split__media{ height:clamp(320px, 90vw, 520px); }
 
   .pg-compare__table{
     background:transparent;

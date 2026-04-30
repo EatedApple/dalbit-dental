@@ -253,6 +253,9 @@ p{ margin:0; }
   border-radius:14px; padding:12px; box-shadow:var(--shadow-md);
   opacity:0; visibility:hidden; transition:all .25s ease;
 }
+.gnb__sub::before{
+  content:''; position:absolute; left:0; right:0; top:-12px; height:12px;
+}
 .gnb > ul > li:hover .gnb__sub{
   opacity:1; visibility:visible; transform:translateX(-50%) translateY(0);
 }
@@ -879,15 +882,19 @@ p{ margin:0; }
   .header.is-menu-open .gnb > ul > li:last-child{ border-bottom:0; }
   .header.is-menu-open .gnb > ul > li + li::before{ display:none; }
   .header.is-menu-open .gnb > ul > li > a{
-    height:auto; line-height:1.4; padding:16px 8px; display:block; font-weight:700;
+    height:auto; line-height:1.4; padding:16px 8px; display:block; font-weight:700; color:#fff;
   }
-  .header.is-menu-open .gnb__sub{
+  .header.is-menu-open .gnb__sub,
+  .header.is-menu-open .gnb > ul > li:hover .gnb__sub{
     position:static; transform:none; opacity:1; visibility:visible;
     box-shadow:none; padding:0 0 12px 16px; min-width:0;
     border:0; background:transparent;
   }
-  .header.is-menu-open .gnb__sub a{
-    padding:8px 14px; font-size:13px; color:var(--c-muted); text-align:left; font-weight:500;
+  .header.is-menu-open .gnb__sub::before{ display:none; }
+  .header.is-menu-open .gnb__sub a,
+  .header.is-menu-open .gnb__sub a:hover{
+    padding:10px 14px; font-size:14px; color:rgba(255,255,255,.85); text-align:left; font-weight:500;
+    background:transparent;
   }
   /* 햄버거 → X 변환 */
   .header.is-menu-open .menu-btn span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
@@ -971,7 +978,7 @@ p{ margin:0; }
 }
 </style>
 </head>
-<body>
+<body data-page="home">
 
 <!-- ====================================================
      달빛치과 SVG 로고 정의 (재사용용 symbol)
@@ -1465,6 +1472,7 @@ console.log('[interaction] site:rendered listener 실행 → 캐러셀/모달 �
 </script>
 
 <!-- 데이터 + 렌더 — listener 가 등록된 뒤 실행 -->
+<script src="page-shell.js"></script>
 <script src="data.js"></script>
 <script src="render.js"></script>
 

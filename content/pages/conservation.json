@@ -1,10 +1,10 @@
 {
-  "pageTitle": "보존 · 보철치료 | 달빛치과의원",
+  "pageTitle": "보존치료 | 달빛치과의원",
   "hero": {
-    "crumb": "CONSERVATION · 충치 · 보존",
-    "title": "보존 · <em>보철</em> 치료",
+    "crumb": "CONSERVATION · 보존치료",
+    "title": "보존 <em>치료</em>",
     "subtitle": "보건복지부 인증 전문의가 내 치아를 소중하게 지킵니다",
-    "bg": "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=2000&q=80"
+    "bg": "imgs/clinic-exam-room.png"
   },
   "intro": {
     "note": "Save Your Natural Tooth",

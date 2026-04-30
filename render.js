@@ -102,7 +102,10 @@
           implant:      "임플란트",
           ortho:        "투명교정",
           laminate:     "심미치료",
+          whitening:    "심미치료",
           conservation: "일반치료",
+          perio:        "일반치료",
+          tmj:          "일반치료",
           wisdom:       "일반치료",
         };
         return map[pageKey] || null;
@@ -133,17 +136,17 @@
     const aside = $('.quick');
     if(aside){
       aside.innerHTML = D.quick.map(q => {
-        const phoneText = (D.brand?.phoneText || '').replace(/[^\d]/g, '');
-        const phoneTop = phoneText.length >= 3 ? phoneText.slice(0, 3) : (D.brand?.phoneText || '054');
-        const phoneBottom = phoneText.length >= 10
-          ? `${phoneText.slice(3, 6)} ${phoneText.slice(6)}`
-          : (D.brand?.phoneText || q.label).replace(/^0?\d{2,3}[.\-\s]?/, '').replace(/[.\-]/g, ' ');
+        const phoneIcon = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.5 15.5 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.24 1.02l-2.21 2.2z"/></svg>';
         const inner = q.phoneBtn
-          ? `<span class="quick__phone-number"><span>${phoneTop}</span><span>${phoneBottom}</span></span>`
-          : `${ICONS[q.icon] || ''}${q.label}`;
-        const cls = `${q.primary ? 'is-primary' : ''}${q.hidden ? ' is-hidden' : ''}${q.phoneBtn ? ' quick__phone' : ''}`.trim();
+          ? `${phoneIcon}<span>${q.label}</span>`
+          : `${ICONS[q.icon] || ''}<span>${q.label}</span>`;
+        const cls = `${q.primary ? 'is-primary' : ''}${q.hidden ? ' is-hidden' : ''}${q.phoneBtn ? ' quick__phone' : ''}${q.icon === 'chat' ? ' quick__naver' : ''}`.trim();
         if(q.modal){
           return `<button class="${cls}" type="button" data-modal-open="${q.modal}" aria-label="${q.label}">${inner}</button>`;
+        }
+        if(q.popup && q.href.startsWith('http')){
+          const safeHref = q.href.replace(/"/g, '&quot;');
+          return `<a class="${cls}" href="${q.href}" target="_blank" rel="noopener" data-popup="${safeHref}" aria-label="${q.label}">${inner}</a>`;
         }
         return `<a class="${cls}" href="${q.href}" ${q.href.startsWith('http')?'target="_blank" rel="noopener"':''}>${inner}</a>`;
       }).join('');
@@ -492,7 +495,7 @@
             <h2>${P.guide.h2Html || ''}</h2>
             <div class="bar"></div>
           </div>
-          <img src="${P.guide.img}" alt="${P.guide.alt || ''}" style="width:100%;max-width:900px;margin:0 auto;display:block;border-radius:16px;">
+          <img src="${P.guide.img}" alt="${P.guide.alt || ''}" style="width:100%;max-width:1160px;height:auto;object-fit:contain;margin:0 auto;display:block;border-radius:16px;">
         </div>`;
     }
 
@@ -524,21 +527,21 @@
         </div>`;
     }
 
-    /* COMPARISON table */
-    const cmp = $('[data-block="compare"]');
-    if(cmp && P.compare){
-      const head = P.compare.head || [];
-      const rows = P.compare.rows || [];
+    /* COMPARISON table (supports compare + compare-nav) */
+    const renderCompare = (el, data) => {
+      if(!el || !data) return;
+      const head = data.head || [];
+      const rows = data.rows || [];
       const cols = head.length;
       const gridCols = cols === 4 ? '140px 1fr 1fr 1fr' :
                        cols === 3 ? '140px 1fr 1fr'      :
                                     '140px 1fr 1fr';
       const valueHeads = head.slice(1);
-      cmp.innerHTML = `
+      el.innerHTML = `
         <div class="container">
           <div class="sec-title">
-            <small>${P.compare.small || ''}</small>
-            <h2>${P.compare.h2Html || ''}</h2>
+            <small>${data.small || ''}</small>
+            <h2>${data.h2Html || ''}</h2>
             <div class="bar"></div>
           </div>
           <div class="pg-compare__table">
@@ -550,17 +553,6 @@
             </div>
             ${rows.map(r => {
               const values = r.cols || [r.a || '', r.b || ''];
-              if(r.cols){
-                return `<div class="pg-compare__row" style="grid-template-columns:${gridCols}">
-                  <div class="pg-compare__subject">${r.label}</div>
-                  ${values.map((c, i) => `
-                    <div class="pg-compare__cell ${i === values.length - 1 ? 'accent' : ''}">
-                      <span class="pg-compare__mobile-label">${valueHeads[i] || ''}</span>
-                      <span class="pg-compare__value">${c}</span>
-                    </div>
-                  `).join('')}
-                </div>`;
-              }
               return `<div class="pg-compare__row" style="grid-template-columns:${gridCols}">
                 <div class="pg-compare__subject">${r.label}</div>
                 ${values.map((c, i) => `
@@ -573,7 +565,9 @@
             }).join('')}
           </div>
         </div>`;
-    }
+    };
+    renderCompare($('[data-block="compare"]'), P.compare);
+    renderCompare($('[data-block="compare-nav"]'), P.compareNav);
 
     /* STAGES (conservation) */
     const stages = $('[data-block="stages"]');
@@ -746,7 +740,7 @@
             <div class="bar"></div>
           </div>
           <div class="pg-minimal__wrap">
-            <div class="pg-minimal__media"><img src="${P.minimal.img}" alt="최소 삭제"></div>
+            ${P.minimal.img ? `<div class="pg-minimal__media"><img src="${P.minimal.img}" alt="최소 삭제"></div>` : ''}
             <div class="pg-minimal__body">
               <p class="desc">${P.minimal.descHTML || ''}</p>
               <div class="pg-minimal__points">
@@ -836,7 +830,7 @@
           <div class="pg-types__grid">
             ${(T.items||[]).map(t => `
               <article class="pg-type">
-                <div class="pg-type__img"><img src="${t.img}" alt="${t.title}"></div>
+                ${t.img ? `<div class="pg-type__img"><img src="${t.img}" alt="${t.title}"></div>` : ''}
                 <div class="pg-type__body">
                   <h4>${t.title || ''}</h4>
                   <p>${t.desc || ''}</p>
@@ -867,6 +861,7 @@
                 <p>${it.desc || ''}</p>
               </article>`).join('')}
           </div>
+          ${W.img ? `<img src="${W.img}" alt="${W.imgAlt || ''}" class="pg-cards__img">` : ''}
         </div>`;
     }
 
@@ -948,6 +943,52 @@
     if(gal && P.gallery){
       const G = P.gallery;
       if(G.id) gal.id = G.id;
+      if(G.layout === 'split'){
+        gal.innerHTML = `
+          <div class="container">
+            <div class="sec-title">
+              <small>${G.small || ''}</small>
+              <h2>${G.h2Html || ''}</h2>
+              <div class="bar"></div>
+              ${G.lead ? `<p class="lead">${G.lead}</p>` : ''}
+            </div>
+            <div class="pg-gallery-split">
+              <section class="pg-gallery-split__group">
+                ${G.left?.text ? `<header class="pg-gallery-split__group-title">${G.left.text}</header>` : ''}
+                <div class="pg-gallery-split__row" data-cols="1">
+                  <figure class="pg-gallery-split__panel">
+                    <div class="pg-gallery-split__media">
+                      <img src="${G.left?.img || ''}" alt="${G.left?.text || ''}" loading="lazy">
+                    </div>
+                  </figure>
+                </div>
+              </section>
+              <section class="pg-gallery-split__group">
+                ${G.right?.text ? `<header class="pg-gallery-split__group-title">${G.right.text}</header>` : ''}
+                <div class="pg-gallery-split__row" data-cols="${(G.right?.images || []).length || 1}">
+                  ${(G.right?.images || []).map(src => `
+                    <figure class="pg-gallery-split__panel">
+                      <div class="pg-gallery-split__media">
+                        <img src="${src}" alt="${G.right?.text || ''}" loading="lazy">
+                      </div>
+                    </figure>`).join('')}
+                </div>
+              </section>
+            </div>
+            ${G.details ? `
+              <div class="pg-gallery-split__details">
+                ${G.details.descHTML ? `<p class="desc">${G.details.descHTML}</p>` : ''}
+                <div class="pg-minimal__points">
+                  ${(G.details.points || []).map(p => `
+                    <div>
+                      <h5>${p.title || ''}</h5>
+                      <p>${p.text || ''}</p>
+                    </div>`).join('')}
+                </div>
+              </div>` : ''}
+          </div>`;
+        return;
+      }
       gal.innerHTML = `
         <div class="container">
           <div class="sec-title">

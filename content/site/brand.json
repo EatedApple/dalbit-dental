@@ -23,9 +23,10 @@
       "phoneBtn": true
     },
     {
-      "href": "#",
+      "href": "https://talk.naver.com/ct/w4xu2t",
       "icon": "chat",
-      "label": "네이버톡톡"
+      "label": "네이버톡톡",
+      "popup": true
     }
   ]
 }

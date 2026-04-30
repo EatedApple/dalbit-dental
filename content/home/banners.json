@@ -1,6 +1,6 @@
 {
   "checklist": {
-    "bgImage": "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1800&q=80",
+    "bgImage": "imgs/clinic-treatment-room.png",
     "titleHTML": "치과,<br><span class='pen'>잘 선택하고 계신가요?</span>",
     "items": [
       "대표원장이 처음부터 끝까지 직접 진료하는가?",
@@ -11,7 +11,7 @@
     "closingHTML": "이 모든 조건을 갖춘 곳, 달빛치과의원<br>치료는 <span class='pen'>제대로 준비된 치과</span>에서 시작해야 합니다"
   },
   "point": {
-    "bgImage": "https://images.unsplash.com/photo-1629909615184-74f495363b67?auto=format&fit=crop&w=1800&q=80",
+    "bgImage": "imgs/clinic-special-room.jpg",
     "titleHTML": "<span>꼭 필요한 진료만</span>, 정직하게<br>가장 보수적인 <span>안전한 치료</span>를 약속합니다",
     "descHTML": "과한 진료를 권하지 않습니다.<br>가능한 한 자연치아를 살리고, 꼭 필요한 시기에 꼭 필요한 만큼만 치료합니다.",
     "closingHTML": "환자 한분 한분 중심의 맞춤진료로<br>작은 차이까지 고려한 세심한 진료를 제공합니다"

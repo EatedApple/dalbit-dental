@@ -15,6 +15,7 @@
     'ortho',
     'perio',
     'tmj',
+    'whitening',
     'wisdom',
   ];
 

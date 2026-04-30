@@ -7,19 +7,19 @@
     {
       "tag": "IMPLANT",
       "title": "임플란트 수술 전 꼭 알아두어야 할 5가지",
-      "img": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=700&q=80",
+      "img": "imgs/implant_step1.png",
       "href": "implant.html"
     },
     {
       "tag": "ORTHO",
       "title": "투명교정, 어떤 사람에게 잘 맞을까요?",
-      "img": "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&w=700&q=80",
+      "img": "imgs/ortho_step3.jpg",
       "href": "ortho.html"
     },
     {
       "tag": "BEAUTY",
       "title": "라미네이트 최소 삭제 0.3mm의 미학",
-      "img": "https://images.unsplash.com/photo-1571772996211-2f02c9727629?auto=format&fit=crop&w=700&q=80",
+      "img": "imgs/laminate-minimal-prep.png",
       "href": "laminate.html"
     },
     {

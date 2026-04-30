@@ -19,6 +19,7 @@ const FILE_LABELS = {
   'content/pages/equipment.json':    '장비 안내',
   'content/pages/implant.json':      '임플란트',
   'content/pages/laminate.json':     '라미네이트',
+  'content/pages/whitening.json':    '자가미백',
   'content/pages/ortho.json':        '교정',
   'content/pages/wisdom.json':       '사랑니',
 };
@@ -26,7 +27,7 @@ const FILE_LABELS = {
 const FILE_GROUPS = {
   '공통 설정':   ['content/site/brand.json', 'content/site/contact.json', 'content/site/navigation.json', 'content/site/popups.json'],
   '메인 페이지': ['content/home/hero.json', 'content/home/focus.json', 'content/home/banners.json', 'content/home/blog.json'],
-  '서브 페이지': ['content/pages/about.json', 'content/pages/conservation.json', 'content/pages/equipment.json', 'content/pages/implant.json', 'content/pages/laminate.json', 'content/pages/ortho.json', 'content/pages/wisdom.json'],
+  '서브 페이지': ['content/pages/about.json', 'content/pages/conservation.json', 'content/pages/equipment.json', 'content/pages/implant.json', 'content/pages/laminate.json', 'content/pages/whitening.json', 'content/pages/ortho.json', 'content/pages/wisdom.json'],
 };
 
 // 파일 + 최상위 필드 -> DOM 셀렉터 매핑 (수정한 섹션으로 점프용)
@@ -80,6 +81,7 @@ const FILE_TO_PAGE = {
   'content/pages/equipment.json':    'equipment.html',
   'content/pages/implant.json':      'implant.html',
   'content/pages/laminate.json':     'laminate.html',
+  'content/pages/whitening.json':    'whitening.html',
   'content/pages/ortho.json':        'ortho.html',
   'content/pages/wisdom.json':       'wisdom.html',
 };
