@@ -185,7 +185,7 @@ p{ margin:0; }
   position:relative;
 }
 .header__addr{
-  font-size:18px; color:var(--c-ink); line-height:1.45;
+  font-size:20px; color:var(--c-ink); line-height:1.55;
   font-family:var(--ff-sans);
   font-weight:700;
 }
@@ -228,9 +228,9 @@ p{ margin:0; }
 /* ---- nav row : centered menu, top divider above ---- */
 .header__nav{
   height:var(--header-nav);
-  border-top:1px solid var(--c-line);
+  background:#1c3168;
 }
-.gnb{ height:100%; max-width:var(--container); margin:0 auto; padding:0 24px; }
+.gnb{ height:100%; max-width:var(--container); margin:0 auto; padding:0 24px; background:#1c3168; }
 .gnb > ul{
   display:flex; justify-content:center; align-items:center; height:100%; gap:0;
 }
@@ -238,18 +238,18 @@ p{ margin:0; }
 .gnb > ul > li + li::before{
   /* divider between nav items */
   content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
-  width:1px; height:14px; background:var(--c-line);
+  width:1px; height:14px; background:rgba(255,255,255,.3);
 }
 .gnb > ul > li > a{
   display:block; padding:0 38px; height:var(--header-nav);
   line-height:var(--header-nav); font-weight:700; font-size:17px;
-  color:var(--c-ink); transition:color .2s; font-family:var(--ff-sans);
+  color:#fff; transition:color .2s; font-family:var(--ff-sans);
   letter-spacing:-.02em;
 }
-.gnb > ul > li > a:hover{ color:var(--c-primary); }
+.gnb > ul > li > a:hover{ color:rgba(255,255,255,.75); }
 .gnb__sub{
   position:absolute; top:100%; left:50%; transform:translateX(-50%) translateY(8px);
-  min-width:200px; background:#fff; border:1px solid var(--c-line);
+  min-width:200px; background:#1c3168; border:1px solid rgba(255,255,255,.15);
   border-radius:14px; padding:12px; box-shadow:var(--shadow-md);
   opacity:0; visibility:hidden; transition:all .25s ease;
 }
@@ -258,10 +258,10 @@ p{ margin:0; }
 }
 .gnb__sub a{
   display:block; padding:10px 14px; border-radius:8px;
-  font-size:14px; color:var(--c-text); transition:background .15s, color .15s;
+  font-size:14px; color:rgba(255,255,255,.85); transition:background .15s, color .15s;
   text-align:center;
 }
-.gnb__sub a:hover{ background:var(--c-bg-soft); color:var(--c-primary); }
+.gnb__sub a:hover{ background:rgba(255,255,255,.12); color:#fff; }
 
 .menu-btn{
   display:none; width:40px; height:40px; border-radius:10px;
@@ -294,6 +294,25 @@ p{ margin:0; }
 }
 .quick .is-primary:hover{ background:var(--c-primary-deep); color:#fff; }
 .quick .is-hidden{ display:none !important; }
+.quick .quick__phone{
+  width:74px;
+  height:74px;
+  padding:8px;
+  gap:0;
+  border-radius:18px;
+  justify-content:center;
+  text-align:center;
+  font-family:var(--ff-display);
+  font-weight:700;
+}
+.quick .quick__phone-number{
+  display:block;
+  font-size:13px;
+  line-height:1.15;
+  letter-spacing:-.04em;
+  overflow-wrap:anywhere;
+}
+.quick .quick__phone-number span{ display:block; }
 
 /* ============================================
    HERO carousel
@@ -595,9 +614,12 @@ p{ margin:0; }
 .foot-card .directions{
   margin-top:auto;
 }
+.foot-card--hours{
+  order:1;
+}
 .foot-card--map{
-  justify-content:center;
-  order:-1;
+  justify-content:flex-start;
+  order:0;
 }
 .foot-card--map .directions:empty{
   display:none;
@@ -609,31 +631,35 @@ p{ margin:0; }
   font-family:var(--ff-display); line-height:1.2;
 }
 .foot-card h4 svg{ width:30px; height:30px; color:var(--c-primary); flex:0 0 30px; }
-.foot-card--hours h4{
+.foot-card--hours h4,
+.foot-card--map h4{
   font-size:58px;
   margin-bottom:38px;
 }
-.foot-card--hours h4 svg{
+.foot-card--hours h4 svg,
+.foot-card--map h4 svg{
   width:42px;
   height:42px;
   flex-basis:42px;
 }
 
 .hours dl{
-  display:grid; grid-template-columns:170px 1fr; padding:16px 0;
+  display:grid; grid-template-columns:170px 1fr; padding:7px 0;
   border-bottom:1px dashed var(--c-line);
 }
+.hours dl.is-note{ padding:0 0 5px; border-bottom:0; }
 .hours dl:last-of-type{ border-bottom:0; }
-.hours dt{ color:var(--c-primary); font-weight:700; font-size:24px; font-family:var(--ff-display); }
-.hours dd{ color:var(--c-text); margin:0; font-size:24px; font-weight:700; line-height:1.5; }
+.hours dt{ color:var(--c-primary); font-weight:700; font-size:31px; font-family:var(--ff-display); }
+.hours dd{ color:var(--c-text); margin:0; font-size:29px; font-weight:700; line-height:1.32; }
 .hours dd .hours-break{
   display:block;
-  margin-top:4px;
-  font-size:.9em;
+  margin-top:6px;
+  font-size:.85em;
   color:var(--c-muted);
   font-weight:600;
 }
-.hours .closed{ margin-top:18px; color:var(--c-muted); font-size:18px; }
+.hours dd .hours-break--note{ margin-top:0; }
+.hours .closed{ margin-top:10px; color:var(--c-muted); font-size:20px; }
 .hours-image{
   margin-bottom:24px; border-radius:16px; overflow:hidden;
   border:1px solid #dde2ed; background:#fff; box-shadow:var(--shadow-sm);
@@ -691,7 +717,7 @@ p{ margin:0; }
 .map-address span{
   display:block; margin-top:8px;
   font-size:15px; font-weight:600; line-height:1.5;
-  color:var(--c-text); font-family:var(--ff-body);
+  color:var(--c-text); font-family:var(--ff-sans);
 }
 .map-placeholder::before{
   content:''; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
@@ -873,13 +899,16 @@ p{ margin:0; }
   .foot-board__grid{ grid-template-columns:1fr; }
   .foot-card{ padding:50px 36px; }
   .foot-card + .foot-card{ border-left:0; border-top:1px solid var(--c-line); }
-  .foot-card--hours h4{ font-size:46px; }
-  .foot-card--hours h4 svg{ width:34px; height:34px; flex-basis:34px; }
-  .hours dl{ grid-template-columns:140px 1fr; }
-  .hours dt, .hours dd{ font-size:20px; }
-  .hours .closed{ font-size:16px; }
+  .foot-card--hours h4, .foot-card--map h4{ font-size:46px; }
+  .foot-card--hours h4 svg, .foot-card--map h4 svg{ width:34px; height:34px; flex-basis:34px; }
+  .hours dl{ grid-template-columns:140px 1fr; padding:6px 0; }
+  .hours dt{ font-size:24px; }
+  .hours dd{ font-size:23px; }
+  .hours .closed{ font-size:17px; }
   .quick{ right:10px; }
   .quick a, .quick button{ width:60px; height:60px; font-size:11px; }
+  .quick .quick__phone{ width:60px; height:60px; padding:6px; }
+  .quick .quick__phone-number{ font-size:10.5px; line-height:1.1; }
 }
 @media (max-width: 720px){
   :root{ --header-h:84px; --header-top:84px; }
@@ -906,12 +935,22 @@ p{ margin:0; }
   .hero__slide--2{ justify-content:center; }
   .hero__slide--2 .hero__text{ text-align:left; }
   .hero__nav{ display:none; }
-  .foot-card--hours h4{ font-size:34px; }
-  .foot-card--hours h4 svg{ width:26px; height:26px; flex-basis:26px; }
-  .hours dl{ grid-template-columns:110px 1fr; padding:12px 0; }
-  .hours dt, .hours dd{ font-size:16px; }
+  .foot-card--hours h4, .foot-card--map h4{ font-size:34px; }
+  .foot-card--hours h4 svg, .foot-card--map h4 svg{ width:26px; height:26px; flex-basis:26px; }
+  .hours dl{ grid-template-columns:110px 1fr; padding:8px 0; }
+  .hours dt{ font-size:18px; }
+  .hours dd{ font-size:18px; }
   .hours .closed{ font-size:14px; }
   .map-address{ font-size:18px; padding:14px 14px 16px; }
+  .map-address span{ font-size:13px; }
+  .quick .quick__phone{
+    width:54px;
+    height:54px;
+    padding:4px;
+    justify-content:center;
+    border-radius:18px;
+  }
+  .quick .quick__phone-number{ display:block; font-size:9px; line-height:1.05; letter-spacing:-.06em; }
 
   .focus__grid{ grid-template-columns:1fr; gap:16px; }
   .focus__card{ aspect-ratio:5/3; }
@@ -1093,6 +1132,10 @@ p{ margin:0; }
       </div>
 
       <div class="foot-card foot-card--map">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          오시는 길
+        </h4>
         <div class="map-placeholder" id="map-placeholder"><span></span></div>
         <div class="directions" id="directions"><!-- rendered from data.js: directions --></div>
     </div>

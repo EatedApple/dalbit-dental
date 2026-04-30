@@ -133,8 +133,15 @@
     const aside = $('.quick');
     if(aside){
       aside.innerHTML = D.quick.map(q => {
-        const inner = `${ICONS[q.icon] || ''}${q.label}`;
-        const cls = `${q.primary ? 'is-primary' : ''}${q.hidden ? ' is-hidden' : ''}`.trim();
+        const phoneText = (D.brand?.phoneText || '').replace(/[^\d]/g, '');
+        const phoneTop = phoneText.length >= 3 ? phoneText.slice(0, 3) : (D.brand?.phoneText || '054');
+        const phoneBottom = phoneText.length >= 10
+          ? `${phoneText.slice(3, 6)} ${phoneText.slice(6)}`
+          : (D.brand?.phoneText || q.label).replace(/^0?\d{2,3}[.\-\s]?/, '').replace(/[.\-]/g, ' ');
+        const inner = q.phoneBtn
+          ? `<span class="quick__phone-number"><span>${phoneTop}</span><span>${phoneBottom}</span></span>`
+          : `${ICONS[q.icon] || ''}${q.label}`;
+        const cls = `${q.primary ? 'is-primary' : ''}${q.hidden ? ' is-hidden' : ''}${q.phoneBtn ? ' quick__phone' : ''}`.trim();
         if(q.modal){
           return `<button class="${cls}" type="button" data-modal-open="${q.modal}" aria-label="${q.label}">${inner}</button>`;
         }
@@ -262,9 +269,10 @@
   if(D.hours){
     const wrap = $('#hours-list');
     if(wrap){
-      const tableHtml = D.hours.map(h => `
-        <dl><dt>${h.day}</dt><dd>${h.time}${h.badge ? ` <span style="color:var(--c-primary);font-weight:700">${h.badge}</span>` : ''}</dd></dl>
-      `).join('') + (D.hoursClosed ? `<p class="closed">${D.hoursClosed}</p>` : '');
+      const tableHtml = D.hours.map(h => {
+        if(h.note) return `<dl class="is-note"><dt></dt><dd><span class="hours-break hours-break--note">${h.note}</span></dd></dl>`;
+        return `<dl><dt>${h.day}</dt><dd>${h.time}${h.badge ? ` <span style="color:var(--c-primary);font-weight:700">${h.badge}</span>` : ''}</dd></dl>`;
+      }).join('') + (D.hoursClosed ? `<p class="closed">${D.hoursClosed}</p>` : '');
       wrap.innerHTML = tableHtml;
     }
   }
@@ -423,7 +431,8 @@
           <div class="container">
             ${P.intro.note ? `<div class="note">${P.intro.note}</div>` : ''}
             <h2>${P.intro.titleHTML || ''}</h2>
-            ${P.intro.descHTML ? `<p class="desc">${P.intro.descHTML}</p>` : ''}
+            ${P.intro.lead ? `<p class="lead" style="margin-top:16px;color:var(--c-muted);font-size:16px;line-height:1.8;">${P.intro.lead}</p>` : ''}
+            ${P.intro.descHTML ? `<div class="desc">${P.intro.descHTML}</div>` : ''}
           </div>`;
       } else {
         intro.remove();
@@ -431,11 +440,11 @@
     }
 
     /* CARDS blocks: points / target / features / strengths / tmj / reasons / maintenance / promises */
-    ['points','target','features','strengths','tmj','reasons','maintenance','promises'].forEach(key => {
+    ['points','target','features','prevention','general','strengths','tmj','reasons','maintenance','promises'].forEach(key => {
       const block = $(`[data-block="${key}"]`);
       const D = P[key];
       if(!block || !D) return;
-      const useNum = ['points','features','tmj','reasons','maintenance'].includes(key);
+      const useNum = ['points','features','prevention','general','tmj','reasons','maintenance'].includes(key);
       const useEmoji = ['target','strengths','promises'].includes(key);
       block.innerHTML = `
         <div class="container">
@@ -451,11 +460,26 @@
                 ${useNum && it.num ? `<div class="num">${it.num}</div>` : ''}
                 ${useEmoji && it.emoji ? `<div class="emoji">${it.emoji}</div>` : ''}
                 <h4>${it.title || ''}</h4>
-                <p>${it.desc || ''}</p>
+                <p>${(it.desc || '').replace(/\n/g, '<br>')}</p>
               </article>`).join('')}
           </div>
+          ${D.note ? `<p class="pg-cards__note">${D.note}</p>` : ''}
         </div>`;
     });
+
+    /* GUIDE IMAGE (implant) */
+    const guide = $('[data-block="guide"]');
+    if(guide && P.guide){
+      guide.innerHTML = `
+        <div class="container">
+          <div class="sec-title">
+            <small>${P.guide.small || ''}</small>
+            <h2>${P.guide.h2Html || ''}</h2>
+            <div class="bar"></div>
+          </div>
+          <img src="${P.guide.img}" alt="${P.guide.alt || ''}" style="width:100%;max-width:900px;margin:0 auto;display:block;border-radius:16px;">
+        </div>`;
+    }
 
     /* TIMELINE (implant / ortho) */
     const tl = $('[data-block="timeline"]');
@@ -918,8 +942,9 @@
             ${G.lead ? `<p class="lead">${G.lead}</p>` : ''}
           </div>
           <div class="pg-gallery__grid">
-            ${(G.items||[]).map(it => `
-              <figure class="pg-gallery__item${it.span ? ' is-'+it.span : ''}">
+            ${(G.items||[]).map(it => it.ghost
+              ? `<div class="pg-gallery__item is-ghost" aria-hidden="true"></div>`
+              : `<figure class="pg-gallery__item${it.span ? ' is-'+it.span : ''}">
                 <img src="${it.img}" alt="${it.text || ''}" loading="lazy">
                 ${it.text ? `<figcaption>${it.text}</figcaption>` : ''}
               </figure>`).join('')}

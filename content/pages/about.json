@@ -110,34 +110,34 @@
     "lead": "편안한 대기 공간부터 정성스레 준비한 진료실까지 — 환자분이 머무는 모든 공간을 세심하게 준비했습니다.",
     "items": [
       {
-        "img": "imgs/gallery_slider1.png",
-        "text": "접수 · 대기 공간"
-      },
-      {
-        "img": "imgs/gallery_slider3.png",
-        "text": "상담실"
-      },
-      {
-        "img": "imgs/gallery_slider4.png",
-        "text": "진료실"
-      },
-      {
-        "img": "imgs/gallery_slider5.png",
-        "text": "파노라마 진료실"
-      },
-      {
-        "img": "imgs/gallery_slider2.png",
-        "text": "대기 공간",
-        "span": "wide"
-      },
-      {
-        "img": "imgs/gallery_slider4.png",
-        "text": "진료실",
+        "img": "imgs/clinic-desk.png",
+        "text": "데스크",
         "span": "big"
       },
       {
-        "img": "imgs/gallery_slider5.png",
-        "text": "파노라마 진료실",
+        "img": "imgs/clinic-waiting-room.jpg",
+        "text": "대기실"
+      },
+      {
+        "img": "imgs/clinic-corridor.png",
+        "text": "복도"
+      },
+      {
+        "img": "imgs/clinic-consult.png",
+        "text": "상담실"
+      },
+      {
+        "img": "imgs/clinic-exam-room.png",
+        "text": "예진실"
+      },
+      {
+        "img": "imgs/clinic-special-room.jpg",
+        "text": "특진실",
+        "span": "wide"
+      },
+      {
+        "img": "imgs/clinic-treatment-room.png",
+        "text": "진료실",
         "span": "wide"
       }
     ]

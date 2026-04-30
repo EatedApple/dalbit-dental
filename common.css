@@ -140,32 +140,35 @@ p{ margin:0; }
 
 .header__nav{
   height:var(--header-nav);
-  border-top:1px solid var(--c-line);
+  background:#1c3168 !important;
 }
-.gnb{ height:100%; max-width:var(--container); margin:0 auto; padding:0 24px; }
+.gnb{ 
+  height:100%; max-width:var(--container); margin:0 auto; padding:0 24px; 
+  background:#1c3168;
+}
 .gnb > ul{
   display:flex; justify-content:center; align-items:center; height:100%; gap:0;
 }
 .gnb > ul > li{ position:relative; }
 .gnb > ul > li + li::before{
   content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
-  width:1px; height:14px; background:var(--c-line);
+  width:1px; height:14px; background:rgba(255,255,255,.3);
 }
 .gnb > ul > li > a{
   display:block; padding:0 38px; height:var(--header-nav);
   line-height:var(--header-nav); font-weight:700; font-size:17px;
-  color:var(--c-ink); transition:color .2s; font-family:var(--ff-sans);
+  color:#fff; transition:color .2s; font-family:var(--ff-sans);
   letter-spacing:-.02em;
 }
 .gnb > ul > li > a:hover,
-.gnb > ul > li.is-current > a{ color:var(--c-primary); }
+.gnb > ul > li.is-current > a{ color:rgba(255,255,255,.75); }
 .gnb > ul > li.is-current > a::after{
   content:''; position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
-  width:24px; height:2px; background:var(--c-accent); border-radius:99px;
+  width:24px; height:2px; background:#fff; border-radius:99px;
 }
 .gnb__sub{
   position:absolute; top:100%; left:50%; transform:translateX(-50%) translateY(8px);
-  min-width:200px; background:#fff; border:1px solid var(--c-line);
+  min-width:200px; background:#1c3168; border:1px solid rgba(255,255,255,.15);
   border-radius:14px; padding:12px; box-shadow:var(--shadow-md);
   opacity:0; visibility:hidden; transition:all .25s ease;
 }
@@ -174,10 +177,10 @@ p{ margin:0; }
 }
 .gnb__sub a{
   display:block; padding:10px 14px; border-radius:8px;
-  font-size:14px; color:var(--c-text); transition:background .15s, color .15s;
+  font-size:14px; color:rgba(255,255,255,.85); transition:background .15s, color .15s;
   text-align:center;
 }
-.gnb__sub a:hover{ background:var(--c-bg-soft); color:var(--c-primary); }
+.gnb__sub a:hover{ background:rgba(255,255,255,.12); color:#fff; }
 
 .menu-btn{
   display:none; width:40px; height:40px; border-radius:10px;

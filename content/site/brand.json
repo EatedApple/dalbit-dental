@@ -1,6 +1,6 @@
 {
   "brand": {
-    "addrTagline": "포항시청 앞 · 포항시 남구 대이로 39 2층",
+    "addrTagline": "포항시청 앞<br>포항시 남구 대이로 39 2층",
     "headerName": "달빛치과",
     "logo": "imgs/logo.png",
     "name": "달빛치과의원",
@@ -19,7 +19,8 @@
       "href": "tel:054-705-0101",
       "icon": "phone",
       "label": "전화상담",
-      "primary": true
+      "primary": true,
+      "phoneBtn": true
     },
     {
       "href": "#",

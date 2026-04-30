@@ -28,45 +28,23 @@
     },
     {
       "label": "임플란트",
-      "href": "implant.html",
-      "sub": [
-        {
-          "label": "네비게이션 임플란트",
-          "href": "implant.html#points"
-        },
-        {
-          "label": "비교 안내",
-          "href": "implant.html#compare"
-        },
-        {
-          "label": "진행 과정",
-          "href": "implant.html#timeline"
-        },
-        {
-          "label": "추천 대상",
-          "href": "implant.html#target"
-        },
-        {
-          "label": "임플란트 영상",
-          "href": "implant.html#video"
-        }
-      ]
+      "href": "implant.html"
     },
     {
-      "label": "투명교정",
+      "label": "교정",
       "href": "ortho.html",
       "sub": [
         {
-          "label": "투명교정 안내",
+          "label": "투명교정",
           "href": "ortho.html"
         },
         {
-          "label": "교정 진행 과정",
-          "href": "ortho.html#timeline"
+          "label": "예방교정",
+          "href": "ortho.html#prevention"
         },
         {
-          "label": "유지장치 관리",
-          "href": "ortho.html#maintenance"
+          "label": "일반교정",
+          "href": "ortho.html#general"
         }
       ]
     },
@@ -77,6 +55,10 @@
         {
           "label": "라미네이트",
           "href": "laminate.html"
+        },
+        {
+          "label": "자가미백",
+          "href": "laminate.html#self-whitening"
         }
       ]
     },
@@ -85,7 +67,11 @@
       "href": "conservation.html",
       "sub": [
         {
-          "label": "보존 · 치주치료",
+          "label": "보존치료",
+          "href": "conservation.html"
+        },
+        {
+          "label": "치주치료",
           "href": "conservation.html"
         },
         {
