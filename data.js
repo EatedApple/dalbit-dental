@@ -13,6 +13,8 @@
     'implant',
     'laminate',
     'ortho',
+    'perio',
+    'tmj',
     'wisdom',
   ];
 

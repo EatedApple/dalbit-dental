@@ -35,16 +35,16 @@
       "href": "ortho.html",
       "sub": [
         {
-          "label": "투명교정",
-          "href": "ortho.html"
-        },
-        {
           "label": "예방교정",
           "href": "ortho.html#prevention"
         },
         {
           "label": "일반교정",
           "href": "ortho.html#general"
+        },
+        {
+          "label": "투명교정",
+          "href": "ortho.html#clear"
         }
       ]
     },
@@ -71,16 +71,16 @@
           "href": "conservation.html"
         },
         {
-          "label": "치주치료",
-          "href": "conservation.html"
+          "label": "잇몸치료",
+          "href": "perio.html"
         },
         {
-          "label": "턱관절 치료",
-          "href": "wisdom.html"
+          "label": "턱관절치료",
+          "href": "tmj.html"
         },
         {
           "label": "사랑니 발치",
-          "href": "wisdom.html#wisdom"
+          "href": "wisdom.html"
         }
       ]
     }

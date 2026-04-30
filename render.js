@@ -439,12 +439,12 @@
       }
     }
 
-    /* CARDS blocks: points / target / features / strengths / tmj / reasons / maintenance / promises */
-    ['points','target','features','prevention','general','strengths','tmj','reasons','maintenance','promises'].forEach(key => {
+    /* CARDS blocks: points / target / features / strengths / tmj / reasons / maintenance / promises / treatments / symptoms / wisdom */
+    ['points','target','features','prevention','malocclusion','general','strengths','tmj','reasons','maintenance','promises','treatments','symptoms','wisdom'].forEach(key => {
       const block = $(`[data-block="${key}"]`);
       const D = P[key];
       if(!block || !D) return;
-      const useNum = ['points','features','prevention','general','tmj','reasons','maintenance'].includes(key);
+      const useNum = ['points','features','prevention','malocclusion','general','tmj','reasons','maintenance','treatments','symptoms','wisdom'].includes(key);
       const useEmoji = ['target','strengths','promises'].includes(key);
       block.innerHTML = `
         <div class="container">
@@ -452,8 +452,10 @@
             <small>${D.small || ''}</small>
             <h2>${D.h2Html || ''}</h2>
             <div class="bar"></div>
+            ${D.quote ? `<p class="pg-quote">&ldquo;${D.quote}&rdquo;</p>` : ''}
             ${D.lead ? `<p class="lead">${D.lead}</p>` : ''}
           </div>
+          ${D.intro ? `<div class="pg-intro-box">${D.intro}</div>` : ''}
           <div class="pg-cards__grid" data-cols="${D.cols || 3}">
             ${(D.items||[]).map(it => `
               <article class="pg-card">
@@ -464,6 +466,19 @@
               </article>`).join('')}
           </div>
           ${D.note ? `<p class="pg-cards__note">${D.note}</p>` : ''}
+          ${D.img ? `<img src="${D.img}" alt="${D.imgAlt||''}" class="pg-cards__img">` : ''}
+          ${D.types ? `
+          <div class="pg-types">
+            <h3 class="pg-types__title">부정교합의 종류</h3>
+            <p class="pg-types__lead">부정교합은 위아래 턱의 맞물림이 정상적이지 않거나 치열이 고르지 못한 상태를 말합니다. 방치할 경우 턱관절 질환이나 안면 비대칭으로 이어질 수 있어 정확한 진단이 필요합니다.</p>
+            <div class="pg-types__grid">
+              ${D.types.map(t => `
+                <div class="pg-type-item">
+                  <strong>${t.title}</strong>
+                  <span>${t.desc}</span>
+                </div>`).join('')}
+            </div>
+          </div>` : ''}
         </div>`;
     });
 

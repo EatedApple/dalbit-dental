@@ -15,7 +15,7 @@
     "small": "CARIES PROGRESS",
     "h2Html": "충치 진행 <b>4단계</b>",
     "lead": "충치는 스스로 회복되지 않습니다. 초기에 발견할수록 치아를 살리기 쉽습니다.",
-    "image": "imgs/caries-stages-4.png",
+    "image": "imgs/conservation-caries.png",
     "items": [
       {
         "head": "STAGE 01",
@@ -79,7 +79,7 @@
     "id": "endo",
     "titleHTML": "내 치아를 살리는 <span>신경치료</span>",
     "descHTML": "심한 충치나 파손으로 감염된 신경을 제거하고 소독하여 <strong>치아를 뽑지 않고 더 오래</strong> 사용할 수 있게 만드는 치료입니다.",
-    "img": "imgs/root-canal-info.png",
+    "img": "imgs/conservation-endo.png",
     "steps": [
       {
         "step": "STEP 01",
