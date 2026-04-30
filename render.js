@@ -459,6 +459,11 @@
             ${D.lead ? `<p class="lead">${D.lead}</p>` : ''}
           </div>
           ${D.intro ? `<div class="pg-intro-box">${D.intro}</div>` : ''}
+          ${D.imgTop ? `
+          <figure class="pg-cards__img-card">
+            <img src="${D.img}" alt="${D.imgAlt||''}">
+            ${D.imgCaption ? `<figcaption>${D.imgCaption}</figcaption>` : ''}
+          </figure>` : ''}
           <div class="pg-cards__grid" data-cols="${D.cols || 3}">
             ${(D.items||[]).map(it => `
               <article class="pg-card">
@@ -469,7 +474,17 @@
               </article>`).join('')}
           </div>
           ${D.note ? `<p class="pg-cards__note">${D.note}</p>` : ''}
-          ${D.img ? `<img src="${D.img}" alt="${D.imgAlt||''}" class="pg-cards__img">` : ''}
+          ${D.imgCompare ? `
+          <div class="pg-img-compare">
+            <figure class="pg-img-compare__item">
+              <img src="${D.img}" alt="${D.imgAlt||''}">
+              <figcaption>${D.imgLabel||'기존 교정'}</figcaption>
+            </figure>
+            <figure class="pg-img-compare__item pg-img-compare__item--accent">
+              <img src="${D.imgCompare}" alt="${D.imgCompareAlt||''}">
+              <figcaption>${D.imgCompareLabel||'투명교정'}</figcaption>
+            </figure>
+          </div>` : !D.imgTop && D.img ? `<img src="${D.img}" alt="${D.imgAlt||''}" class="pg-cards__img">` : ''}
           ${D.types ? `
           <div class="pg-types">
             <h3 class="pg-types__title">부정교합의 종류</h3>
