@@ -560,8 +560,7 @@ p{ margin:0; }
   .brand__name{ font-size:24px; }
   .brand__name small{ display:none; }
   .header__addr{ display:none; }
-  .header__call span{ display:none; }
-  .header__call{ width:42px; height:42px; padding:0; justify-content:center; border-radius:50%; }
+  .header__call{ display:none; }
 
   .foot-card{ padding:36px 22px; }
   .foot-card--hours h4, .foot-card--map h4{ font-size:34px; }

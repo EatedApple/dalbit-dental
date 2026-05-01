@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^python -c \"\nwith open\\(r'c:\\\\Users\\\\사용자\\\\dalbit-dental\\\\index\\.html', 'r', encoding='utf-8'\\) as f:\n    content = f\\.read\\(\\)\n\nimport re\n# 깨진 주석 시작부터 quick-form 마지막 줄까지 제거\npattern = r'\\\\n/\\\\\\* =\\{44\\}\\\\n   RESPONSIVE \\\\u2014 index \\\\uace0\\\\uc720 \\\\uc139\\\\uc158\\\\ub9cc\\\\n\\\\\\.foot-card\\.\\*\\?\\\\\\.quick-form button\\\\\\[type=\\.submit\\.\\\\\\]:hover\\\\\\{ background:var\\\\\\(--c-primary-deep\\\\\\); \\\\\\}'\nresult = re\\.sub\\(pattern, '', content, flags=re\\.DOTALL\\)\nprint\\('Replaced:', content != result\\)\nwith open\\(r'c:\\\\Users\\\\사용자\\\\dalbit-dental\\\\index\\.html', 'w', encoding='utf-8'\\) as f:\n    f\\.write\\(result\\)\n\"\n$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
