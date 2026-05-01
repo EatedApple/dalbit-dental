@@ -83,11 +83,11 @@
   },
   "compareNav": {
     "small": "NAVIGATION VS TRADITIONAL",
-    "h2Html": "기존 임플란트 vs <b>네비게이션 임플란트</b>",
+    "h2Html": "기존 임플란트 vs <b>가이드 (네비게이션) 임플란트</b>",
     "head": [
       "비교 항목",
       "기존 임플란트",
-      "네비게이션 임플란트"
+      "가이드 (네비게이션) 임플란트"
     ],
     "rows": [
       {
@@ -114,7 +114,7 @@
   },
   "timeline": {
     "small": "PROCESS",
-    "h2Html": "네비게이션 임플란트 <b>4단계 진행 과정</b>",
+    "h2Html": "가이드 (네비게이션) 임플란트 <b>4단계 진행 과정</b>",
     "items": [
       {
         "step": "STEP 01",

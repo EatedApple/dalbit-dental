@@ -28,7 +28,21 @@
     },
     {
       "label": "임플란트",
-      "href": "implant.html"
+      "href": "implant.html",
+      "sub": [
+        {
+          "label": "단순임플란트",
+          "href": "implant.html#points"
+        },
+        {
+          "label": "뼈이식임플란트",
+          "href": "implant.html#points"
+        },
+        {
+          "label": "가이드임플란트",
+          "href": "implant.html#compare-nav"
+        }
+      ]
     },
     {
       "label": "교정",
