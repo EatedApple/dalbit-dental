@@ -172,9 +172,9 @@ document.addEventListener('click', function(e){
   const w = 420, h = 720;
   const left = Math.max(0, (window.screen.availWidth  - w) / 2);
   const top  = Math.max(0, (window.screen.availHeight - h) / 2);
-  const features = `width=${w},height=${h},left=${left},top=${top},resizable=yes,scrollbars=yes,noopener`;
+  const features = `width=${w},height=${h},left=${left},top=${top},resizable=yes,scrollbars=yes`;
   const win = window.open(url, 'naverTalk', features);
-  if(!win){ /* 팝업 차단 시 새 탭 폴백 (target=_blank 동작) */ window.open(url, '_blank', 'noopener'); }
+  if(!win){ /* 팝업 차단 시 새 탭 폴백 */ window.open(url, '_blank'); }
 });
 
 /* 모바일 햄버거 메뉴 — 정적 HTML 기반, 즉시 부착 */
