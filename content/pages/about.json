@@ -60,6 +60,7 @@
         "badge": "통합치과의학 전문의",
         "name": "김은주",
         "nameEn": "Kim Eun Ju",
+        "photo": "imgs/doctor-k.png",
         "role": "Director",
         "roleKo": "대표원장",
         "history": [
@@ -83,6 +84,7 @@
         "badge": "통합치과의학 전문의",
         "name": "이혜경",
         "nameEn": "Lee Hye Kyung",
+        "photo": "imgs/doctor-l.png",
         "role": "Director",
         "roleKo": "대표원장",
         "history": [

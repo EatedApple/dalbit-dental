@@ -284,6 +284,42 @@ document.addEventListener('site:rendered', function(){
   (function(){
     const popups = Array.from(document.querySelectorAll('.notice-popup'));
     if(!popups.length) return;
+    const wrap = document.getElementById('notice-popups');
+    let lightbox = null;
+
+    const ensureLightbox = () => {
+      if(lightbox) return lightbox;
+      lightbox = document.getElementById('notice-lightbox');
+      if(lightbox) return lightbox;
+      lightbox = document.createElement('div');
+      lightbox.id = 'notice-lightbox';
+      lightbox.className = 'notice-lightbox';
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightbox.innerHTML = `
+        <button class="notice-lightbox__close" type="button" aria-label="이미지 닫기" data-notice-lightbox-close>&times;</button>
+        <img class="notice-lightbox__img" alt="">
+      `;
+      document.body.appendChild(lightbox);
+      lightbox.addEventListener('click', e => {
+        if(e.target === lightbox || e.target.closest('[data-notice-lightbox-close]')) closeLightbox();
+      });
+      return lightbox;
+    };
+
+    const openLightbox = (img) => {
+      const viewer = ensureLightbox();
+      const viewerImg = viewer.querySelector('.notice-lightbox__img');
+      viewerImg.src = img.currentSrc || img.src;
+      viewerImg.alt = img.alt || '';
+      viewer.classList.add('is-open');
+      viewer.setAttribute('aria-hidden', 'false');
+    };
+
+    const closeLightbox = () => {
+      const viewer = ensureLightbox();
+      viewer.classList.remove('is-open');
+      viewer.setAttribute('aria-hidden', 'true');
+    };
 
     const sizePopup = (popup) => {
       const img = popup.querySelector('.notice-popup__body img');
@@ -310,6 +346,27 @@ document.addEventListener('site:rendered', function(){
       popup.style.setProperty('--notice-image-max-height', `${Math.round(viewportHeight)}px`);
     };
 
+    const layoutPopups = () => {
+      if(!wrap) return;
+      wrap.classList.remove('notice-popups--row', 'notice-popups--column');
+      const openPopups = popups.filter(popup => popup.classList.contains('is-open'));
+      if(openPopups.length < 2) return;
+
+      const isMobile = window.innerWidth <= 720;
+      const gap = isMobile ? 12 : 18;
+      const availableWidth = window.innerWidth - (isMobile ? 32 : 48);
+      const availableHeight = window.innerHeight - (isMobile ? 32 : 48);
+      const widths = openPopups.map(popup => popup.getBoundingClientRect().width);
+      const heights = openPopups.map(popup => popup.getBoundingClientRect().height);
+      const rowFits = widths.reduce((sum, width) => sum + width, 0) + (gap * (openPopups.length - 1)) <= availableWidth
+        && Math.max(...heights) <= availableHeight;
+      const columnFits = Math.max(...widths) <= availableWidth
+        && heights.reduce((sum, height) => sum + height, 0) + (gap * (openPopups.length - 1)) <= availableHeight;
+
+      if(rowFits) wrap.classList.add('notice-popups--row');
+      else if(columnFits) wrap.classList.add('notice-popups--column');
+    };
+
     popups.forEach((popup, index) => {
       if(popup.dataset.bound) return;
       popup.dataset.bound = '1';
@@ -325,11 +382,13 @@ document.addEventListener('site:rendered', function(){
       const open = () => {
         popup.classList.add('is-open');
         popup.setAttribute('aria-hidden', 'false');
+        layoutPopups();
       };
 
       const close = () => {
         popup.classList.remove('is-open');
         popup.setAttribute('aria-hidden', 'true');
+        layoutPopups();
       };
 
       popup.querySelectorAll('[data-notice-close]').forEach(el => {
@@ -338,8 +397,25 @@ document.addEventListener('site:rendered', function(){
 
       const img = popup.querySelector('.notice-popup__body img');
       if(img){
-        if(img.complete) sizePopup(popup);
-        else img.addEventListener('load', () => sizePopup(popup), { once:true });
+        img.tabIndex = 0;
+        img.setAttribute('role', 'button');
+        img.setAttribute('aria-label', `${img.alt || '팝업 이미지'} 크게 보기`);
+        img.addEventListener('click', () => openLightbox(img));
+        img.addEventListener('keydown', e => {
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            openLightbox(img);
+          }
+        });
+        if(img.complete){
+          sizePopup(popup);
+          layoutPopups();
+        } else {
+          img.addEventListener('load', () => {
+            sizePopup(popup);
+            layoutPopups();
+          }, { once:true });
+        }
       }
 
       const hideDayBtn = popup.querySelector('[data-notice-hide-day]');
@@ -359,6 +435,7 @@ document.addEventListener('site:rendered', function(){
       document.body.dataset.noticeResizeBound = '1';
       window.addEventListener('resize', () => {
         document.querySelectorAll('.notice-popup').forEach(sizePopup);
+        layoutPopups();
       });
     }
 
@@ -366,6 +443,7 @@ document.addEventListener('site:rendered', function(){
       document.body.dataset.noticeEscBound = '1';
       document.addEventListener('keydown', e => {
         if(e.key === 'Escape'){
+          closeLightbox();
           document.querySelectorAll('.notice-popup.is-open').forEach(popup => {
             popup.classList.remove('is-open');
             popup.setAttribute('aria-hidden', 'true');
