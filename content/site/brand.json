@@ -23,10 +23,10 @@
       "phoneBtn": true
     },
     {
-      "href": "https://talk.naver.com/ct/w4580x#nafullscreen",
+      "href": "#",
+      "hidden": true,
       "icon": "chat",
-      "label": "네이버톡톡",
-      "popup": true
+      "label": "네이버톡톡"
     }
   ]
 }

@@ -32,7 +32,7 @@
   /* ---------------- 페이지 타이틀 ---------------- */
   const pageKey = document.body.dataset.page;
   const pageData = pageKey && D.pages && D.pages[pageKey];
-  const isHomePage = !pageKey;
+  const isHomePage = !pageKey || pageKey === 'home';
   if(pageData?.pageTitle)       document.title = pageData.pageTitle;
   else if(D.brand?.pageTitle)   document.title = D.brand.pageTitle;
 
