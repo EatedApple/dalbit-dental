@@ -1,5 +1,6 @@
 {
   "intro": {
+    "duration": 3200,
     "line1": [
       "밤",
       "에",
@@ -36,19 +37,23 @@
       true,
       true
     ],
-    "tagHTML": "달빛처럼 은은한 진료, <b>달빛치과의원</b>",
-    "duration": 3200
+    "tagHTML": "달빛처럼 은은한 진료, <b>달빛치과의원</b>"
   },
   "noticePopups": [
     {
-      "title": "진료 안내",
       "image": "imgs/hours-info.png",
-      "storageKey": "dalbit-notice-hours-hide-until"
+      "storageKey": "dalbit-notice-hours-hide-until",
+      "title": "진료 안내"
     },
     {
-      "title": "오시는 길 · 주차 안내",
       "image": "imgs/directions-info-car.png",
-      "storageKey": "dalbit-notice-directions-hide-until"
+      "storageKey": "dalbit-notice-directions-hide-until",
+      "title": "오시는 길 · 주차 안내"
+    },
+    {
+      "image": "/imgs/1777883053187-event.png",
+      "storageKey": "dalbit-notice-event",
+      "title": "5월 가정의 달 이벤트"
     }
   ]
 }
