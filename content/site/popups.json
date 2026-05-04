@@ -41,19 +41,14 @@
   },
   "noticePopups": [
     {
-      "image": "imgs/hours-info.png",
-      "storageKey": "dalbit-notice-hours-hide-until",
-      "title": "진료 안내"
-    },
-    {
-      "image": "imgs/directions-info-car.png",
-      "storageKey": "dalbit-notice-directions-hide-until",
-      "title": "오시는 길 · 주차 안내"
-    },
-    {
-      "image": "/imgs/1777883053187-event.png",
-      "storageKey": "dalbit-notice-event",
+      "image": "imgs/1777883053187-event.png",
+      "storageKey": "dalbit-notice-event-family-month",
       "title": "5월 가정의 달 이벤트"
+    },
+    {
+      "image": "imgs/KakaoTalk_20260504_174259327.png",
+      "storageKey": "dalbit-notice-event-ortho-student",
+      "title": "중고등학생 투명교정 상담 이벤트 혜택"
     }
   ]
 }

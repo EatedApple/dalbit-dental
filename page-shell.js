@@ -294,16 +294,20 @@ document.addEventListener('site:rendered', function(){
       if(!naturalWidth || !naturalHeight) return;
 
       const isMobile = window.innerWidth <= 720;
-      const viewportWidth = window.innerWidth - (isMobile ? 32 : 48);
-      const viewportHeight = window.innerHeight - (isMobile ? 188 : 220);
       const ratio = naturalWidth / naturalHeight;
-      const minWidth = isMobile ? 220 : 280;
-      const maxWidth = isMobile ? 380 : 560;
+      const isLandscape = ratio >= 1.2;
+      const viewportWidth = window.innerWidth - (isMobile ? 32 : 48);
+      const chromeHeight = isMobile ? 176 : (isLandscape ? 176 : 220);
+      const viewportHeight = Math.max(180, window.innerHeight - chromeHeight);
+      const minWidth = Math.min(isMobile ? 260 : (isLandscape ? 520 : 320), viewportWidth);
+      const maxWidth = isMobile ? viewportWidth : (isLandscape ? 920 : 560);
       const fittedWidth = Math.min(viewportWidth, viewportHeight * ratio, maxWidth);
       const safeMinWidth = Math.min(minWidth, viewportWidth);
       const popupWidth = Math.max(safeMinWidth, fittedWidth);
 
+      popup.classList.toggle('is-landscape', isLandscape);
       popup.style.setProperty('--notice-width', `${Math.round(popupWidth)}px`);
+      popup.style.setProperty('--notice-image-max-height', `${Math.round(viewportHeight)}px`);
     };
 
     popups.forEach((popup, index) => {

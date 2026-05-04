@@ -289,23 +289,21 @@ p{ margin:0; }
   height:42px;
   flex-basis:42px;
 }
-.hours dl{
-  display:grid; grid-template-columns:170px 1fr; padding:7px 0;
+.hours .hours-group{
+  display:grid; grid-template-columns:156px 1fr; align-items:start; padding:14px 0 16px;
   border-bottom:1px dashed var(--c-line);
 }
-.hours dl.is-note{ padding:0 0 5px; border-bottom:0; }
-.hours dl:last-of-type{ border-bottom:0; }
-.hours dt{ color:var(--c-primary); font-weight:700; font-size:31px; font-family:var(--ff-display); }
-.hours dd{ color:var(--c-text); margin:0; font-size:29px; font-weight:700; line-height:1.32; }
+.hours .hours-group:last-of-type{ border-bottom:0; }
+.hours dt{ color:var(--c-primary); font-weight:700; font-size:38px; font-family:var(--ff-display); line-height:1.28; }
+.hours dd{ display:flex; flex-direction:column; gap:4px; color:var(--c-text); margin:0; font-size:35px; font-weight:700; line-height:1.28; }
+.hours dd .hours-main{ display:block; }
 .hours dd .hours-break{
   display:block;
-  margin-top:6px;
-  font-size:.85em;
+  font-size:.94em;
   color:var(--c-muted);
   font-weight:600;
 }
-.hours dd .hours-break--note{ margin-top:0; }
-.hours .closed{ margin-top:10px; color:var(--c-muted); font-size:20px; }
+.hours .closed{ margin-top:14px; color:var(--c-muted); font-size:22px; }
 .hours-image{
   margin-bottom:24px; border-radius:16px; overflow:hidden;
   border:1px solid #dde2ed; background:#fff; box-shadow:var(--shadow-sm);
@@ -538,10 +536,10 @@ p{ margin:0; }
   .foot-card + .foot-card{ border-left:0; border-top:1px solid var(--c-line); }
   .foot-card--hours h4, .foot-card--map h4{ font-size:46px; }
   .foot-card--hours h4 svg, .foot-card--map h4 svg{ width:34px; height:34px; flex-basis:34px; }
-  .hours dl{ grid-template-columns:140px 1fr; padding:6px 0; }
-  .hours dt{ font-size:24px; }
-  .hours dd{ font-size:23px; }
-  .hours .closed{ font-size:17px; }
+  .hours .hours-group{ grid-template-columns:132px 1fr; padding:12px 0 14px; }
+  .hours dt{ font-size:30px; }
+  .hours dd{ font-size:29px; gap:3px; }
+  .hours .closed{ font-size:18px; }
   .quick{ right:10px; }
   .quick a, .quick button{ width:60px; height:60px; font-size:11px; }
   .quick .quick__phone{ display:flex; }
@@ -565,10 +563,10 @@ p{ margin:0; }
   .foot-card{ padding:36px 22px; }
   .foot-card--hours h4, .foot-card--map h4{ font-size:34px; }
   .foot-card--hours h4 svg, .foot-card--map h4 svg{ width:26px; height:26px; flex-basis:26px; }
-  .hours dl{ grid-template-columns:110px 1fr; padding:8px 0; }
-  .hours dt{ font-size:18px; }
-  .hours dd{ font-size:18px; }
-  .hours .closed{ font-size:14px; }
+  .hours .hours-group{ grid-template-columns:92px 1fr; padding:10px 0 12px; }
+  .hours dt{ font-size:22px; }
+  .hours dd{ font-size:22px; gap:2px; }
+  .hours .closed{ font-size:15px; }
   .map-address{ font-size:18px; padding:14px 14px 16px; }
   .copy .container{ flex-direction:column; align-items:flex-start; }
   .bottom-bar{ display:none; }
