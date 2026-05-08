@@ -224,10 +224,10 @@ p{ margin:0; }
   background:#02b150; color:#fff; border-color:#02b150;
 }
 .quick .quick__blog{
-  background:#03C75A; color:#fff; border-color:#03C75A;
+  background:#fff; color:#03C75A; border-color:#03C75A;
 }
 .quick .quick__blog:hover{
-  background:#02b150; color:#fff; border-color:#02b150;
+  background:#eefbf4; color:#02b150; border-color:#02b150;
 }
 
 /* ============================================
