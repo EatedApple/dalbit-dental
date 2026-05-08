@@ -355,7 +355,12 @@
 
   const isNoticePopupActive = (item) => {
     if(!item) return false;
-    const now = new Date();
+    const testDate = (() => {
+      try { return new URLSearchParams(window.location.search).get('popupDate'); }
+      catch (_) { return null; }
+    })();
+    const now = testDate ? new Date(`${testDate}T12:00:00`) : new Date();
+    if(testDate && Number.isNaN(now.getTime())) return true;
     const startDate = item.startDate ? new Date(`${item.startDate}T00:00:00`) : null;
     const endDate = item.endDate ? new Date(`${item.endDate}T23:59:59`) : null;
     if(startDate && Number.isNaN(startDate.getTime())) return true;
