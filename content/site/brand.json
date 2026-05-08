@@ -26,7 +26,8 @@
       "href": "https://talk.naver.com/ct/wco7f4r",
       "hidden": false,
       "icon": "chat",
-      "label": "네이버톡톡"
+      "label": "네이버톡톡",
+      "popup": true
     }
   ]
 }
