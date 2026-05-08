@@ -49,6 +49,11 @@
       "image": "imgs/KakaoTalk_20260504_174259327.png",
       "storageKey": "dalbit-notice-event-ortho-student",
       "title": "중고등학생 투명교정 상담 이벤트 혜택"
+    },
+    {
+      "image": "imgs/일정.png",
+      "storageKey": "dalbit-notice-schedule",
+      "title": "진료 일정 안내"
     }
   ]
 }

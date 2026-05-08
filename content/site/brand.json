@@ -28,6 +28,12 @@
       "icon": "chat",
       "label": "네이버톡톡",
       "popup": true
+    },
+    {
+      "href": "https://blog.naver.com/dalbitdent",
+      "hidden": false,
+      "icon": "blog",
+      "label": "blog"
     }
   ]
 }

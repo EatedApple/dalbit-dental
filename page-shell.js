@@ -337,9 +337,10 @@ document.addEventListener('site:rendered', function(){
       const viewportHeight = Math.max(180, window.innerHeight - chromeHeight);
       const minWidth = Math.min(isMobile ? 260 : (isLandscape ? 520 : 320), viewportWidth);
       const maxWidth = isMobile ? viewportWidth : (isLandscape ? 920 : 560);
-      const fittedWidth = Math.min(viewportWidth, viewportHeight * ratio, maxWidth);
+      const fittedWidth = Math.min(naturalWidth, viewportWidth, viewportHeight * ratio, maxWidth);
       const safeMinWidth = Math.min(minWidth, viewportWidth);
-      const popupWidth = Math.max(safeMinWidth, fittedWidth);
+      const naturalCapWidth = Math.min(naturalWidth, viewportWidth, maxWidth);
+      const popupWidth = Math.min(Math.max(safeMinWidth, fittedWidth), naturalCapWidth);
 
       popup.classList.toggle('is-landscape', isLandscape);
       popup.style.setProperty('--notice-width', `${Math.round(popupWidth)}px`);
@@ -348,7 +349,7 @@ document.addEventListener('site:rendered', function(){
 
     const layoutPopups = () => {
       if(!wrap) return;
-      wrap.classList.remove('notice-popups--row', 'notice-popups--column');
+      wrap.classList.remove('notice-popups--row', 'notice-popups--column', 'notice-popups--scroll');
       const openPopups = popups.filter(popup => popup.classList.contains('is-open'));
       if(openPopups.length < 2) return;
 
@@ -365,6 +366,7 @@ document.addEventListener('site:rendered', function(){
 
       if(rowFits) wrap.classList.add('notice-popups--row');
       else if(columnFits) wrap.classList.add('notice-popups--column');
+      else wrap.classList.add('notice-popups--scroll');
     };
 
     popups.forEach((popup, index) => {

@@ -223,6 +223,12 @@ p{ margin:0; }
 .quick .quick__naver:hover{
   background:#02b150; color:#fff; border-color:#02b150;
 }
+.quick .quick__blog{
+  background:#03C75A; color:#fff; border-color:#03C75A;
+}
+.quick .quick__blog:hover{
+  background:#02b150; color:#fff; border-color:#02b150;
+}
 
 /* ============================================
    SCROLL TOP — 우측 하단 고정 버튼
