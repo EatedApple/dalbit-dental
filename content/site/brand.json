@@ -23,8 +23,8 @@
       "phoneBtn": true
     },
     {
-      "href": "#",
-      "hidden": true,
+      "href": "https://talk.naver.com/ct/wco7f4r",
+      "hidden": false,
       "icon": "chat",
       "label": "네이버톡톡"
     }
