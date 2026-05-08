@@ -157,6 +157,8 @@ collections:
             fields:
               - { label: "팝업 제목", name: "title", widget: "string" }
               - { label: "팝업 이미지", name: "image", widget: "image" }
+              - { label: "시작일", name: "startDate", widget: "date", required: false, hint: "비워두면 바로 표시됩니다." }
+              - { label: "종료일", name: "endDate", widget: "date", required: false, hint: "이 날짜가 지나면 자동으로 숨겨집니다." }
               - { label: "숨김 저장 키", name: "storageKey", widget: "string", required: false }
       - label: "메인 · 상단 비주얼"
         name: "home-hero"

@@ -353,9 +353,22 @@
     if(intro) intro.textContent = D.counselModal.intro;
   }
 
-  const popupItems = Array.isArray(D.noticePopups)
+  const isNoticePopupActive = (item) => {
+    if(!item) return false;
+    const now = new Date();
+    const startDate = item.startDate ? new Date(`${item.startDate}T00:00:00`) : null;
+    const endDate = item.endDate ? new Date(`${item.endDate}T23:59:59`) : null;
+    if(startDate && Number.isNaN(startDate.getTime())) return true;
+    if(endDate && Number.isNaN(endDate.getTime())) return true;
+    if(startDate && now < startDate) return false;
+    if(endDate && now > endDate) return false;
+    return true;
+  };
+
+  const popupItems = (Array.isArray(D.noticePopups)
     ? D.noticePopups
-    : (D.noticePopup ? [D.noticePopup] : []);
+    : (D.noticePopup ? [D.noticePopup] : []))
+    .filter(isNoticePopupActive);
 
   if(isHomePage && popupItems.length){
     if(!document.getElementById('notice-popup-styles')){
