@@ -296,13 +296,14 @@ p{ margin:0; }
   flex-basis:42px;
 }
 .hours .hours-group{
-  display:grid; grid-template-columns:156px 1fr; align-items:start; padding:14px 0 16px;
+  display:grid; grid-template-columns:156px 1fr; align-items:center; padding:14px 0 16px;
   border-bottom:1px dashed var(--c-line);
 }
 .hours .hours-group:last-of-type{ border-bottom:0; }
-.hours dt{ color:var(--c-primary); font-weight:700; font-size:38px; font-family:var(--ff-display); line-height:1.28; }
+.hours dt{ color:var(--c-primary); font-weight:700; font-size:38px; font-family:var(--ff-display); line-height:1.18; text-align:center; }
+.hours-day-lines{ display:inline-grid; gap:1px; justify-items:center; line-height:1.04; }
 .hours dd{ display:flex; flex-direction:column; gap:4px; color:var(--c-text); margin:0; font-size:35px; font-weight:700; line-height:1.28; }
-.hours dd .hours-main{ display:block; }
+.hours dd .hours-main{ display:block; white-space:nowrap; }
 .hours dd .hours-break{
   display:block;
   font-size:.94em;

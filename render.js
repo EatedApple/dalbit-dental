@@ -282,9 +282,12 @@
         }
         return acc;
       }, []);
+      const dayLabel = (day) => day === '월요일~금요일'
+        ? '<span class="hours-day-lines"><span>월요일</span><span>~</span><span>금요일</span></span>'
+        : day;
       const tableHtml = groupedHours.map(h => `
         <dl class="hours-group">
-          <dt>${h.day}</dt>
+          <dt>${dayLabel(h.day)}</dt>
           <dd>
             <span class="hours-main">${h.time}${h.badge ? ` <span style="color:var(--c-primary);font-weight:700">${h.badge}</span>` : ''}</span>
             ${h.note ? `<span class="hours-break">${h.note}</span>` : ''}

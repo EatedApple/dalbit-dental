@@ -121,20 +121,20 @@
         "text": "대기실"
       },
       {
-        "img": "imgs/clinic-corridor.png",
-        "text": "복도"
-      },
-      {
         "img": "imgs/clinic-consult.png",
         "text": "상담실"
+      },
+      {
+        "img": "imgs/clinic-special-room.jpg",
+        "text": "특진실"
       },
       {
         "img": "imgs/clinic-exam-room.png",
         "text": "예진실"
       },
       {
-        "img": "imgs/clinic-special-room.jpg",
-        "text": "특진실",
+        "img": "imgs/clinic-corridor.png",
+        "text": "복도",
         "span": "wide"
       },
       {

@@ -45,7 +45,7 @@
       ]
     },
     {
-      "label": "교정",
+      "label": "교정(예방, 일반, 투명)",
       "href": "ortho.html",
       "sub": [
         {
@@ -63,7 +63,7 @@
       ]
     },
     {
-      "label": "심미치료",
+      "label": "심미치료(라미네이트, 자가미백)",
       "href": "laminate.html",
       "sub": [
         {
