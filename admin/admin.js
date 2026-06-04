@@ -153,14 +153,16 @@ function setSaveBusy(isBusy, label) {
   btn.textContent = label || '저장';
 }
 
-function setSaveOverlay(percent, title, message, isVisible = true) {
+function setSaveOverlay(percent, title, message, isVisible = true, mode = 'progress') {
   const overlay = $('#save-overlay');
   if (!overlay) return;
   const safePercent = Math.max(0, Math.min(100, percent));
+  const progress = overlay.querySelector('.save-progress');
   overlay.hidden = !isVisible;
   $('#save-overlay-title').textContent = title;
   $('#save-overlay-message').textContent = message;
-  $('#save-overlay-percent').textContent = Math.round(safePercent) + '%';
+  $('#save-overlay-state').textContent = mode === 'done' ? '완료' : '처리 중';
+  if (progress) progress.classList.toggle('is-indeterminate', mode === 'checking');
   $('#save-overlay-bar').style.width = safePercent + '%';
 }
 
@@ -763,7 +765,7 @@ function startSyncPolling(expectedContent) {
   const deadline = Date.now() + SYNC_POLL_TIMEOUT;
 
   setSaveBusy(true, '반영 확인 중...');
-  setSaveOverlay(65, '저장 확인 중', '저장된 내용이 제대로 올라갔는지 확인하고 있습니다.');
+  setSaveOverlay(65, '저장 확인 중', '저장된 내용이 제대로 올라갔는지 확인하고 있습니다.', true, 'checking');
   setSyncStatus('checking', '저장 확인 중', '저장된 내용이 제대로 올라갔는지 확인하고 있습니다.');
 
   const check = async () => {
@@ -779,7 +781,7 @@ function startSyncPolling(expectedContent) {
         stopSyncPolling();
         setSaveBusy(false);
         setStatus('대기 중', 'idle');
-        setSaveOverlay(100, '저장 완료', '변경사항은 저장됐습니다. 실제 사이트 반영은 몇 분 걸릴 수 있으니 잠시 후 확인하세요.');
+        setSaveOverlay(100, '저장 완료', '변경사항은 저장됐습니다. 실제 사이트 반영은 몇 분 걸릴 수 있으니 잠시 후 확인하세요.', true, 'done');
         hideSaveOverlay(2600);
         setSyncStatus('synced', '저장 완료', '변경사항은 저장됐습니다. 실제 사이트 반영은 몇 분 걸릴 수 있으니 잠시 후 확인하세요.');
         return;
@@ -795,7 +797,7 @@ function startSyncPolling(expectedContent) {
         return;
       }
 
-      setSaveOverlay(80, '저장 확인 중', '저장 처리 중입니다. 저장 버튼을 다시 누르지 않아도 됩니다.');
+      setSaveOverlay(80, '저장 확인 중', '저장 처리 중입니다. 저장 버튼을 다시 누르지 않아도 됩니다.', true, 'checking');
       setSyncStatus('checking', '저장 확인 중', '저장 처리 중입니다. 저장 버튼을 다시 누르지 않아도 됩니다.');
     } catch (err) {
       if (Date.now() > deadline) {
@@ -830,7 +832,7 @@ $('#save-btn').addEventListener('click', async () => {
     state.formContent = normalizeBeforeSave(cloneContent(state.formContent));
     setSaveOverlay(35, '저장 중', '변경사항을 저장하고 있습니다.');
     await writeManagedFile(state.currentFile, state.formContent);
-    setSaveOverlay(60, '저장 확인 중', '저장된 내용이 제대로 올라갔는지 확인하고 있습니다.');
+    setSaveOverlay(60, '저장 확인 중', '저장된 내용이 제대로 올라갔는지 확인하고 있습니다.', true, 'checking');
     state.originalContent = JSON.stringify(state.formContent);
     state.allContent[state.currentFile] = cloneContent(state.formContent);
     renderPopupPreview();

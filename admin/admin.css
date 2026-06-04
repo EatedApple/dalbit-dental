@@ -138,13 +138,21 @@ button { cursor: pointer; font: inherit; }
   background: var(--color-primary);
   transition: width .25s ease;
 }
-.save-overlay__percent {
+.save-progress.is-indeterminate span {
+  width: 42%;
+  animation: save-progress-sweep 1.1s ease-in-out infinite;
+}
+.save-overlay__state {
   display: block;
   margin-top: 10px;
   color: var(--color-text-muted);
   font-size: 12px;
   font-weight: 700;
   text-align: right;
+}
+@keyframes save-progress-sweep {
+  0% { transform: translateX(-110%); }
+  100% { transform: translateX(260%); }
 }
 
 /* ─── 메인 화면 ─── */
