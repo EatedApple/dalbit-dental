@@ -3,9 +3,8 @@
  *
  * 역할:
  *   1. /admin이 보낸 요청 수신 (인증, 콘텐츠 read/write, 이미지 업로드)
- *   2. 시트에 콘텐츠 저장 (단일 진실 소스)
- *   3. 이미지를 GitHub repo에 commit
- *   4. 변경 시 GH Action 트리거 (시트 -> JSON sync)
+ *   2. 팝업 JSON과 이미지를 GitHub repo에 직접 commit
+ *   3. 예전 Sheet read/write 액션은 기존 CMS 호환용으로만 유지
  *
  * 배포: Apps Script 편집기 -> 배포 -> 새 배포 -> 웹 앱
  *   - 액세스: "모든 사용자" (인증은 password로 자체 처리)
@@ -13,15 +12,14 @@
  *
  * Script Properties (프로젝트 설정 -> 스크립트 속성)에 등록 필요:
  *   - PASSWORD : /admin 접근 비밀번호 (예: "dalbit2026!")
- *   - GITHUB_PAT : GitHub Personal Access Token (이미지 업로드 / GH Action 트리거용)
- *                  나중에 추가해도 됨. 없어도 텍스트 편집은 동작.
+ *   - GITHUB_PAT : GitHub Personal Access Token (이미지 업로드 / JSON 직접 저장용)
  */
 
 const SHEET_ID = '1M0bUtv30ZLHLfyB3JXHTUSeM2n-fZjkbU1Zu43IFwmo';
 const SHEET_TAB = 'content';
 const GITHUB_REPO = 'EatedApple/dalbit-dental';
 const BRANCH = 'main';
-const CODE_VERSION = 'v4-payload-fix';
+const CODE_VERSION = 'v5-direct-popup-github';
 
 // ─────────────────────────────────────────
 // HTTP 엔트리포인트
@@ -62,6 +60,10 @@ function doPost(e) {
         writeFile(body.file, body.content);
         triggerSync(body.file, body.content); // 베스트 에포트 (실패해도 시트엔 저장됨)
         return jsonResponse({ ok: true, file: body.file });
+
+      case 'writeGithub':
+        const githubResult = writeGithubJson(body.file, body.content);
+        return jsonResponse({ ok: true, file: body.file, github: githubResult });
 
       case 'upload':
         const url = uploadImage(body.path, body.base64);
@@ -207,6 +209,64 @@ function uploadImage(path, base64) {
     throw new Error('GitHub upload failed: ' + res.getContentText());
   }
   return '/' + path;
+}
+
+function writeGithubJson(filename, content) {
+  const pat = getPAT();
+  if (!pat) throw new Error('GITHUB_PAT 미설정');
+  validateGithubJsonPath(filename);
+
+  const apiUrl = 'https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + filename;
+  let sha = null;
+  const existing = UrlFetchApp.fetch(apiUrl + '?ref=' + BRANCH, {
+    method: 'get',
+    headers: {
+      Authorization: 'Bearer ' + pat,
+      Accept: 'application/vnd.github+json'
+    },
+    muteHttpExceptions: true
+  });
+  if (existing.getResponseCode() === 200) {
+    sha = JSON.parse(existing.getContentText()).sha;
+  } else if (existing.getResponseCode() !== 404) {
+    throw new Error('GitHub file lookup failed: ' + existing.getContentText());
+  }
+
+  const json = JSON.stringify(content, null, 2) + '\n';
+  const payload = {
+    message: 'content(cms): update ' + filename,
+    content: Utilities.base64Encode(json, Utilities.Charset.UTF_8),
+    branch: BRANCH
+  };
+  if (sha) payload.sha = sha;
+
+  const res = UrlFetchApp.fetch(apiUrl, {
+    method: 'put',
+    contentType: 'application/json',
+    headers: {
+      Authorization: 'Bearer ' + pat,
+      Accept: 'application/vnd.github+json'
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  });
+
+  if (res.getResponseCode() >= 300) {
+    throw new Error('GitHub JSON update failed: ' + res.getContentText());
+  }
+
+  const data = JSON.parse(res.getContentText());
+  return {
+    path: filename,
+    sha: data.content && data.content.sha,
+    commit: data.commit && data.commit.sha
+  };
+}
+
+function validateGithubJsonPath(filename) {
+  if (filename !== 'content/site/popups.json') {
+    throw new Error('허용되지 않은 JSON 경로: ' + filename);
+  }
 }
 
 function triggerSync(filename, content) {

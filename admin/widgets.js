@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────
    달빛치과 CMS — Decap 호환 위젯 렌더러
-   지원 위젯: string / text / number / boolean / image / object / list / hidden
+   지원 위젯: string / text / number / boolean / date / image / object / list / hidden
    ───────────────────────────────────────── */
 
 (function () {
@@ -47,6 +47,9 @@
         break;
       case 'boolean':
         inputEl = booleanInput(value, onChange);
+        break;
+      case 'date':
+        inputEl = dateInput(value, onChange);
         break;
       case 'image':
         inputEl = imageInput(value, onChange);
@@ -144,6 +147,15 @@
     return wrap;
   }
 
+  function dateInput(value, onChange) {
+    const input = document.createElement('input');
+    input.type = 'date';
+    input.className = 'input-string input-date';
+    input.value = value == null ? '' : String(value).slice(0, 10);
+    input.addEventListener('input', () => onChange(input.value || null));
+    return input;
+  }
+
   // ─────────────────────────────────────────
   // 이미지 위젯 (URL + 업로드)
   // ─────────────────────────────────────────
@@ -155,7 +167,7 @@
     const preview = document.createElement('img');
     preview.className = 'image-preview';
     preview.alt = '';
-    if (value) preview.src = value;
+    if (value) preview.src = previewImageSrc(value);
     preview.style.display = value ? 'block' : 'none';
     preview.addEventListener('error', () => { preview.style.display = 'none'; });
 
@@ -170,7 +182,7 @@
 
     const updateValue = (v) => {
       onChange(v);
-      if (v) { preview.src = v; preview.style.display = 'block'; }
+      if (v) { preview.src = previewImageSrc(v); preview.style.display = 'block'; }
       else { preview.style.display = 'none'; }
     };
     urlInput.addEventListener('input', () => updateValue(urlInput.value));
@@ -343,6 +355,14 @@
     b.title = title;
     b.addEventListener('click', onClick);
     return b;
+  }
+
+  function previewImageSrc(value) {
+    if (window.resolveCmsImagePreviewSrc) return window.resolveCmsImagePreviewSrc(value);
+    const src = String(value || '');
+    if (/^(https?:|data:|\/)/i.test(src)) return src;
+    if (src.indexOf('imgs/') === 0) return '/' + src;
+    return src;
   }
 
   // 다형성 list (Decap의 types: 사용)
