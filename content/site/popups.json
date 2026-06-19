@@ -41,12 +41,6 @@
   },
   "noticePopups": [
     {
-      "endDate": "2027-05-31",
-      "image": "imgs/KakaoTalk_20260504_174259327.png",
-      "storageKey": "dalbit-notice-event-ortho-student",
-      "title": "중고등학생 투명교정 상담 이벤트 혜택"
-    },
-    {
       "endDate": "2026-06-30",
       "image": "/imgs/1780547954713-kakaotalk_20260604_122640907.png",
       "storageKey": "dalbit-notice-schedule",
