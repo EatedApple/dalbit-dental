@@ -1,0 +1,11 @@
+{
+  "name": "dalbit-led-ads",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "node render.js"
+  },
+  "dependencies": {
+    "playwright": "^1.54.2"
+  }
+}
