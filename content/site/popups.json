@@ -46,6 +46,12 @@
       "storageKey": "dalbit-notice-schedule",
       "title": "진료 일정 안내",
       "startDate": null
+    },
+    {
+      "endDate": "2026-07-31",
+      "title": "진료일정",
+      "image": "/imgs/1782277347624-kakaotalk_20260624_132306077.png",
+      "storageKey": "dalbit-notice-진료일정-mqrlxxbu"
     }
   ]
 }
