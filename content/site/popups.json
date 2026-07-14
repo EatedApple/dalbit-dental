@@ -41,15 +41,13 @@
   },
   "noticePopups": [
     {
-      "endDate": "2026-06-30",
-      "image": "/imgs/1780547954713-kakaotalk_20260604_122640907.png",
-      "storageKey": "dalbit-notice-schedule",
-      "title": "진료 일정 안내",
-      "startDate": null
-    },
-    {
       "image": "/imgs/1782277418332-kakaotalk_20260624_132306077.png",
       "title": "7월 일정 안내",
+      "storageKey": "dalbit-notice-7월-일정-안내-mqrlz2uc"
+    },
+    {
+      "image": "/imgs/1784018721987-kakaotalk_20260713_150746792.jpg",
+      "title": "자가미백",
       "storageKey": "dalbit-notice-7월-일정-안내-mqrlz2uc"
     }
   ]
