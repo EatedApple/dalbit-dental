@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2693, initial-scale=1.0" />
+    <title>Dalbit LED Ads</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="ad" id="ad">
+      <section class="left">
+        <div class="eyebrow" id="eyebrow"></div>
+        <h1 class="title" id="title"></h1>
+        <div class="subtitle" id="subtitle"></div>
+        <div class="detail" id="detail"></div>
+        <div class="accent" id="accent"></div>
+      </section>
+
+      <section class="right">
+        <img id="heroImage" alt="" />
+      </section>
+
+      <footer class="bottom">
+        <div class="brand-name" id="brandName"></div>
+        <div class="address" id="address"></div>
+        <div class="phone" id="phone"></div>
+        <div class="logo-wrap">
+          <img id="logo" alt="달빛치과의원 로고" />
+        </div>
+      </footer>
+    </main>
+
+    <script type="module">
+      import { brand, slides } from './data.js';
+
+      const params = new URLSearchParams(window.location.search);
+      const requested = params.get('slide') || 'main';
+      const slide = slides.find((item) => item.id === requested) || slides[0];
+
+      document.getElementById('eyebrow').textContent = slide.eyebrow;
+      document.getElementById('title').textContent = slide.title;
+      document.getElementById('subtitle').textContent = slide.subtitle;
+      document.getElementById('detail').textContent = slide.detail;
+      document.getElementById('accent').textContent = slide.accent;
+      document.getElementById('heroImage').src = slide.image;
+      document.getElementById('heroImage').alt = slide.imageAlt;
+
+      document.getElementById('brandName').textContent = brand.name;
+      document.getElementById('address').textContent = brand.address;
+      document.getElementById('phone').textContent = brand.phone;
+      document.getElementById('logo').src = brand.logo;
+
+      window.__DALBIT_READY__ = true;
+    </script>
+  </body>
+</html>
